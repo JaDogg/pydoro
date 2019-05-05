@@ -6,17 +6,37 @@ TOMATOES_PER_SET = 4
 SECONDS_PER_MIN = 60
 
 TOMATO = r"""
-
-      /'\/`\       
-    .-  |/  -.     {status}
-   /          \    {time}
-  '            \   
- ;             ;   
- :          /  .   
-  \       .'  /    {count}
-    \ ____ .'      {sets}
+      /'\/`\         {task1}
+    .-  |/  -.       {task2}
+   /          \      {task3}
+  '   PyDoro   \     {task4}
+ ;             '     {status}
+ ;             ;     {time}
+ :          /  .     
+  \       .'  /      {count}
+    \ ____ .'        {sets}
 
 """
+
+TEXT_LONG_BREAK = r"""
+  ___    LONG      _                        
+ | _ )_ _ ___ __ _| |__                     
+ | _ | '_/ -_/ _` | / /                     
+ |___|_| \___\__,_|_\_\          
+""".strip(
+    "\r\n"
+)
+
+TEXT_SMALL_BREAK = TEXT_LONG_BREAK.replace("LONG", "SMALL")
+
+TEXT_WORK = r"""
+ __      __       _                         
+ \ \    / ___ _ _| |__                      
+  \ \/\/ / _ | '_| / /                      
+   \_/\_/\___|_| |_\_\                                          
+""".strip(
+    "\r\n"
+)
 
 
 class Tasks(IntEnum):
@@ -35,15 +55,15 @@ class TaskStatus(IntEnum):
 
 
 TEXT = {
-    TaskStatus.NONE.value: "Press <start>",
-    TaskStatus.STARTED.value: "Started ",
-    TaskStatus.PAUSED.value: "Paused ",
+    TaskStatus.NONE.value: "",
+    TaskStatus.STARTED.value: "",
+    TaskStatus.PAUSED.value: "PAUSED",
     TaskStatus.LIMBO.value: "",
-    Tasks.WORK.value: "work ",
-    Tasks.SMALL_BREAK.value: r"small break ",
-    Tasks.LONG_BREAK.value: r"long break ",
+    Tasks.WORK.value: TEXT_WORK,
+    Tasks.SMALL_BREAK.value: TEXT_SMALL_BREAK,
+    Tasks.LONG_BREAK.value: TEXT_LONG_BREAK,
     Tasks.NO_TASK.value: "",
-    Tasks.INTERMEDIATE.value: "Next -> "
+    Tasks.INTERMEDIATE.value: "",
 }
 
 PROGRESS = ["|#  |", "| # |", "|  #|", "| # |"]
@@ -74,7 +94,7 @@ class InitialState:
 
     @property
     def time_remaining(self):
-        return ""
+        return "Press <start>"
 
     @property
     def task(self):
@@ -166,10 +186,8 @@ class WorkingState(InitialState):
     def next_state(self):
         self._tomato.tomatoes += 1
         if self._tomato.tomatoes % TOMATOES_PER_SET == 0:
-            return IntermediateState.transition_to(
-                LongBreakState, tomato=self._tomato)
-        return IntermediateState.transition_to(
-            SmallBreakState, tomato=self._tomato)
+            return IntermediateState.transition_to(LongBreakState, tomato=self._tomato)
+        return IntermediateState.transition_to(SmallBreakState, tomato=self._tomato)
 
     def pause(self):
         return WorkPausedState.return_to(self._tomato, self)
@@ -309,9 +327,10 @@ class Tomato:
             self._state = self._state.next_state
 
     def as_text(self):
-        status = TEXT[self._state.status.value] + TEXT[self._state.task.value]
-        if self._state.status == TaskStatus.LIMBO:
-            status += self._state.whats_next
+        task = TEXT[self._state.task.value]
+        task1, task2, task3, task4 = "", "", "", ""
+        if task:
+            task1, task2, task3, task4 = task.splitlines()
 
         sets = self.tomatoes // TOMATOES_PER_SET
         if sets == 1:
@@ -322,8 +341,12 @@ class Tomato:
             sets = ""
 
         return self._template.format(
-            status=status,
+            task1=task1,
+            task2=task2,
+            task3=task3,
+            task4=task4,
+            status=TEXT[self._state.status.value],
             time=self._state.time_remaining,
             count=("(`) " * (TOMATOES_PER_SET - self.tomatoes % TOMATOES_PER_SET)),
-            sets=sets
+            sets=sets,
         )
