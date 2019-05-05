@@ -2,8 +2,6 @@
 """
 A simple example of a few buttons and click handlers.
 """
-from __future__ import unicode_literals
-
 import threading
 
 from prompt_toolkit.application import Application
@@ -14,8 +12,9 @@ from prompt_toolkit.layout import HSplit, Layout, VSplit
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Box, Button, Label, TextArea
 
-from tomato import Tomato
-from util import every
+from pydoro_util.tomato import Tomato
+from pydoro_util.util import every
+
 
 tomato = Tomato()
 

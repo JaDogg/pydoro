@@ -1,6 +1,9 @@
 import itertools
 from enum import IntEnum
 from timeit import default_timer as cur_time
+from pydoro_util import playsound
+
+from pydoro_util.util import in_app_path
 
 TOMATOES_PER_SET = 4
 SECONDS_PER_MIN = 60
@@ -93,6 +96,10 @@ class InitialState:
         return self
 
     @property
+    def time_period(self):
+        return self._time_period
+
+    @property
     def time_remaining(self):
         return "Press <start>"
 
@@ -133,6 +140,7 @@ class IntermediateState(InitialState):
         self._task = Tasks.INTERMEDIATE
         self._status = TaskStatus.LIMBO
         self._next_factory = None
+        playsound.playsound(in_app_path("b15.wav"))
 
     def start(self):
         return self._next_factory(tomato=self._tomato)

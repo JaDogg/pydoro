@@ -1,4 +1,5 @@
 import time
+import os
 
 
 def every(delay, task):
@@ -13,3 +14,7 @@ def every(delay, task):
             # logger.exception("Problem while executing repetitive task.")
         # skip tasks if we are behind schedule:
         next_time += (time.time() - next_time) // delay * delay + delay
+
+
+def in_app_path(path):
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
