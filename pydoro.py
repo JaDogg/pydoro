@@ -30,7 +30,7 @@ btn_pause = Button("Pause", handler=tomato.pause)
 btn_reset = Button("Reset", handler=tomato.reset)
 btn_reset_all = Button("Reset All", handler=tomato.reset_all)
 btn_exit = Button("Exit", handler=exit_clicked)
-text_area = TextArea(read_only=True, width=100, height=11, focusable=False)
+text_area = TextArea(read_only=True, height=11, focusable=False)
 
 # Combine all the widgets in a UI.
 # The `Box` object ensures that padding will be inserted around the containing
