@@ -17,8 +17,9 @@ def every(delay, task):
 
 
 def in_app_path(path):
-    from pkg_resources import resource_string
-    res_path = resource_string(__name__, path)
+    from pkg_resources import resource_filename
+
+    res_path = resource_filename(__name__, path)
 
     if not os.path.exists(res_path):
         res_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), path)

@@ -1,12 +1,15 @@
 import itertools
+from timeit import default_timer
 from enum import IntEnum
-from timeit import default_timer as cur_time
-from pydoro_util import playsound
 
+from pydoro_util import playsound
 from pydoro_util.util import in_app_path
 
 TOMATOES_PER_SET = 4
 SECONDS_PER_MIN = 60
+WORK_TIME = 0.1 * SECONDS_PER_MIN
+SMALL_BREAK_TIME = 0.1 * SECONDS_PER_MIN
+LONG_BREAK_TIME = 0.1 * SECONDS_PER_MIN
 
 TOMATO = r"""
       /'\/`\         {task1}
@@ -70,6 +73,10 @@ TEXT = {
 }
 
 PROGRESS = ["|#  |", "| # |", "|  #|", "| # |"]
+
+
+def cur_time():
+    return int(default_timer())
 
 
 class InitialState:
@@ -140,7 +147,10 @@ class IntermediateState(InitialState):
         self._task = Tasks.INTERMEDIATE
         self._status = TaskStatus.LIMBO
         self._next_factory = None
-        playsound.playsound(in_app_path("b15.wav"))
+        try:
+            playsound.playsound(in_app_path("b15.wav"), block=False)
+        except:
+            pass
 
     def start(self):
         return self._next_factory(tomato=self._tomato)
@@ -153,15 +163,6 @@ class IntermediateState(InitialState):
     def done(self):
         return False
 
-    @property
-    def whats_next(self):
-        if self._next_factory == WorkingState:
-            return TEXT[Tasks.WORK.value]
-        elif self._next_factory == SmallBreakState:
-            return TEXT[Tasks.SMALL_BREAK.value]
-        elif self._next_factory == LongBreakState:
-            return TEXT[Tasks.LONG_BREAK.value]
-
     @staticmethod
     def transition_to(next_state_factory, tomato):
         state = IntermediateState(tomato=tomato)
@@ -170,7 +171,7 @@ class IntermediateState(InitialState):
 
 
 class WorkingState(InitialState):
-    def __init__(self, time_period=0.1 * 60, tomato=None):
+    def __init__(self, time_period=WORK_TIME, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._remainder = int(self._time_period)
         self._task = Tasks.WORK
@@ -206,7 +207,7 @@ class WorkingState(InitialState):
 
     @property
     def done(self):
-        return int(self._remainder) <= 0
+        return self._remainder <= 0
 
 
 class WorkPausedState(InitialState):
@@ -236,7 +237,7 @@ class WorkPausedState(InitialState):
 
 
 class SmallBreakState(InitialState):
-    def __init__(self, time_period=0.1 * 60, tomato=None):
+    def __init__(self, time_period=SMALL_BREAK_TIME, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._remainder = int(self._time_period)
         self._task = Tasks.SMALL_BREAK
@@ -253,10 +254,6 @@ class SmallBreakState(InitialState):
         return self._format_time(self._remainder)
 
     @property
-    def remainder(self):
-        return self._remainder
-
-    @property
     def next_state(self):
         return IntermediateState.transition_to(WorkingState, tomato=self._tomato)
 
@@ -269,7 +266,7 @@ class SmallBreakState(InitialState):
 
     @property
     def done(self):
-        return int(self._remainder) <= 0
+        return self._remainder <= 0
 
 
 class SmallBreakPausedState(InitialState):
@@ -299,7 +296,7 @@ class SmallBreakPausedState(InitialState):
 
 
 class LongBreakState(SmallBreakState):
-    def __init__(self, time_period=0.1 * 60, tomato=None):
+    def __init__(self, time_period=LONG_BREAK_TIME, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._task = Tasks.LONG_BREAK
         self._status = TaskStatus.STARTED
@@ -353,7 +350,9 @@ class Tomato:
             task2=task2,
             task3=task3,
             task4=task4,
-            status=TEXT[self._state.status.value],
+            status=self._state.__class__.__name__
+            + " "
+            + TEXT[self._state.status.value],
             time=self._state.time_remaining,
             count=("(`) " * (TOMATOES_PER_SET - self.tomatoes % TOMATOES_PER_SET)),
             sets=sets,

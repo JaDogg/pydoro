@@ -15,7 +15,6 @@ from prompt_toolkit.widgets import Box, Button, Label, TextArea
 from pydoro_util.tomato import Tomato
 from pydoro_util.util import every
 
-
 tomato = Tomato()
 
 
