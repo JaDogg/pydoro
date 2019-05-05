@@ -19,7 +19,7 @@ setup(
     author_email="jadogg.coder@gmail.com",
     license="MIT",
     scripts=["pydoro.py"],
-    package_data={"": ["*.wav", "*.rst"]},
+    package_data={"": ["*.rst"], "pydoro_util": ["b15.wav"]},
     install_requires=["prompt-toolkit>=2.0.9"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
