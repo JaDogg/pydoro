@@ -1,6 +1,6 @@
 import itertools
-from timeit import default_timer
 from enum import IntEnum
+from timeit import default_timer
 
 from pydoro_util import playsound
 from pydoro_util.util import in_app_path
@@ -80,6 +80,8 @@ def cur_time():
 
 
 class InitialState:
+    name = "initial"
+
     def __init__(self, time_period=0, tomato=None):
         self._time_period = int(time_period)
         self._tomato = tomato
@@ -142,14 +144,18 @@ class InitialState:
 
 
 class IntermediateState(InitialState):
+    name = "waiting"
+
     def __init__(self, time_period=0, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._task = Tasks.INTERMEDIATE
         self._status = TaskStatus.LIMBO
         self._next_factory = None
+
+        # noinspection PyBroadException
         try:
             playsound.playsound(in_app_path("b15.wav"), block=False)
-        except:
+        except Exception:
             pass
 
     def start(self):
@@ -157,7 +163,7 @@ class IntermediateState(InitialState):
 
     @property
     def time_remaining(self):
-        return "Press <start> to continue"
+        return "Press <start> to continue with " + self._next_factory.name
 
     @property
     def done(self):
@@ -171,6 +177,8 @@ class IntermediateState(InitialState):
 
 
 class WorkingState(InitialState):
+    name = "work"
+
     def __init__(self, time_period=WORK_TIME, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._remainder = int(self._time_period)
@@ -211,6 +219,8 @@ class WorkingState(InitialState):
 
 
 class WorkPausedState(InitialState):
+    name = "work paused"
+
     def __init__(self, time_period=1, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._prev = None
@@ -237,6 +247,8 @@ class WorkPausedState(InitialState):
 
 
 class SmallBreakState(InitialState):
+    name = "small break"
+
     def __init__(self, time_period=SMALL_BREAK_TIME, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._remainder = int(self._time_period)
@@ -270,6 +282,8 @@ class SmallBreakState(InitialState):
 
 
 class SmallBreakPausedState(InitialState):
+    name = "small break paused"
+
     def __int__(self, time_period=1, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._task = Tasks.SMALL_BREAK
@@ -296,6 +310,8 @@ class SmallBreakPausedState(InitialState):
 
 
 class LongBreakState(SmallBreakState):
+    name = "long break"
+
     def __init__(self, time_period=LONG_BREAK_TIME, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._task = Tasks.LONG_BREAK
@@ -303,6 +319,8 @@ class LongBreakState(SmallBreakState):
 
 
 class LongBreakPausedState(SmallBreakPausedState):
+    name = "long break paused"
+    
     def __int__(self, time_period=1, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._task = Tasks.LONG_BREAK
@@ -350,9 +368,7 @@ class Tomato:
             task2=task2,
             task3=task3,
             task4=task4,
-            status=self._state.__class__.__name__
-            + " "
-            + TEXT[self._state.status.value],
+            status=TEXT[self._state.status.value],
             time=self._state.time_remaining,
             count=("(`) " * (TOMATOES_PER_SET - self.tomatoes % TOMATOES_PER_SET)),
             sets=sets,
