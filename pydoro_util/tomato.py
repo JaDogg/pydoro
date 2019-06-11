@@ -7,9 +7,9 @@ from pydoro_util.util import in_app_path
 
 TOMATOES_PER_SET = 4
 SECONDS_PER_MIN = 60
-WORK_TIME = 0.1 * SECONDS_PER_MIN
-SMALL_BREAK_TIME = 0.1 * SECONDS_PER_MIN
-LONG_BREAK_TIME = 0.1 * SECONDS_PER_MIN
+WORK_TIME = 25 * SECONDS_PER_MIN
+SMALL_BREAK_TIME = 5 * SECONDS_PER_MIN
+LONG_BREAK_TIME = 15 * SECONDS_PER_MIN
 
 TOMATO = r"""
       /'\/`\         {task1}
@@ -99,6 +99,10 @@ class InitialState:
 
     def reset(self):
         return self
+
+    @property
+    def remainder(self):
+        return self._remainder
 
     @property
     def next_state(self):
@@ -196,10 +200,6 @@ class WorkingState(InitialState):
         return self._format_time(self._remainder)
 
     @property
-    def remainder(self):
-        return self._remainder
-
-    @property
     def next_state(self):
         self._tomato.tomatoes += 1
         if self._tomato.tomatoes % TOMATOES_PER_SET == 0:
@@ -210,7 +210,7 @@ class WorkingState(InitialState):
         return WorkPausedState.return_to(self._tomato, self)
 
     def reset(self):
-        self._remainder = self._time_period
+        self._remainder = self.time_period
         return self
 
     @property
@@ -221,7 +221,7 @@ class WorkingState(InitialState):
 class WorkPausedState(InitialState):
     name = "work paused"
 
-    def __init__(self, time_period=1, tomato=None):
+    def __init__(self, time_period=0, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._prev = None
         self._task = Tasks.WORK
@@ -230,6 +230,10 @@ class WorkPausedState(InitialState):
     def start(self):
         self._prev._started_at = cur_time()
         return self._prev
+
+    def reset(self):
+        self._prev._remainder = self._prev.time_period
+        return self
 
     @property
     def time_remaining(self):
@@ -273,7 +277,7 @@ class SmallBreakState(InitialState):
         return SmallBreakPausedState.return_to(self._tomato, self)
 
     def reset(self):
-        self._remainder = self._time_period
+        self._remainder = self.time_period
         return self
 
     @property
@@ -284,7 +288,7 @@ class SmallBreakState(InitialState):
 class SmallBreakPausedState(InitialState):
     name = "small break paused"
 
-    def __int__(self, time_period=1, tomato=None):
+    def __init__(self, time_period=0, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._task = Tasks.SMALL_BREAK
         self._status = TaskStatus.PAUSED
@@ -304,6 +308,10 @@ class SmallBreakPausedState(InitialState):
         cur_state._prev = state
         return cur_state
 
+    def reset(self):
+        self._prev._remainder = self._prev.time_period
+        return self
+
     @property
     def done(self):
         return False
@@ -317,14 +325,23 @@ class LongBreakState(SmallBreakState):
         self._task = Tasks.LONG_BREAK
         self._status = TaskStatus.STARTED
 
+    def pause(self):
+        return LongBreakPausedState.return_to(self._tomato, self)
+
 
 class LongBreakPausedState(SmallBreakPausedState):
     name = "long break paused"
-    
-    def __int__(self, time_period=1, tomato=None):
+
+    def __init__(self, time_period=0, tomato=None):
         super().__init__(time_period=time_period, tomato=tomato)
         self._task = Tasks.LONG_BREAK
         self._status = TaskStatus.PAUSED
+
+    @staticmethod
+    def return_to(tomato, state):
+        cur_state = LongBreakPausedState(tomato=tomato)
+        cur_state._prev = state
+        return cur_state
 
 
 class Tomato:
@@ -343,7 +360,8 @@ class Tomato:
         self._state = self._state.reset()
 
     def reset_all(self):
-        pass
+        self._state = InitialState(tomato=self)
+        self.tomatoes = 0
 
     def update(self):
         if self._state.done:
