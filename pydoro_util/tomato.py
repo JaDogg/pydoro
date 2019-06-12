@@ -10,6 +10,7 @@ SECONDS_PER_MIN = 60
 WORK_TIME = 25 * SECONDS_PER_MIN
 SMALL_BREAK_TIME = 5 * SECONDS_PER_MIN
 LONG_BREAK_TIME = 15 * SECONDS_PER_MIN
+ALARM_TIME = 20
 
 TOMATO = r"""
       /'\/`\         {task1}
@@ -79,6 +80,14 @@ def cur_time():
     return int(default_timer())
 
 
+def play_alarm():
+    # noinspection PyBroadException
+    try:
+        playsound.playsound(in_app_path("b15.wav"), block=False)
+    except Exception:
+        pass
+
+
 class InitialState:
     name = "initial"
 
@@ -92,6 +101,7 @@ class InitialState:
         self._progress = itertools.cycle(PROGRESS)
 
     def start(self):
+        play_alarm()
         return WorkingState(tomato=self._tomato)
 
     def pause(self):
@@ -155,18 +165,20 @@ class IntermediateState(InitialState):
         self._task = Tasks.INTERMEDIATE
         self._status = TaskStatus.LIMBO
         self._next_factory = None
+        self._last_alarm_time = 0
+        self._sound()
 
-        # noinspection PyBroadException
-        try:
-            playsound.playsound(in_app_path("b15.wav"), block=False)
-        except Exception:
-            pass
+    def _sound(self):
+        if cur_time() - self._last_alarm_time > ALARM_TIME:
+            play_alarm()
+            self._last_alarm_time = cur_time()
 
     def start(self):
         return self._next_factory(tomato=self._tomato)
 
     @property
     def time_remaining(self):
+        self._sound()
         return "Press <start> to continue with " + self._next_factory.name
 
     @property
