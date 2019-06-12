@@ -16,6 +16,9 @@ requires = ["prompt-toolkit>=2.0.9"]
 # On OSX we need pyobjc to actually play a sound
 if system == "Darwin":
     requires.extend(["pyobjc-core>=5.2", "pyobjc-framework-Cocoa>=5.2"])
+elif system != "Windows":
+    # We need PyGObject for Linux
+    requires.extend(["pycairo>=1.18.1", "PyGObject>=3.32.1"])
 
 setup(
     name="pydoro",
