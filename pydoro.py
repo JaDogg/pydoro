@@ -66,7 +66,7 @@ style = Style(
         ("button", "#000000"),
         ("button-arrow", "#000000"),
         ("button focused", "bg:#ff0000"),
-        ("text-area", "bg:#ffffff"),
+        ("text-area", "bg:#ffffff #000000"),
         ("red", "#ff0000"),
         ("green", "#00ff00"),
     ]
