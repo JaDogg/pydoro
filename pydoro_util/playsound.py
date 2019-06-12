@@ -1,3 +1,8 @@
+from platform import system
+
+system = system()
+
+
 class PlaysoundException(Exception):
     pass
 
@@ -71,14 +76,11 @@ def _playsoundOSX(sound, block=True):
         sleep(nssound.duration())
 
 
-def _playsoundNix(sound, block=True):
+def _playsoundNixBlocking(sound):
     """Play a sound using GStreamer.
     Inspired by this:
     https://gstreamer.freedesktop.org/documentation/tutorials/playback/playbin-usage.html
     """
-    if not block:
-        raise NotImplementedError("block=False cannot be used on this platform yet")
-
     # pathname2url escapes non-URL-safe characters
     import os
 
@@ -112,9 +114,16 @@ def _playsoundNix(sound, block=True):
     playbin.set_state(Gst.State.NULL)
 
 
-from platform import system
+def _playsoundNix(sound, block=True):
+    if block:
+        _playsoundNixBlocking(sound)
+        return
 
-system = system()
+    from threading import Thread
+
+    thread = Thread(target=_playsoundNixBlocking, args=(sound,), daemon=True)
+    thread.start()
+
 
 if system == "Windows":
     playsound = _playsoundWin
