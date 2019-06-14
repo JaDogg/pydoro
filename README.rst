@@ -37,7 +37,7 @@ Why ? 🤔
 .. _Pomodoro Technique: https://en.wikipedia.org/wiki/Pomodoro_Technique
 
 
-Copyright 🤔
+Copyright ⚖
 ------------
 This software is Copyright (c) 2019 Bhathiya Perera.
 
