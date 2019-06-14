@@ -2,8 +2,8 @@ import itertools
 from enum import IntEnum
 from timeit import default_timer
 
-from pydoro_util import playsound
-from pydoro_util.util import in_app_path
+from pydoro.pydoro_core import sound
+from pydoro.pydoro_core.util import in_app_path
 
 TOMATOES_PER_SET = 4
 SECONDS_PER_MIN = 60
@@ -83,7 +83,7 @@ def cur_time():
 def play_alarm():
     # noinspection PyBroadException
     try:
-        playsound.playsound(in_app_path("b15.wav"), block=False)
+        sound.play(in_app_path("b15.wav"), block=False)
     except Exception:
         pass
 

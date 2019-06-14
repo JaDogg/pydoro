@@ -12,8 +12,8 @@ from prompt_toolkit.layout import HSplit, Layout, VSplit
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Box, Button, Label, TextArea
 
-from pydoro_util.tomato import Tomato
-from pydoro_util.util import every
+from pydoro.pydoro_core.tomato import Tomato
+from pydoro.pydoro_core.util import every
 
 tomato = Tomato()
 

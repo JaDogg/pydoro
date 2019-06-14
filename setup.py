@@ -1,24 +1,13 @@
 from codecs import open
 from inspect import getsource
 from os.path import abspath, dirname, join
-from platform import system
 
 from setuptools import setup, find_packages
 
 here = abspath(dirname(getsource(lambda: 0)))
-system = system()
 
 with open(join(here, "README.rst"), encoding="utf-8") as f:
     long_description = f.read()
-
-requires = ["prompt-toolkit>=2.0.9"]
-# WHY:
-# On OSX we need pyobjc to actually play a sound
-if system == "Darwin":
-    requires.extend(["pyobjc-core>=5.2", "pyobjc-framework-Cocoa>=5.2"])
-elif system != "Windows":
-    # We need PyGObject for Linux
-    requires.extend(["pycairo>=1.18.1", "PyGObject>=3.32.1"])
 
 setup(
     name="pydoro",
@@ -29,12 +18,19 @@ setup(
     author="Bhathiya Perera",
     author_email="jadogg.coder@gmail.com",
     license="MIT",
-    scripts=["pydoro.py"],
-    package_data={"": ["*.rst"], "pydoro_util": ["b15.wav"]},
-    install_requires=requires,
+    package_data={"": ["*.rst", "*.wav"]},
+    install_requires=["prompt-toolkit>=2.0.9"],
+    extras_require={
+        "audio": [
+            'pyobjc-core>=5.2;platform_system="Darwin"',
+            'pyobjc-framework-Cocoa>=5.2;platform_system="Darwin"',
+            'pycairo>=1.18.1;platform_system="Linux"',
+            'PyGObject>=3.32.1;platform_system="Linux"',
+        ]
+    },
     classifiers=[
-        "Development Status :: 5 - Production/Stable",
-        "Intended Audience :: Developers",
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Information Technology",
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
@@ -43,4 +39,5 @@ setup(
     ],
     keywords="tomato pomodoro pydoro timer work",
     packages=find_packages(),
+    entry_points={"console_scripts": ["pydoro = pydoro.pydoro:main"]},
 )

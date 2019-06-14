@@ -1,13 +1,22 @@
+"""
+This file was copied from
+https://github.com/TaylorSMarks/playsound
+playsound.py - For playing audio file, Copyright (c) 2016 Taylor Marks
+MIT License
+----
+I've added async play for linux using a thread, changed names to be more pythonic
+"""
+
 from platform import system
 
 system = system()
 
 
-class PlaysoundException(Exception):
+class PlayException(Exception):
     pass
 
 
-def _playsoundWin(sound, block=True):
+def _play_sound_win(sound, block=True):
     """
     Utilizes windll.winmm. Tested and known to work with MP3 and WAVE on
     Windows 7 with Python 2.7. Probably works with more file formats.
@@ -22,31 +31,31 @@ def _playsoundWin(sound, block=True):
     from time import sleep
     from sys import getfilesystemencoding
 
-    def winCommand(*command):
+    def win_cmd(*command):
         buf = c_buffer(255)
         command = " ".join(command).encode(getfilesystemencoding())
-        errorCode = int(windll.winmm.mciSendStringA(command, buf, 254, 0))
-        if errorCode:
-            errorBuffer = c_buffer(255)
-            windll.winmm.mciGetErrorStringA(errorCode, errorBuffer, 254)
-            exceptionMessage = (
-                "\n    Error " + str(errorCode) + " for command:"
-                "\n        " + command.decode() + "\n    " + errorBuffer.value.decode()
+        err_code = int(windll.winmm.mciSendStringA(command, buf, 254, 0))
+        if err_code:
+            error_buffer = c_buffer(255)
+            windll.winmm.mciGetErrorStringA(err_code, error_buffer, 254)
+            exception_message = (
+                "\n    Error " + str(err_code) + " for command:"
+                "\n        " + command.decode() + "\n    " + error_buffer.value.decode()
             )
-            raise PlaysoundException(exceptionMessage)
+            raise PlayException(exception_message)
         return buf.value
 
     alias = "playsound_" + str(random())
-    winCommand('open "' + sound + '" alias', alias)
-    winCommand("set", alias, "time format milliseconds")
-    durationInMS = winCommand("status", alias, "length")
-    winCommand("play", alias, "from 0 to", durationInMS.decode())
+    win_cmd('open "' + sound + '" alias', alias)
+    win_cmd("set", alias, "time format milliseconds")
+    duration_ms = win_cmd("status", alias, "length")
+    win_cmd("play", alias, "from 0 to", duration_ms.decode())
 
     if block:
-        sleep(float(durationInMS) / 1000.0)
+        sleep(float(duration_ms) / 1000.0)
 
 
-def _playsoundOSX(sound, block=True):
+def _play_sound_osx(sound, block=True):
     """
     Utilizes AppKit.NSSound. Tested and known to work with MP3 and WAVE on
     OS X 10.11 with Python 2.7. Probably works with anything QuickTime supports.
@@ -76,7 +85,7 @@ def _playsoundOSX(sound, block=True):
         sleep(nssound.duration())
 
 
-def _playsoundNixBlocking(sound):
+def _play_sound_nix_blocking(sound):
     """Play a sound using GStreamer.
     Inspired by this:
     https://gstreamer.freedesktop.org/documentation/tutorials/playback/playbin-usage.html
@@ -105,31 +114,37 @@ def _playsoundNixBlocking(sound):
 
     set_result = playbin.set_state(Gst.State.PLAYING)
     if set_result != Gst.StateChangeReturn.ASYNC:
-        raise PlaysoundException("playbin.set_state returned " + repr(set_result))
+        raise PlayException("playbin.set_state returned " + repr(set_result))
 
-    # FIXME: use some other bus method than poll() with block=False
-    # https://lazka.github.io/pgi-docs/#Gst-1.0/classes/Bus.html
     bus = playbin.get_bus()
     bus.poll(Gst.MessageType.EOS, Gst.CLOCK_TIME_NONE)
     playbin.set_state(Gst.State.NULL)
 
 
-def _playsoundNix(sound, block=True):
+def _play_sound_nix_no_except(sound):
+    # noinspection PyBroadException
+    try:
+        _play_sound_nix(sound)
+    except:
+        pass
+
+
+def _play_sound_nix(sound, block=True):
     if block:
-        _playsoundNixBlocking(sound)
+        _play_sound_nix_blocking(sound)
         return
 
     from threading import Thread
 
-    thread = Thread(target=_playsoundNixBlocking, args=(sound,), daemon=True)
+    thread = Thread(target=_play_sound_nix_no_except, args=(sound,), daemon=True)
     thread.start()
 
 
 if system == "Windows":
-    playsound = _playsoundWin
+    play = _play_sound_win
 elif system == "Darwin":
-    playsound = _playsoundOSX
+    play = _play_sound_osx
 else:
-    playsound = _playsoundNix
+    play = _play_sound_nix
 
 del system
