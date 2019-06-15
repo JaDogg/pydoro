@@ -2,6 +2,8 @@ pydoro 🍅
 ==========
 *Terminal Pomodoro Timer*
 
+.. image:: https://github.com/JaDogg/pydoro/blob/master/images/logo.png
+
 Installation 🎉
 ---------------
 Install via pipx:
