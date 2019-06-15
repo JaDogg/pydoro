@@ -23,6 +23,12 @@ You can also use :code:`pip install pydoro[audio]` to get audio dependencies for
 
 On windows you may try the packaged .exe file. See the releases_ page.
 
+If you have pipx:
+
+.. code-block::
+
+    $ pipx install pydoro
+
 Usage 📖
 ---------
 * Run :code:`pydoro` to launch.
