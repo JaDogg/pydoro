@@ -25,6 +25,7 @@ setup(
     # Get the description from second line & remove `*` character
     description=long_description.splitlines()[2][1:-1],
     long_description=long_description,
+    long_description_content_type="text/x-rst",
     url="https://github.com/JaDogg/pydoro",
     author="Bhathiya Perera",
     author_email="jadogg.coder@gmail.com",
@@ -36,7 +37,6 @@ setup(
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Information Technology",
         "License :: OSI Approved :: MIT License",
-        "Programming Language :: Python :: 3.4",
         "Programming Language :: Python :: 3.5",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",

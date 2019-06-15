@@ -1,11 +1,11 @@
 pydoro 🍅
-==========
+============
 *Terminal Pomodoro Timer*
 
 .. image:: https://github.com/JaDogg/pydoro/blob/master/images/logo.png
 
 Installation 🎉
----------------
+-----------------
 Install via pipx:
 
 .. code-block::
@@ -23,7 +23,7 @@ Usage 📖
 .. image:: https://github.com/JaDogg/pydoro/blob/master/images/animation.gif
 
 Credits 🙇‍♂️
-------------
+------------------
 * playsound.py - For playing audio file, Copyright (c) 2016 Taylor_ Marks
 * prompt-tookit - For creating TUI
 * b15.wav - Dana_ robinson designs, CC0 from 
@@ -34,7 +34,7 @@ Credits 🙇‍♂️
 
 
 Why ? 🤔
----------
+------------
 * I wanted to follow `Pomodoro Technique`_.
 * I don't like to use mobile apps or web apps.
 * No user info is stored, tracked or shared.
@@ -45,7 +45,7 @@ Why ? 🤔
 
 
 Copyright ⚖
-------------
+----------------
 This software is Copyright (c) 2019 Bhathiya Perera.
 
 See the LICENSE file for more information.
