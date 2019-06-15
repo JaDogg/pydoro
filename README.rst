@@ -4,15 +4,22 @@ pydoro 🍅
 
 .. image:: https://github.com/JaDogg/pydoro/raw/master/images/logo.png
 
+
+.. image:: https://badge.fury.io/py/pydoro.svg
+    :target: https://badge.fury.io/py/pydoro
+
 Installation 🎉
 -----------------
 Install via pipx:
 
 .. code-block::
 
-    $ pipx install pydoro
+    $ pip install pydoro
+    $ pydoro
 
 Done.
+
+You can also use :code:`pip install pydoro[audio]` to get audio dependencies for OSX and Linux.
 
 On windows you may try the packaged .exe file. See the releases_ page.
 
