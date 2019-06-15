@@ -2,7 +2,7 @@ pydoro 🍅
 ============
 *Terminal Pomodoro Timer*
 
-.. image:: https://github.com/JaDogg/pydoro/blob/master/images/logo.png
+.. image:: https://github.com/JaDogg/pydoro/raw/master/images/logo.png
 
 Installation 🎉
 -----------------
@@ -20,7 +20,7 @@ Usage 📖
 ---------
 * Run :code:`pydoro` to launch.
 
-.. image:: https://github.com/JaDogg/pydoro/blob/master/images/animation.gif
+.. image:: https://github.com/JaDogg/pydoro/raw/master/images/animation.gif
 
 Credits 🙇‍♂️
 ------------------
