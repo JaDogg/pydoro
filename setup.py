@@ -14,9 +14,9 @@ current_system = system()
 
 # WHY: Windows can be handled without extras
 audio_requires = []
-if current_system == "Linux":
+if current_system == "Darwin":
     audio_requires = ["pyobjc-core>=5.2", "pyobjc-framework-Cocoa>=5.2"]
-elif current_system == "Darwin":
+elif current_system == "Linux":
     audio_requires = ["pycairo>=1.18.1", "PyGObject>=3.32.1"]
 
 setup(
