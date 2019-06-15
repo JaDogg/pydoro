@@ -16,6 +16,11 @@ Done.
 
 On windows you may try the packaged .exe file. See the releases_ page.
 
+Usage 📖
+---------
+* Run :code:`pydoro` to launch.
+
+.. image:: https://github.com/JaDogg/pydoro/blob/master/images/animation.gif
 
 Credits 🙇‍♂️
 ------------
