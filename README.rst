@@ -39,7 +39,7 @@ Credits 🙇‍♂️
 ------------------
 * playsound.py - For playing audio file, Copyright (c) 2016 Taylor_ Marks
 * prompt-tookit - For creating TUI
-* b15.wav - Dana_ robinson designs, CC0 from 
+* b15.wav - Dana_ robinson designs, CC0 from freesound
 
 .. _releases: https://github.com/JaDogg/pydoro/releases
 .. _Taylor: https://github.com/TaylorSMarks/playsound
