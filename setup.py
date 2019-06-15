@@ -10,9 +10,7 @@ here = abspath(dirname(getsource(lambda: 0)))
 with open(join(here, "README.rst"), encoding="utf-8") as f:
     long_description = f.read()
 
-
 current_system = system()
-
 
 # WHY: Windows can be handled without extras
 audio_requires = []
@@ -46,4 +44,5 @@ setup(
     keywords="tomato pomodoro pydoro timer work",
     packages=find_packages(),
     entry_points={"console_scripts": ["pydoro = pydoro.pydoro:main"]},
+    setup_requires=["wheel"],
 )
