@@ -10,7 +10,7 @@ pydoro 🍅
 
 Installation 🎉
 -----------------
-Install via pipx:
+Install via pip:
 
 .. code-block::
 
