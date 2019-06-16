@@ -18,7 +18,7 @@ from pydoro.pydoro_core.util import every
 tomato = Tomato()
 
 
-def exit_clicked():
+def exit_clicked(var=None):
     get_app().exit()
 
 
@@ -57,6 +57,9 @@ layout = Layout(container=root_container, focused_element=btn_start)
 kb = KeyBindings()
 kb.add("tab")(focus_next)
 kb.add("s-tab")(focus_previous)
+kb.add("right")(focus_next)
+kb.add("left")(focus_previous)
+kb.add("q")(exit_clicked)
 
 # Styling.
 style = Style(
