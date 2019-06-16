@@ -29,6 +29,7 @@ setup(
     url="https://github.com/JaDogg/pydoro",
     author="Bhathiya Perera",
     author_email="jadogg.coder@gmail.com",
+    python_requires=">=3.5",
     license="MIT",
     package_data={"": ["*.rst", "*.wav"]},
     install_requires=["prompt-toolkit>=2.0.9"],
