@@ -4,17 +4,35 @@ pydoro 🍅
 
 .. image:: https://github.com/JaDogg/pydoro/raw/master/images/logo.png
 
+.. Repo Badges
+
+.. image:: https://badge.fury.io/py/pydoro.svg
+	:alt: PyPI
+	:target: https://badge.fury.io/py/pydoro
+.. image:: https://img.shields.io/badge/python-3.5+-blue.svg
+	:alt: Python Support
+	:target: https://pypi.org/project/pydoro/
+
 Installation 🎉
 -----------------
-Install via pipx:
+Install via pip:
+
+.. code-block::
+
+    $ pip install pydoro
+    $ pydoro
+
+Done.
+
+You can also use :code:`pip install pydoro[audio]` to get audio dependencies for OSX and Linux.
+
+On windows you may try the packaged .exe file. See the releases_ page.
+
+If you have pipx:
 
 .. code-block::
 
     $ pipx install pydoro
-
-Done.
-
-On windows you may try the packaged .exe file. See the releases_ page.
 
 Usage 📖
 ---------
@@ -24,9 +42,10 @@ Usage 📖
 
 Credits 🙇‍♂️
 ------------------
+* Pomodoro - Invented by Francesco Cirillo
 * playsound.py - For playing audio file, Copyright (c) 2016 Taylor_ Marks
 * prompt-tookit - For creating TUI
-* b15.wav - Dana_ robinson designs, CC0 from 
+* b15.wav - Dana_ robinson designs, CC0 from freesound
 
 .. _releases: https://github.com/JaDogg/pydoro/releases
 .. _Taylor: https://github.com/TaylorSMarks/playsound
