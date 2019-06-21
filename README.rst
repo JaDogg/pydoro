@@ -7,11 +7,11 @@ pydoro 🍅
 .. Repo Badges
 
 .. image:: https://badge.fury.io/py/pydoro.svg
-	:alt: PyPI
-	:target: https://badge.fury.io/py/pydoro
+    :alt: PyPI
+    :target: https://badge.fury.io/py/pydoro
 .. image:: https://img.shields.io/badge/python-3.5+-blue.svg
-	:alt: Python Support
-	:target: https://pypi.org/project/pydoro/
+    :alt: Python Support
+    :target: https://pypi.org/project/pydoro/
 
 Installation 🎉
 -----------------
