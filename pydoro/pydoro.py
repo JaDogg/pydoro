@@ -1,7 +1,4 @@
 #!/usr/bin/env python
-"""
-A simple example of a few buttons and click handlers.
-"""
 import threading
 
 from prompt_toolkit.application import Application
@@ -18,7 +15,7 @@ from pydoro.pydoro_core.util import every
 tomato = Tomato()
 
 
-def exit_clicked(var=None):
+def exit_clicked(_=None):
     get_app().exit()
 
 
@@ -30,9 +27,7 @@ btn_reset_all = Button("Reset All", handler=tomato.reset_all)
 btn_exit = Button("Exit", handler=exit_clicked)
 text_area = TextArea(read_only=True, height=11, focusable=False)
 
-# Combine all the widgets in a UI.
-# The `Box` object ensures that padding will be inserted around the containing
-# widget. It adapts automatically, unless an explicit `padding` amount is given.
+
 root_container = Box(
     HSplit(
         [
