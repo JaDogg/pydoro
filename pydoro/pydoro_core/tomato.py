@@ -16,7 +16,7 @@ TOMATO = r"""
       /'\/`\         {task1}
     .-  |/  -.       {task2}
    /          \      {task3}
-  '   PyDoro   \     {task4}
+  '   pydoro   \     {task4}
  ;             '     {status}
  ;             ;     {time}
  :          /  .
