@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 import threading
 
+from docutils.utils.math.math2html import Container
+from prompt_toolkit import HTML, ANSI
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
+from prompt_toolkit.formatted_text import FormattedText
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.bindings.focus import focus_next, focus_previous
-from prompt_toolkit.layout import HSplit, Layout, VSplit
+from prompt_toolkit.layout import HSplit, Layout, VSplit, FormattedTextControl, Container, Window
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Box, Button, Label, TextArea
 
@@ -25,8 +28,10 @@ btn_pause = Button("Pause", handler=tomato.pause)
 btn_reset = Button("Reset", handler=tomato.reset)
 btn_reset_all = Button("Reset All", handler=tomato.reset_all)
 btn_exit = Button("Exit", handler=exit_clicked)
-text_area = TextArea(read_only=True, height=11, focusable=False)
 
+# text_area = TextArea(read_only=True, height=11, focusable=False)
+text_area = FormattedTextControl(focusable=False, show_cursor=False)
+text_window = Window(content=text_area, dont_extend_height=True, height=11, style="bg:#ffffff #000000")
 
 root_container = Box(
     HSplit(
@@ -39,7 +44,7 @@ root_container = Box(
                         padding=1,
                         style="bg:#cccccc",
                     ),
-                    text_area,
+                    text_window,
                 ]
             ),
         ]
@@ -64,7 +69,6 @@ style = Style(
         ("button", "#000000"),
         ("button-arrow", "#000000"),
         ("button focused", "bg:#ff0000"),
-        ("text-area", "bg:#ffffff #000000"),
         ("red", "#ff0000"),
         ("green", "#00ff00"),
     ]
@@ -76,7 +80,7 @@ application = Application(layout=layout, key_bindings=kb, style=style, full_scre
 
 def draw():
     tomato.update()
-    text_area.text = tomato.as_text()
+    text_area.text = (tomato.as_text())
 
 
 def main():
