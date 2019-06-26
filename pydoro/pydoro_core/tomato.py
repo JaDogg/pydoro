@@ -12,18 +12,80 @@ SMALL_BREAK_TIME = 5 * SECONDS_PER_MIN
 LONG_BREAK_TIME = 15 * SECONDS_PER_MIN
 ALARM_TIME = 20
 
-TOMATO = r"""
-      /'\/`\         {task1}
-    .-  |/  -.       {task2}
-   /          \      {task3}
-  '   pydoro   \     {task4}
- ;             '     {status}
- ;             ;     {time}
- :          /  .
-  \       .'  /      {count}
-    \ ____ .'        {sets}
 
-"""
+TOMATO = [
+    ("", "\n      "),
+    ("#00cc00", "/'\\/`\\"),
+    ("", "         "),
+    ("", "task1"),
+    ("", "\n    "),
+    ("#ff0000", ".-"),
+    ("", "  "),
+    ("#00cc00", "|/"),
+    ("", "  "),
+    ("#ff0000", "-."),
+    ("", "       "),
+    ("", "task2"),
+    ("", "\n   "),
+    ("#ff0000", "/"),
+    ("", "          "),
+    ("#ff0000", "\\"),
+    ("", "      "),
+    ("", "task3"),
+    ("", "\n  "),
+    ("#ff0000", "'"),
+    ("", "   "),
+    ("bold", "pydoro"),
+    ("", "   "),
+    ("#ff0000", "\\"),
+    ("", "     "),
+    ("", "task4"),
+    ("", "\n "),
+    ("#ff0000", ";"),
+    ("", "             "),
+    ("#ff0000", "'"),
+    ("", "     "),
+    ("", "status"),
+    ("", "\n "),
+    ("#ff0000", ";"),
+    ("", "             "),
+    ("#ff0000", ";"),
+    ("", "     "),
+    ("", "time"),
+    ("", "\n "),
+    ("#ff0000", ":"),
+    ("", "          "),
+    ("#ff0000", "/"),
+    ("", "  "),
+    ("#ff0000", "."),
+    ("", "\n  "),
+    ("#ff0000", "\\"),
+    ("", "       "),
+    ("#ff0000", ".'"),
+    ("", "  "),
+    ("#ff0000", "/"),
+    ("", "      "),
+    ("", "count"),
+    ("", "\n    "),
+    ("#ff0000", "\\"),
+    ("", " "),
+    ("#ff0000", "____"),
+    ("", " "),
+    ("#ff0000", ".'"),
+    ("", "        "),
+    ("", "sets"),
+]
+
+LOCATIONS = {
+    "count": 51,
+    "sets": 59,
+    "status": 31,
+    "task1": 3,
+    "task2": 11,
+    "task3": 17,
+    "task4": 25,
+    "time": 37,
+}
 
 TEXT_LONG_BREAK = r"""
   ___    LONG      _
@@ -124,7 +186,7 @@ class InitialState:
 
     @property
     def time_remaining(self):
-        return "Press <start>"
+        return "Press [start]"
 
     @property
     def task(self):
@@ -179,7 +241,7 @@ class IntermediateState(InitialState):
     @property
     def time_remaining(self):
         self._sound()
-        return "Press <start> to continue with " + self._next_factory.name
+        return "Press [start] to continue with " + self._next_factory.name
 
     @property
     def done(self):
@@ -357,8 +419,7 @@ class LongBreakPausedState(SmallBreakPausedState):
 
 
 class Tomato:
-    def __init__(self, template=TOMATO):
-        self._template = template
+    def __init__(self):
         self._state = InitialState(tomato=self)
         self.tomatoes = 0
 
@@ -379,11 +440,11 @@ class Tomato:
         if self._state.done:
             self._state = self._state.next_state
 
-    def as_text(self):
+    def as_formatted_text(self):
         task = TEXT[self._state.task.value]
-        task1, task2, task3, task4 = "", "", "", ""
-        if task:
-            task1, task2, task3, task4 = task.splitlines()
+        task = task.splitlines()
+        if not task:
+            task = [""] * 4
 
         sets = self.tomatoes // TOMATOES_PER_SET
         if sets == 1:
@@ -393,13 +454,16 @@ class Tomato:
         else:
             sets = ""
 
-        return self._template.format(
-            task1=task1,
-            task2=task2,
-            task3=task3,
-            task4=task4,
-            status=TEXT[self._state.status.value],
-            time=self._state.time_remaining,
-            count=("(`) " * (TOMATOES_PER_SET - self.tomatoes % TOMATOES_PER_SET)),
-            sets=sets,
-        )
+        status = TEXT[self._state.status.value]
+        time = self._state.time_remaining
+        count = "(`) " * (TOMATOES_PER_SET - self.tomatoes % TOMATOES_PER_SET)
+
+        ftext = TOMATO[:]
+        for i in range(1, 5):
+            ftext[LOCATIONS["task" + str(i)]] = ("", task[i - 1])
+        ftext[LOCATIONS["status"]] = ("", status)
+        ftext[LOCATIONS["time"]] = ("", time)
+        ftext[LOCATIONS["count"]] = ("", count)
+        ftext[LOCATIONS["sets"]] = ("", sets)
+
+        return ftext

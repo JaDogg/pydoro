@@ -1,16 +1,13 @@
 #!/usr/bin/env python
 import threading
 
-from docutils.utils.math.math2html import Container
-from prompt_toolkit import HTML, ANSI
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
-from prompt_toolkit.formatted_text import FormattedText
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.bindings.focus import focus_next, focus_previous
-from prompt_toolkit.layout import HSplit, Layout, VSplit, FormattedTextControl, Container, Window
+from prompt_toolkit.layout import HSplit, Layout, VSplit, FormattedTextControl, Window
 from prompt_toolkit.styles import Style
-from prompt_toolkit.widgets import Box, Button, Label, TextArea
+from prompt_toolkit.widgets import Box, Button, Label
 
 from pydoro.pydoro_core.tomato import Tomato
 from pydoro.pydoro_core.util import every
@@ -31,7 +28,9 @@ btn_exit = Button("Exit", handler=exit_clicked)
 
 # text_area = TextArea(read_only=True, height=11, focusable=False)
 text_area = FormattedTextControl(focusable=False, show_cursor=False)
-text_window = Window(content=text_area, dont_extend_height=True, height=11, style="bg:#ffffff #000000")
+text_window = Window(
+    content=text_area, dont_extend_height=True, height=11, style="bg:#ffffff #000000"
+)
 
 root_container = Box(
     HSplit(
@@ -80,12 +79,13 @@ application = Application(layout=layout, key_bindings=kb, style=style, full_scre
 
 def draw():
     tomato.update()
-    text_area.text = (tomato.as_text())
+    text_area.text = tomato.as_formatted_text()
+    application.invalidate()
 
 
 def main():
     draw()
-    threading.Thread(target=lambda: every(0.3, draw), daemon=True).start()
+    threading.Thread(target=lambda: every(0.4, draw), daemon=True).start()
     application.run()
 
 
