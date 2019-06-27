@@ -44,9 +44,9 @@ Configuration
 ------------------
 * Keybindings can in be changed in the config file available at pydoro_core\config.py
 * Default keybindings:
-  * Next Focus: Tab, ->, k
-  * Previous Focus: Shift-Tab, <-, j
-  * Quit: q
+- Next Focus: Tab, ->, k
+- Previous Focus: Shift-Tab, <-, j
+- Quit: q
 
 Credits 🙇‍♂️
 ------------------
