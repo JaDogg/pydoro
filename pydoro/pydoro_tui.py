@@ -11,6 +11,7 @@ from prompt_toolkit.widgets import Box, Button, Label
 
 from pydoro.pydoro_core.tomato import Tomato
 from pydoro.pydoro_core.util import every
+from pydoro.pydoro_core.config import bindings
 
 tomato = Tomato()
 
@@ -52,14 +53,18 @@ root_container = Box(
 
 layout = Layout(container=root_container, focused_element=btn_start)
 
-# Key bindings.
+# Key bindings. These values are set in pydoro_core/config.py.
 kb = KeyBindings()
-kb.add("tab")(focus_next)
-kb.add("s-tab")(focus_previous)
-kb.add("right")(focus_next)
-kb.add("left")(focus_previous)
-kb.add("q")(exit_clicked)
-
+for key, bind in bindings.items():
+    if(key == "focus_next"):
+        for b in bind:
+            kb.add(b)(focus_next)
+    elif(key == "focus_previous"):
+        for b in bind:
+            kb.add(b)(focus_previous)
+    elif(key == "exit_clicked"):
+        for b in bind:
+            kb.add(b)(exit_clicked)
 # Styling.
 style = Style(
     [
