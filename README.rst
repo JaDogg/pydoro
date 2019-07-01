@@ -12,6 +12,9 @@ pydoro 🍅
 .. image:: https://img.shields.io/badge/python-3.5+-blue.svg
     :alt: Python Support
     :target: https://pypi.org/project/pydoro/
+.. image:: https://badges.gitter.im/pydoro/community.svg
+    :alt: Chat
+    :target: https://gitter.im/pydoro/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
 
 Installation 🎉
 -----------------
