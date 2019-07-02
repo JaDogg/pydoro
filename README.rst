@@ -43,14 +43,6 @@ Usage 📖
 
 .. image:: https://github.com/JaDogg/pydoro/raw/master/images/animation.gif
 
-Configuration
-------------------
-* Keybindings can in be changed in the config file available at pydoro_core\config.py
-* Default keybindings:
-- Next Focus: Tab, ->, k
-- Previous Focus: Shift-Tab, <-, j
-- Quit: q
-
 Credits 🙇‍♂️
 ------------------
 * Pomodoro - Invented by Francesco Cirillo

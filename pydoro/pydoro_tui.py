@@ -11,7 +11,7 @@ from prompt_toolkit.widgets import Box, Button, Label
 
 from pydoro.pydoro_core.tomato import Tomato
 from pydoro.pydoro_core.util import every
-from pydoro.pydoro_core.config import bindings
+from pydoro.pydoro_core.config import DEFAULT_KEY_BINDINGS
 
 tomato = Tomato()
 
@@ -27,7 +27,6 @@ btn_reset = Button("Reset", handler=tomato.reset)
 btn_reset_all = Button("Reset All", handler=tomato.reset_all)
 btn_exit = Button("Exit", handler=exit_clicked)
 
-# text_area = TextArea(read_only=True, height=11, focusable=False)
 text_area = FormattedTextControl(focusable=False, show_cursor=False)
 text_window = Window(
     content=text_area, dont_extend_height=True, height=11, style="bg:#ffffff #000000"
@@ -55,16 +54,18 @@ layout = Layout(container=root_container, focused_element=btn_start)
 
 # Key bindings. These values are set in pydoro_core/config.py.
 kb = KeyBindings()
-for key, bind in bindings.items():
-    if(key == "focus_next"):
-        for b in bind:
-            kb.add(b)(focus_next)
-    elif(key == "focus_previous"):
-        for b in bind:
-            kb.add(b)(focus_previous)
-    elif(key == "exit_clicked"):
-        for b in bind:
-            kb.add(b)(exit_clicked)
+
+# WHY: string to action map to allow for easy configuration
+actions = {
+    "focus_next": focus_next,
+    "focus_previous": focus_previous,
+    "exit_clicked": exit_clicked,
+}
+
+for action, keys in DEFAULT_KEY_BINDINGS.items():
+    for key in keys:
+        kb.add(key)(actions[action])
+
 # Styling.
 style = Style(
     [

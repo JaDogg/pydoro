@@ -1,5 +1,5 @@
-bindings = dict(
-    focus_next = ("tab", "right", "k"),
-    focus_previous = ("s-tab", "left", "j"),
-    exit_clicked = ("q"),
-)
+DEFAULT_KEY_BINDINGS = {
+    "focus_previous": ("s-tab", "left", "h", "j"),
+    "focus_next": ("tab", "right", "l", "k"),
+    "exit_clicked": ("q",),
+}
