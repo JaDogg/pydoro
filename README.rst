@@ -39,9 +39,11 @@ If you have pipx:
 
 Usage 📖
 ---------
-* Run :code:`pydoro` to launch.
+* Run :code:`pydoro` to launch. More info in wiki_.
 
 .. image:: https://github.com/JaDogg/pydoro/raw/master/images/animation.gif
+
+.. _wiki: https://github.com/JaDogg/pydoro/wiki
 
 Credits 🙇‍♂️
 ------------------
