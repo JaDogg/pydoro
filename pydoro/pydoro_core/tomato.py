@@ -12,79 +12,91 @@ SMALL_BREAK_TIME = 5 * SECONDS_PER_MIN
 LONG_BREAK_TIME = 15 * SECONDS_PER_MIN
 ALARM_TIME = 20
 
+PLACEHOLDER_TIME = "time"
+PLACEHOLDER_STATUS = "status"
+PLACEHOLDER_SETS = "sets"
+PLACEHOLDER_COUNT = "count"
+PLACEHOLDER_TASK = "task1", "task2", "task3", "task4"
 
+NO_COLOUR = ""
+RED = "#ff0000"
+GREEN = "#00cc00"
+BOLD_TEXT = "bold"
+
+# Tomato ascii art
+#   tuples is made of colour and a piece of coloured text
 TOMATO = [
-    ("", "\n      "),
-    ("#00cc00", "/'\\/`\\"),
-    ("", "         "),
-    ("", "task1"),
-    ("", "\n    "),
-    ("#ff0000", ".-"),
-    ("", "  "),
-    ("#00cc00", "|/"),
-    ("", "  "),
-    ("#ff0000", "-."),
-    ("", "       "),
-    ("", "task2"),
-    ("", "\n   "),
-    ("#ff0000", "/"),
-    ("", "          "),
-    ("#ff0000", "\\"),
-    ("", "      "),
-    ("", "task3"),
-    ("", "\n  "),
-    ("#ff0000", "'"),
-    ("", "   "),
-    ("bold", "pydoro"),
-    ("", "   "),
-    ("#ff0000", "\\"),
-    ("", "     "),
-    ("", "task4"),
-    ("", "\n "),
-    ("#ff0000", ";"),
-    ("", "             "),
-    ("#ff0000", "'"),
-    ("", "     "),
-    ("", "status"),
-    ("", "\n "),
-    ("#ff0000", ";"),
-    ("", "             "),
-    ("#ff0000", ";"),
-    ("", "     "),
-    ("", "time"),
-    ("", "\n "),
-    ("#ff0000", ":"),
-    ("", "          "),
-    ("#ff0000", "/"),
-    ("", "  "),
-    ("#ff0000", "."),
-    ("", "\n  "),
-    ("#ff0000", "\\"),
-    ("", "       "),
-    ("#ff0000", ".'"),
-    ("", "  "),
-    ("#ff0000", "/"),
-    ("", "      "),
-    ("", "count"),
-    ("", "\n    "),
-    ("#ff0000", "\\"),
-    ("", " "),
-    ("#ff0000", "____"),
-    ("", " "),
-    ("#ff0000", ".'"),
-    ("", "        "),
-    ("", "sets"),
+    (NO_COLOUR, "\n      "),
+    (GREEN, "/'\\/`\\"),
+    (NO_COLOUR, "         "),
+    (NO_COLOUR, PLACEHOLDER_TASK[0]),
+    (NO_COLOUR, "\n    "),
+    (RED, ".-"),
+    (NO_COLOUR, "  "),
+    (GREEN, "|/"),
+    (NO_COLOUR, "  "),
+    (RED, "-."),
+    (NO_COLOUR, "       "),
+    (NO_COLOUR, PLACEHOLDER_TASK[1]),
+    (NO_COLOUR, "\n   "),
+    (RED, "/"),
+    (NO_COLOUR, "          "),
+    (RED, "\\"),
+    (NO_COLOUR, "      "),
+    (NO_COLOUR, PLACEHOLDER_TASK[2]),
+    (NO_COLOUR, "\n  "),
+    (RED, "'"),
+    (NO_COLOUR, "   "),
+    (BOLD_TEXT, "pydoro"),
+    (NO_COLOUR, "   "),
+    (RED, "\\"),
+    (NO_COLOUR, "     "),
+    (NO_COLOUR, PLACEHOLDER_TASK[3]),
+    (NO_COLOUR, "\n "),
+    (RED, ";"),
+    (NO_COLOUR, "             "),
+    (RED, "'"),
+    (NO_COLOUR, "     "),
+    (NO_COLOUR, PLACEHOLDER_STATUS),
+    (NO_COLOUR, "\n "),
+    (RED, ";"),
+    (NO_COLOUR, "             "),
+    (RED, ";"),
+    (NO_COLOUR, "     "),
+    (NO_COLOUR, PLACEHOLDER_TIME),
+    (NO_COLOUR, "\n "),
+    (RED, ":"),
+    (NO_COLOUR, "          "),
+    (RED, "/"),
+    (NO_COLOUR, "  "),
+    (RED, "."),
+    (NO_COLOUR, "\n  "),
+    (RED, "\\"),
+    (NO_COLOUR, "       "),
+    (RED, ".'"),
+    (NO_COLOUR, "  "),
+    (RED, "/"),
+    (NO_COLOUR, "      "),
+    (NO_COLOUR, PLACEHOLDER_COUNT),
+    (NO_COLOUR, "\n    "),
+    (RED, "\\"),
+    (NO_COLOUR, " "),
+    (RED, "____"),
+    (NO_COLOUR, " "),
+    (RED, ".'"),
+    (NO_COLOUR, "        "),
+    (NO_COLOUR, PLACEHOLDER_SETS),
 ]
 
 LOCATIONS = {
-    "count": 51,
-    "sets": 59,
-    "status": 31,
-    "task1": 3,
-    "task2": 11,
-    "task3": 17,
-    "task4": 25,
-    "time": 37,
+    PLACEHOLDER_COUNT: 51,
+    PLACEHOLDER_SETS: 59,
+    PLACEHOLDER_STATUS: 31,
+    PLACEHOLDER_TASK[0]: 3,
+    PLACEHOLDER_TASK[1]: 11,
+    PLACEHOLDER_TASK[2]: 17,
+    PLACEHOLDER_TASK[3]: 25,
+    PLACEHOLDER_TIME: 37,
 }
 
 TEXT_LONG_BREAK = r"""
@@ -124,15 +136,15 @@ class TaskStatus(IntEnum):
 
 
 TEXT = {
-    TaskStatus.NONE.value: "",
-    TaskStatus.STARTED.value: "",
-    TaskStatus.PAUSED.value: "PAUSED",
-    TaskStatus.LIMBO.value: "",
-    Tasks.WORK.value: TEXT_WORK,
-    Tasks.SMALL_BREAK.value: TEXT_SMALL_BREAK,
-    Tasks.LONG_BREAK.value: TEXT_LONG_BREAK,
-    Tasks.NO_TASK.value: "",
-    Tasks.INTERMEDIATE.value: "",
+    TaskStatus.NONE: "",
+    TaskStatus.STARTED: "",
+    TaskStatus.PAUSED: "PAUSED",
+    TaskStatus.LIMBO: "",
+    Tasks.WORK: TEXT_WORK,
+    Tasks.SMALL_BREAK: TEXT_SMALL_BREAK,
+    Tasks.LONG_BREAK: TEXT_LONG_BREAK,
+    Tasks.NO_TASK: "",
+    Tasks.INTERMEDIATE: "",
 }
 
 PROGRESS = ["|#  |", "| # |", "|  #|", "| # |"]
@@ -211,12 +223,8 @@ class InitialState:
 
     def _calc_remainder(self):
         cur = cur_time()
-        difference = cur - self._started_at
-        remainder = self._remainder - difference
+        self._remainder = max(self._remainder - (cur - self._started_at), 0)
         self._started_at = cur
-        if remainder <= 0:
-            remainder = 0
-        self._remainder = remainder
 
 
 class IntermediateState(InitialState):
@@ -441,7 +449,7 @@ class Tomato:
             self._state = self._state.next_state
 
     def as_formatted_text(self):
-        task = TEXT[self._state.task.value]
+        task = TEXT[self._state.task]
         task = task.splitlines()
         if not task:
             task = [""] * 4
@@ -454,16 +462,16 @@ class Tomato:
         else:
             sets = ""
 
-        status = TEXT[self._state.status.value]
+        status = TEXT[self._state.status]
         time = self._state.time_remaining
         count = "(`) " * (TOMATOES_PER_SET - self.tomatoes % TOMATOES_PER_SET)
 
         ftext = TOMATO[:]
-        for i in range(1, 5):
-            ftext[LOCATIONS["task" + str(i)]] = ("", task[i - 1])
-        ftext[LOCATIONS["status"]] = ("", status)
-        ftext[LOCATIONS["time"]] = ("", time)
-        ftext[LOCATIONS["count"]] = ("", count)
-        ftext[LOCATIONS["sets"]] = ("", sets)
+        for i in range(0, 4):
+            ftext[LOCATIONS[PLACEHOLDER_TASK[i]]] = ("", task[i])
+        ftext[LOCATIONS[PLACEHOLDER_STATUS]] = ("", status)
+        ftext[LOCATIONS[PLACEHOLDER_TIME]] = ("", time)
+        ftext[LOCATIONS[PLACEHOLDER_COUNT]] = ("", count)
+        ftext[LOCATIONS[PLACEHOLDER_SETS]] = ("", sets)
 
         return ftext
