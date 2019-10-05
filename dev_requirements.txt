@@ -4,7 +4,7 @@ bleach==3.1.0
 certifi==2019.9.11
 chardet==3.0.4
 colorama==0.4.1
-docutils==0.15.2
+docutils==0.14
 docutils-stubs==0.0.21
 future==0.17.1
 idna==2.8
@@ -20,7 +20,7 @@ requests==2.22.0
 requests-toolbelt==0.9.1
 six==1.12.0
 tqdm==4.36.1
-twine==2.0.0
+twine==1.15.0
 urllib3==1.25.6
 wcwidth==0.1.7
 webencodings==0.5.1
