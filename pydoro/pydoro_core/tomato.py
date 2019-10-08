@@ -1,4 +1,5 @@
 import itertools
+import sys
 from enum import IntEnum
 from timeit import default_timer
 
@@ -448,6 +449,13 @@ class Tomato:
         if self._state.done:
             self._state = self._state.next_state
 
+    def tomato_symbol(self):
+        try:
+            '🍅'.encode(sys.stdout.encoding)
+            return '🍅 '
+        except UnicodeEncodeError:
+            return '(`) '
+
     def as_formatted_text(self):
         task = TEXT[self._state.task]
         task = task.splitlines()
@@ -464,7 +472,7 @@ class Tomato:
 
         status = TEXT[self._state.status]
         time = self._state.time_remaining
-        count = "(`) " * (TOMATOES_PER_SET - self.tomatoes % TOMATOES_PER_SET)
+        count = self.tomato_symbol() * (TOMATOES_PER_SET - self.tomatoes % TOMATOES_PER_SET)
 
         ftext = TOMATO[:]
         for i in range(0, 4):
