@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import threading
 
+import argparse
+
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.key_binding import KeyBindings
@@ -90,9 +92,20 @@ def draw():
 
 
 def main():
-    draw()
-    threading.Thread(target=lambda: every(0.4, draw), daemon=True).start()
-    application.run()
+    # Parse arguments
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--silent", help="silent mode: hides animation",
+                        action="store_true")
+    args = parser.parse_args()
+
+    # Silent mode: only draw screen after pomodoro is complete
+    if args.silent:
+        print("Whoho, silent mode!")
+
+    else:
+        draw()
+        threading.Thread(target=lambda: every(0.4, draw), daemon=True).start()
+        application.run()
 
 
 if __name__ == "__main__":
