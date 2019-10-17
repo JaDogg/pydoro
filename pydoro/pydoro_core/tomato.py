@@ -428,9 +428,11 @@ class LongBreakPausedState(SmallBreakPausedState):
 
 
 class Tomato:
-    def __init__(self):
+    def __init__(self, emoji):
         self._state = InitialState(tomato=self)
         self.tomatoes = 0
+
+        self._emoji = emoji
 
     def start(self):
         self._state = self._state.start()
@@ -450,11 +452,14 @@ class Tomato:
             self._state = self._state.next_state
 
     def tomato_symbol(self):
-        try:
-            '🍅'.encode(sys.stdout.encoding)
-            return '🍅 '
-        except UnicodeEncodeError:
-            return '(`) '
+        ascii_tomato = '(`) '
+        if self._emoji:
+            try:
+                '🍅'.encode(sys.stdout.encoding)
+                return '🍅 '
+            except UnicodeEncodeError:
+                return ascii_tomato
+        return ascii_tomato
 
     def as_formatted_text(self):
         task = TEXT[self._state.task]

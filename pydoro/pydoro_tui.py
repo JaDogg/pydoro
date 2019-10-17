@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import argparse
 import threading
 
 from prompt_toolkit.application import Application
@@ -13,7 +14,14 @@ from pydoro.pydoro_core.tomato import Tomato
 from pydoro.pydoro_core.util import every
 from pydoro.pydoro_core.config import DEFAULT_KEY_BINDINGS
 
-tomato = Tomato()
+parser = argparse.ArgumentParser('pydoro')
+parser.add_argument(
+    '-e', '--emoji', action='store_true', default=False,
+    help="If set, use tomato emojis in the menu instead of the ASCII art"
+)
+args = parser.parse_args()
+
+tomato = Tomato(args.emoji)
 
 
 def exit_clicked(_=None):
