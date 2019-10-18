@@ -94,13 +94,22 @@ def draw():
 def main():
     # Parse arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument("--silent", help="silent mode: hides animation",
+    parser.add_argument("--focus", help="focus mode: hides clock and
+                        mutes sounds (equivalent to --no-clock and --no-sound)",
+                        action="store_true")
+    parser.add_argument("--no-clock", help="hides clock",
+                        action="store_true")
+    parser.add_argument("--no-sound", help="mutes all sounds",
                         action="store_true")
     args = parser.parse_args()
 
-    # Silent mode: only draw screen after pomodoro is complete
-    if args.silent:
-        print("Whoho, silent mode!")
+    # Check for no-clock (or focus mode)
+    if args.noclock or args.focus:
+        print("Whoho, no clocks!")
+
+    # Check for no-sound (or focus mode)
+    if args.nosound or args.focus:
+        print("Whoho, no sound!")
 
     else:
         draw()
