@@ -7,7 +7,7 @@ from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.bindings.focus import focus_next, focus_previous
-from prompt_toolkit.layout import HSplit, Layout, VSplit, FormattedTextControl, Window
+from prompt_toolkit.layout import HSplit, Layout, VSplit, FormattedTextControl, Window, ConditionalContainer
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Box, Button, Label
 
@@ -94,7 +94,7 @@ def draw():
 def main():
     # Parse arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument("--focus", help="focus mode: hides clock and
+    parser.add_argument("--focus", help="focus mode: hides clock and \
                         mutes sounds (equivalent to --no-clock and --no-sound)",
                         action="store_true")
     parser.add_argument("--no-clock", help="hides clock",
@@ -104,17 +104,16 @@ def main():
     args = parser.parse_args()
 
     # Check for no-clock (or focus mode)
-    if args.noclock or args.focus:
-        print("Whoho, no clocks!")
+    if args.no_clock or args.focus:
+        tomato._no_clock = True
 
     # Check for no-sound (or focus mode)
-    if args.nosound or args.focus:
-        print("Whoho, no sound!")
+    if args.no_sound or args.focus:
+        tomato._no_sound = True
 
-    else:
-        draw()
-        threading.Thread(target=lambda: every(0.4, draw), daemon=True).start()
-        application.run()
+    draw()
+    threading.Thread(target=lambda: every(0.4, draw), daemon=True).start()
+    application.run()
 
 
 if __name__ == "__main__":
