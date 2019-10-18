@@ -176,7 +176,8 @@ class InitialState:
         self._progress = itertools.cycle(PROGRESS)
 
     def start(self):
-        play_alarm()
+        if not self._tomato._no_sound:
+            play_alarm()
         return WorkingState(tomato=self._tomato)
 
     def pause(self):
@@ -240,6 +241,8 @@ class IntermediateState(InitialState):
         self._sound()
 
     def _sound(self):
+        if self._tomato._no_sound:
+            pass
         if cur_time() - self._last_alarm_time > ALARM_TIME:
             play_alarm()
             self._last_alarm_time = cur_time()
@@ -279,7 +282,8 @@ class WorkingState(InitialState):
     @property
     def time_remaining(self):
         self._calc_remainder()
-
+        if self._tomato._no_clock:
+            return ""
         return self._format_time(self._remainder)
 
     @property
@@ -430,6 +434,8 @@ class LongBreakPausedState(SmallBreakPausedState):
 class Tomato:
     def __init__(self):
         self._state = InitialState(tomato=self)
+        self._no_clock = False
+        self._no_sound = False
         self.tomatoes = 0
 
     def start(self):
