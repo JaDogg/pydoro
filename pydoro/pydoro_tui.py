@@ -2,28 +2,19 @@
 import argparse
 import threading
 
-import argparse
-
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.bindings.focus import focus_next, focus_previous
-from prompt_toolkit.layout import HSplit, Layout, VSplit, FormattedTextControl, Window, ConditionalContainer
+from prompt_toolkit.layout import HSplit, Layout, VSplit, FormattedTextControl, Window
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Box, Button, Label
 
+from pydoro.pydoro_core.config import DEFAULT_KEY_BINDINGS
 from pydoro.pydoro_core.tomato import Tomato
 from pydoro.pydoro_core.util import every
-from pydoro.pydoro_core.config import DEFAULT_KEY_BINDINGS
 
-parser = argparse.ArgumentParser('pydoro')
-parser.add_argument(
-    '-e', '--emoji', action='store_true', default=False,
-    help="If set, use tomato emojis in the menu instead of the ASCII art"
-)
-args = parser.parse_args()
-
-tomato = Tomato(args.emoji)
+tomato = Tomato()
 
 
 def exit_clicked(_=None):
@@ -76,7 +67,6 @@ for action, keys in DEFAULT_KEY_BINDINGS.items():
     for key in keys:
         kb.add(key)(actions[action])
 
-# Styling.
 style = Style(
     [
         ("left-pane", "bg:#888800 #000000"),
@@ -89,7 +79,6 @@ style = Style(
     ]
 )
 
-# Build a main application object.
 application = Application(layout=layout, key_bindings=kb, style=style, full_screen=True)
 
 
@@ -100,24 +89,26 @@ def draw():
 
 
 def main():
-    # Parse arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--focus", help="focus mode: hides clock and \
+    parser = argparse.ArgumentParser("pydoro", description="Terminal Pomodoro Timer")
+    parser.add_argument(
+        "-e",
+        "--emoji",
+        action="store_true",
+        help="If set, use tomato emoji instead of the ASCII art",
+    )
+    parser.add_argument(
+        "--focus",
+        help="focus mode: hides clock and \
                         mutes sounds (equivalent to --no-clock and --no-sound)",
-                        action="store_true")
-    parser.add_argument("--no-clock", help="hides clock",
-                        action="store_true")
-    parser.add_argument("--no-sound", help="mutes all sounds",
-                        action="store_true")
+        action="store_true",
+    )
+    parser.add_argument("--no-clock", help="hides clock", action="store_true")
+    parser.add_argument("--no-sound", help="mutes all sounds", action="store_true")
     args = parser.parse_args()
 
-    # Check for no-clock (or focus mode)
-    if args.no_clock or args.focus:
-        tomato._no_clock = True
-
-    # Check for no-sound (or focus mode)
-    if args.no_sound or args.focus:
-        tomato._no_sound = True
+    tomato.no_clock = args.no_clock or args.focus
+    tomato.no_sound = args.no_sound or args.focus
+    tomato.emoji = args.emoji
 
     draw()
     threading.Thread(target=lambda: every(0.4, draw), daemon=True).start()
