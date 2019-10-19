@@ -15,6 +15,10 @@ from pydoro.pydoro_core.tomato import Tomato
 from pydoro.pydoro_core.util import every
 from pydoro.pydoro_core.config import DEFAULT_KEY_BINDINGS
 
+import configparser
+import os
+
+
 tomato = Tomato()
 
 
@@ -83,6 +87,20 @@ style = Style(
 
 # Build a main application object.
 application = Application(layout=layout, key_bindings=kb, style=style, full_screen=True)
+
+
+# Set/Read config file
+config = configparser.ConfigParser()
+
+# Look at PYDORO_CONFIG_FILE environment variable
+# Defaults to ~/.pydoro.ini if PYDORO_CONFIG_FILE not set
+if 'PYDORO_CONFIG_FILE' in os.environ:
+    config.read(os.environ['PYDORO_CONFIG_FILE')
+else:
+    try:
+        config.read('~/.pydoro.ini')
+    except FileNotFoundError:
+        # couldn't read file, using default configs instead
 
 
 def draw():
