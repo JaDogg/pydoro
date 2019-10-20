@@ -155,14 +155,6 @@ def cur_time():
     return int(default_timer())
 
 
-def play_alarm():
-    # noinspection PyBroadException
-    try:
-        sound.play(in_app_path("b15.wav"), block=False)
-    except Exception:
-        pass
-
-
 class InitialState:
     name = "initial"
 
@@ -176,8 +168,7 @@ class InitialState:
         self._progress = itertools.cycle(PROGRESS)
 
     def start(self):
-        if not self._tomato._no_sound:
-            play_alarm()
+        self._tomato.play_alarm()
         return WorkingState(tomato=self._tomato)
 
     def pause(self):
@@ -241,10 +232,8 @@ class IntermediateState(InitialState):
         self._sound()
 
     def _sound(self):
-        if self._tomato._no_sound:
-            pass
         if cur_time() - self._last_alarm_time > ALARM_TIME:
-            play_alarm()
+            self._tomato.play_alarm()
             self._last_alarm_time = cur_time()
 
     def start(self):
@@ -282,7 +271,7 @@ class WorkingState(InitialState):
     @property
     def time_remaining(self):
         self._calc_remainder()
-        if self._tomato._no_clock:
+        if self._tomato.no_clock:
             return ""
         return self._format_time(self._remainder)
 
@@ -434,8 +423,9 @@ class LongBreakPausedState(SmallBreakPausedState):
 class Tomato:
     def __init__(self):
         self._state = InitialState(tomato=self)
-        self._no_clock = False
-        self._no_sound = False
+        self.no_clock = False
+        self.no_sound = False
+        self.emoji = False
         self.tomatoes = 0
 
     def start(self):
@@ -455,12 +445,24 @@ class Tomato:
         if self._state.done:
             self._state = self._state.next_state
 
-    def tomato_symbol(self):
+    def play_alarm(self):
+        if self.no_sound:
+            return
+        # noinspection PyBroadException
         try:
-            '🍅'.encode(sys.stdout.encoding)
-            return '🍅 '
-        except UnicodeEncodeError:
-            return '(`) '
+            sound.play(in_app_path("b15.wav"), block=False)
+        except Exception:
+            pass
+
+    def tomato_symbol(self):
+        ascii_tomato = "(`) "
+        if self.emoji:
+            try:
+                "🍅".encode(sys.stdout.encoding)
+                return "🍅 "
+            except UnicodeEncodeError:
+                return ascii_tomato
+        return ascii_tomato
 
     def as_formatted_text(self):
         task = TEXT[self._state.task]
@@ -478,7 +480,9 @@ class Tomato:
 
         status = TEXT[self._state.status]
         time = self._state.time_remaining
-        count = self.tomato_symbol() * (TOMATOES_PER_SET - self.tomatoes % TOMATOES_PER_SET)
+        count = self.tomato_symbol() * (
+            TOMATOES_PER_SET - self.tomatoes % TOMATOES_PER_SET
+        )
 
         ftext = TOMATO[:]
         for i in range(0, 4):

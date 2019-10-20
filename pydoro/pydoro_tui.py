@@ -1,13 +1,12 @@
 #!/usr/bin/env python
-import threading
-
 import argparse
+import threading
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.bindings.focus import focus_next, focus_previous
-from prompt_toolkit.layout import HSplit, Layout, VSplit, FormattedTextControl, Window, ConditionalContainer
+from prompt_toolkit.layout import HSplit, Layout, VSplit, FormattedTextControl, Window
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Box, Button, Label
 
@@ -80,7 +79,6 @@ style = Style(
     ]
 )
 
-# Build a main application object.
 application = Application(layout=layout, key_bindings=kb, style=style, full_screen=True)
 
 
@@ -145,12 +143,13 @@ def set_general_configs(args, configs):
     """
 
     # Check for no-clock (or focus mode)
-    if args.no_clock or args.focus or configs['General']['no_clock'] == 'True':
-        tomato._no_clock = True
+    tomato.no_clock = args.no_clock or args.focus or configs['General']['no_clock'] == 'True'
 
     # Check for no-sound (or focus mode)
-    if args.no_sound or args.focus or configs['General']['no_sound'] == 'True':
-        tomato._no_sound = True
+    tomato.no_sound = args.no_sound or args.focus or configs['General']['no_sound'] == 'True'
+
+    # Check for emoji
+    tomato.emoji = args.emoji
 
     # Get key bindings
     for action, keys in configs['KeyBindings'].items():
@@ -167,15 +166,21 @@ def draw():
 
 
 def main():
-    # Parse arguments
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--focus", help="focus mode: hides clock and \
+    parser = argparse.ArgumentParser("pydoro", description="Terminal Pomodoro Timer")
+    parser.add_argument(
+        "-e",
+        "--emoji",
+        action="store_true",
+        help="If set, use tomato emoji instead of the ASCII art",
+    )
+    parser.add_argument(
+        "--focus",
+        help="focus mode: hides clock and \
                         mutes sounds (equivalent to --no-clock and --no-sound)",
-                        action="store_true")
-    parser.add_argument("--no-clock", help="hides clock",
-                        action="store_true")
-    parser.add_argument("--no-sound", help="mutes all sounds",
-                        action="store_true")
+        action="store_true",
+    )
+    parser.add_argument("--no-clock", help="hides clock", action="store_true")
+    parser.add_argument("--no-sound", help="mutes all sounds", action="store_true")
     args = parser.parse_args()
 
     # Parse config file
