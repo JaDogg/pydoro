@@ -89,18 +89,33 @@ style = Style(
 application = Application(layout=layout, key_bindings=kb, style=style, full_screen=True)
 
 
+def create_default_config(config):
+    config['DEFAULT'] = {
+        'test': True,
+    }
+    homedir = os.path.expanduser("~")
+    with open(homedir + "/.pydoro.ini", "w+") as configfile:
+        config.write(configfile)
+
+
 # Set/Read config file
 config = configparser.ConfigParser()
 
 # Look at PYDORO_CONFIG_FILE environment variable
 # Defaults to ~/.pydoro.ini if PYDORO_CONFIG_FILE not set
+homedir = os.path.expanduser("~")
+filename = homedir + "/.pydoro.ini"
+
 if 'PYDORO_CONFIG_FILE' in os.environ:
-    config.read(os.environ['PYDORO_CONFIG_FILE')
+    filename = os.environ['PYDORO_CONFIG_FILE']
+
+if os.path.exists(filename):
+    config.read(filename)
 else:
-    try:
-        config.read('~/.pydoro.ini')
-    except FileNotFoundError:
-        # couldn't read file, using default configs instead
+    print("Couldn't read config file. Creating it (" + homedir + "/.pydoro.ini)")
+    create_default_config(config)
+
+print(config.sections()) # testing
 
 
 def draw():
