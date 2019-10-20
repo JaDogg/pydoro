@@ -90,6 +90,8 @@ application = Application(layout=layout, key_bindings=kb, style=style, full_scre
 
 
 def create_default_config(config):
+    config = configparser.ConfigParser()
+
     config['DEFAULT'] = {
         'test': True,
     }
@@ -98,24 +100,32 @@ def create_default_config(config):
         config.write(configfile)
 
 
+def get_config_file():
+    """
+    Look at PYDORO_CONFIG_FILE environment variable
+    Defaults to ~/.pydoro.ini if PYDORO_CONFIG_FILE not set
+    """
+    config = configparser.ConfigParser()
+
+    filename = os.path.expanduser("~/.pydoro.ini")
+
+    if 'PYDORO_CONFIG_FILE' in os.environ:
+        filename = os.environ['PYDORO_CONFIG_FILE']
+
+    if os.path.exists(filename):
+        config.read(filename)
+    else:
+        print("Couldn't read config file. Creating it (" + filename + ")")
+        create_default_config(config)
+
+    return config
+
+
 # Set/Read config file
-config = configparser.ConfigParser()
-
-# Look at PYDORO_CONFIG_FILE environment variable
-# Defaults to ~/.pydoro.ini if PYDORO_CONFIG_FILE not set
-homedir = os.path.expanduser("~")
-filename = homedir + "/.pydoro.ini"
-
-if 'PYDORO_CONFIG_FILE' in os.environ:
-    filename = os.environ['PYDORO_CONFIG_FILE']
-
-if os.path.exists(filename):
-    config.read(filename)
-else:
-    print("Couldn't read config file. Creating it (" + homedir + "/.pydoro.ini)")
-    create_default_config(config)
+config = get_config_file()
 
 print(config.sections()) # testing
+print(config['DEFAULT'])# testing
 
 
 def draw():
