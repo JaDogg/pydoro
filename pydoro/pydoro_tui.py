@@ -13,7 +13,6 @@ from prompt_toolkit.widgets import Box, Button, Label
 
 from pydoro.pydoro_core.tomato import Tomato
 from pydoro.pydoro_core.util import every
-from pydoro.pydoro_core.config import DEFAULT_KEY_BINDINGS
 
 import configparser
 import os
@@ -68,10 +67,6 @@ actions = {
     "exit_clicked": exit_clicked,
 }
 
-for action, keys in DEFAULT_KEY_BINDINGS.items():
-    for key in keys:
-        kb.add(key)(actions[action])
-
 # Styling.
 style = Style(
     [
@@ -90,6 +85,10 @@ application = Application(layout=layout, key_bindings=kb, style=style, full_scre
 
 
 def create_default_config(config):
+    """
+    Creates default configuration file
+    Saves it in '~/.pydoro.ini'
+    """
     config = configparser.ConfigParser()
 
     config['DEFAULT'] = {}
@@ -103,6 +102,12 @@ def create_default_config(config):
     config['Time']['small_break_minutes'] = '5'
     config['Time']['long_break_minutes'] = '15'
 
+    config['KeyBindings'] = {}
+    config['KeyBindings']['focus_previous'] = "s-tab,left,h,j"
+    config['KeyBindings']['focus_next'] = "tab,right,l,k"
+    config['KeyBindings']['exit_clicked'] = "q"
+
+    # Write file
     filename = os.path.expanduser("~/.pydoro.ini")
     with open(filename, "w+") as configfile:
         config.write(configfile)
@@ -145,6 +150,12 @@ def set_general_configs(args, configs):
     if args.no_sound or args.focus or configs['General']['no_sound'] == 'True':
         tomato._no_sound = True
 
+    # Get key bindings
+    for action, keys in configs['KeyBindings'].items():
+        # Split string from config file back into list
+        keys = keys.split(',')
+        for key in keys:
+            kb.add(key.strip())(actions[action])
 
 
 def draw():
