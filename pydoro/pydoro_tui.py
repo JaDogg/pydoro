@@ -92,11 +92,19 @@ application = Application(layout=layout, key_bindings=kb, style=style, full_scre
 def create_default_config(config):
     config = configparser.ConfigParser()
 
-    config['DEFAULT'] = {
-        'test': True,
-    }
-    homedir = os.path.expanduser("~")
-    with open(homedir + "/.pydoro.ini", "w+") as configfile:
+    config['DEFAULT'] = {}
+
+    config['General'] = {}
+    config['General']['no_clock'] = 'False'
+    config['General']['no_sound'] = 'False'
+
+    config['Time'] = {}
+    config['Time']['work_minutes'] = '25'
+    config['Time']['small_break_minutes'] = '5'
+    config['Time']['long_break_minutes'] = '15'
+
+    filename = os.path.expanduser("~/.pydoro.ini")
+    with open(filename, "w+") as configfile:
         config.write(configfile)
 
 
@@ -121,11 +129,22 @@ def get_config_file():
     return config
 
 
-# Set/Read config file
-config = get_config_file()
+def set_general_configs(args, configs):
+    """
+    Gets information from both the command line arguments and the config file
+    and sets configurations accordingly.
 
-print(config.sections()) # testing
-print(config['DEFAULT'])# testing
+    Command line arguments override file configurations.
+    """
+
+    # Check for no-clock (or focus mode)
+    if args.no_clock or args.focus or configs['General']['no_clock'] == 'True':
+        tomato._no_clock = True
+
+    # Check for no-sound (or focus mode)
+    if args.no_sound or args.focus or configs['General']['no_sound'] == 'True':
+        tomato._no_sound = True
+
 
 
 def draw():
@@ -146,13 +165,11 @@ def main():
                         action="store_true")
     args = parser.parse_args()
 
-    # Check for no-clock (or focus mode)
-    if args.no_clock or args.focus:
-        tomato._no_clock = True
+    # Parse config file
+    configs = get_config_file()
 
-    # Check for no-sound (or focus mode)
-    if args.no_sound or args.focus:
-        tomato._no_sound = True
+    # Merge command line and config file settings
+    set_general_configs(args, configs)
 
     draw()
     threading.Thread(target=lambda: every(0.4, draw), daemon=True).start()
