@@ -112,6 +112,8 @@ def create_default_config(config):
     with open(filename, "w+") as configfile:
         config.write(configfile)
 
+    return config
+
 
 def get_config_file():
     """
@@ -129,7 +131,7 @@ def get_config_file():
         config.read(filename)
     else:
         print("Couldn't read config file. Creating it (" + filename + ")")
-        create_default_config(config)
+        config = create_default_config(config)
 
     return config
 
