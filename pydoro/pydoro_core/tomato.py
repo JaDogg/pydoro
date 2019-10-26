@@ -5,6 +5,7 @@ from timeit import default_timer
 
 from pydoro.pydoro_core import sound
 from pydoro.pydoro_core.util import in_app_path
+import configs
 
 TOMATOES_PER_SET = 4
 SECONDS_PER_MIN = 60
@@ -421,11 +422,10 @@ class LongBreakPausedState(SmallBreakPausedState):
 
 
 class Tomato:
-    def __init__(self):
+    def __init__(self, configs=config.Configuration()):
+        # Load configurations from command line and .ini file
+        self.configs = configs
         self._state = InitialState(tomato=self)
-        self.no_clock = False
-        self.no_sound = False
-        self.emoji = False
         self.tomatoes = 0
 
     def start(self):

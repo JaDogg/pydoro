@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-import argparse
 import threading
 
 from prompt_toolkit.application import Application
@@ -13,12 +12,7 @@ from prompt_toolkit.widgets import Box, Button, Label
 from pydoro.pydoro_core.tomato import Tomato
 from pydoro.pydoro_core.util import every
 
-import configparser
-import os
-
-
 tomato = Tomato()
-
 
 def exit_clicked(_=None):
     get_app().exit()
@@ -82,83 +76,6 @@ style = Style(
 application = Application(layout=layout, key_bindings=kb, style=style, full_screen=True)
 
 
-def create_default_config(config):
-    """
-    Creates default configuration file
-    Saves it in '~/.pydoro.ini'
-    """
-    config = configparser.ConfigParser()
-
-    config['DEFAULT'] = {}
-
-    config['General'] = {}
-    config['General']['no_clock'] = 'False'
-    config['General']['no_sound'] = 'False'
-
-    config['Time'] = {}
-    config['Time']['work_minutes'] = '25'
-    config['Time']['small_break_minutes'] = '5'
-    config['Time']['long_break_minutes'] = '15'
-
-    config['KeyBindings'] = {}
-    config['KeyBindings']['focus_previous'] = "s-tab,left,h,j"
-    config['KeyBindings']['focus_next'] = "tab,right,l,k"
-    config['KeyBindings']['exit_clicked'] = "q"
-
-    # Write file
-    filename = os.path.expanduser("~/.pydoro.ini")
-    with open(filename, "w+") as configfile:
-        config.write(configfile)
-
-    return config
-
-
-def get_config_file():
-    """
-    Look at PYDORO_CONFIG_FILE environment variable
-    Defaults to ~/.pydoro.ini if PYDORO_CONFIG_FILE not set
-    """
-    config = configparser.ConfigParser()
-
-    filename = os.path.expanduser("~/.pydoro.ini")
-
-    if 'PYDORO_CONFIG_FILE' in os.environ:
-        filename = os.environ['PYDORO_CONFIG_FILE']
-
-    if os.path.exists(filename):
-        config.read(filename)
-    else:
-        print("Couldn't read config file. Creating it (" + filename + ")")
-        config = create_default_config(config)
-
-    return config
-
-
-def set_general_configs(args, configs):
-    """
-    Gets information from both the command line arguments and the config file
-    and sets configurations accordingly.
-
-    Command line arguments override file configurations.
-    """
-
-    # Check for no-clock (or focus mode)
-    tomato.no_clock = args.no_clock or args.focus or configs['General']['no_clock'] == 'True'
-
-    # Check for no-sound (or focus mode)
-    tomato.no_sound = args.no_sound or args.focus or configs['General']['no_sound'] == 'True'
-
-    # Check for emoji
-    tomato.emoji = args.emoji
-
-    # Get key bindings
-    for action, keys in configs['KeyBindings'].items():
-        # Split string from config file back into list
-        keys = keys.split(',')
-        for key in keys:
-            kb.add(key.strip())(actions[action])
-
-
 def draw():
     tomato.update()
     text_area.text = tomato.as_formatted_text()
@@ -166,29 +83,6 @@ def draw():
 
 
 def main():
-    parser = argparse.ArgumentParser("pydoro", description="Terminal Pomodoro Timer")
-    parser.add_argument(
-        "-e",
-        "--emoji",
-        action="store_true",
-        help="If set, use tomato emoji instead of the ASCII art",
-    )
-    parser.add_argument(
-        "--focus",
-        help="focus mode: hides clock and \
-                        mutes sounds (equivalent to --no-clock and --no-sound)",
-        action="store_true",
-    )
-    parser.add_argument("--no-clock", help="hides clock", action="store_true")
-    parser.add_argument("--no-sound", help="mutes all sounds", action="store_true")
-    args = parser.parse_args()
-
-    # Parse config file
-    configs = get_config_file()
-
-    # Merge command line and config file settings
-    set_general_configs(args, configs)
-
     draw()
     threading.Thread(target=lambda: every(0.4, draw), daemon=True).start()
     application.run()
