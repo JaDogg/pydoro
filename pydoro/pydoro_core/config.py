@@ -6,6 +6,9 @@ import os
 from prompt_toolkit.key_binding import KeyBindings
 
 
+SECONDS_PER_MIN = 60
+
+
 class Configuration():
     def __init__(self):
         self._cliparse() # Parse arguments from command line
@@ -68,9 +71,11 @@ class Configuration():
         self._conf['General']['emoji'] = 'False'
 
         self._conf['Time'] = {}
+        self._conf['Time']['tomatoes_per_set'] = '4'
         self._conf['Time']['work_minutes'] = '25'
         self._conf['Time']['small_break_minutes'] = '5'
         self._conf['Time']['long_break_minutes'] = '15'
+        self._conf['Time']['alarm_seconds'] = '20'
 
         self._conf['KeyBindings'] = {}
         self._conf['KeyBindings']['focus_previous'] = "s-tab,left,h,j"

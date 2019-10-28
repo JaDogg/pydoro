@@ -5,14 +5,8 @@ from timeit import default_timer
 
 from pydoro.pydoro_core import sound
 from pydoro.pydoro_core.util import in_app_path
-import configs
+from pydoro.pydoro_core.configs import Configuration
 
-TOMATOES_PER_SET = 4
-SECONDS_PER_MIN = 60
-WORK_TIME = 25 * SECONDS_PER_MIN
-SMALL_BREAK_TIME = 5 * SECONDS_PER_MIN
-LONG_BREAK_TIME = 15 * SECONDS_PER_MIN
-ALARM_TIME = 20
 
 PLACEHOLDER_TIME = "time"
 PLACEHOLDER_STATUS = "status"
