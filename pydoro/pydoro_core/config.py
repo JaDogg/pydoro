@@ -2,11 +2,7 @@ import argparse
 import configparser
 import os
 
-
 from prompt_toolkit.key_binding import KeyBindings
-
-
-SECONDS_PER_MIN = 60
 
 
 class Configuration():
@@ -109,6 +105,17 @@ class Configuration():
             keys = keys.split(',')
             for key in keys:
                 self.kb.add(key.strip())(actions[action])
+
+        self.tomatoes_per_set =
+            int(self.conf['Time']['tomatoes_per_set'])
+        self.work_minutes =
+            int(self._conf['Time']['work_minutes'])
+        self.small_break_minutes =
+            int(self._conf['Time']['small_break_minutes'])
+        self.long_break_minutes =
+            int(self._conf['Time']['long_break_minutes'])
+        self.alarm_seconds =
+            int(self._conf['Time']['alarm_seconds'])
 
     def _cliload(self):
         """

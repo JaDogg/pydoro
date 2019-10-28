@@ -7,6 +7,7 @@ from pydoro.pydoro_core import sound
 from pydoro.pydoro_core.util import in_app_path
 from pydoro.pydoro_core.configs import Configuration
 
+SECONDS_PER_MIN = 60
 
 PLACEHOLDER_TIME = "time"
 PLACEHOLDER_STATUS = "status"
@@ -227,7 +228,7 @@ class IntermediateState(InitialState):
         self._sound()
 
     def _sound(self):
-        if cur_time() - self._last_alarm_time > ALARM_TIME:
+        if cur_time() - self._last_alarm_time > self._tomato.configs.alarm_seconds:
             self._tomato.play_alarm()
             self._last_alarm_time = cur_time()
 
@@ -253,9 +254,10 @@ class IntermediateState(InitialState):
 class WorkingState(InitialState):
     name = "work"
 
-    def __init__(self, time_period=WORK_TIME, tomato=None):
-        super().__init__(time_period=time_period, tomato=tomato)
-        self._remainder = int(self._time_period)
+    def __init__(self, tomato=None):
+        super().__init__(tomato=tomato)
+        self._remainder =
+            int(self._tomato.configs.work_minutes)
         self._task = Tasks.WORK
         self._status = TaskStatus.STARTED
         self._started_at = cur_time()
@@ -273,7 +275,7 @@ class WorkingState(InitialState):
     @property
     def next_state(self):
         self._tomato.tomatoes += 1
-        if self._tomato.tomatoes % TOMATOES_PER_SET == 0:
+        if self._tomato.tomatoes % self.tomatoes_per_set == 0:
             return IntermediateState.transition_to(LongBreakState, tomato=self._tomato)
         return IntermediateState.transition_to(SmallBreakState, tomato=self._tomato)
 
@@ -292,8 +294,8 @@ class WorkingState(InitialState):
 class WorkPausedState(InitialState):
     name = "work paused"
 
-    def __init__(self, time_period=0, tomato=None):
-        super().__init__(time_period=time_period, tomato=tomato)
+    def __init__(self, tomato=None):
+        super().__init__(tomato=tomato)
         self._prev = None
         self._task = Tasks.WORK
         self._status = TaskStatus.PAUSED
@@ -324,9 +326,10 @@ class WorkPausedState(InitialState):
 class SmallBreakState(InitialState):
     name = "small break"
 
-    def __init__(self, time_period=SMALL_BREAK_TIME, tomato=None):
-        super().__init__(time_period=time_period, tomato=tomato)
-        self._remainder = int(self._time_period)
+    def __init__(self, tomato=None):
+        super().__init__(tomato=tomato)
+        self._remainder =
+            self._tomato.configs.small_break_minutes)
         self._task = Tasks.SMALL_BREAK
         self._status = TaskStatus.STARTED
         self._started_at = cur_time()
@@ -391,8 +394,8 @@ class SmallBreakPausedState(InitialState):
 class LongBreakState(SmallBreakState):
     name = "long break"
 
-    def __init__(self, time_period=LONG_BREAK_TIME, tomato=None):
-        super().__init__(time_period=time_period, tomato=tomato)
+    def __init__(self,tomato=None):
+        super().__init__(tomato=tomato)
         self._task = Tasks.LONG_BREAK
         self._status = TaskStatus.STARTED
 
@@ -464,7 +467,7 @@ class Tomato:
         if not task:
             task = [""] * 4
 
-        sets = self.tomatoes // TOMATOES_PER_SET
+        sets = self.tomatoes // self.tomatoes_per_set
         if sets == 1:
             sets = "1 set completed"
         elif sets >= 2:
@@ -475,7 +478,7 @@ class Tomato:
         status = TEXT[self._state.status]
         time = self._state.time_remaining
         count = self.tomato_symbol() * (
-            TOMATOES_PER_SET - self.tomatoes % TOMATOES_PER_SET
+            self.tomatoes_per_set - self.tomatoes % self.tomatoes_per_set
         )
 
         ftext = TOMATO[:]
