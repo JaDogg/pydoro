@@ -154,9 +154,9 @@ def cur_time():
 class InitialState:
     name = "initial"
 
-    def __init__(self, time_period=0, tomato=None):
-        self._time_period = int(time_period)
+    def __init__(self, tomato):
         self._tomato = tomato
+        self._time_period = int(time_period) # TODO: use time period from tomato configs
         self._task = Tasks.NO_TASK
         self._status = TaskStatus.NONE
         self._started_at = 0
@@ -165,7 +165,7 @@ class InitialState:
 
     def start(self):
         self._tomato.play_alarm()
-        return WorkingState(tomato=self._tomato)
+        return WorkingState(self._tomato)
 
     def pause(self):
         return self
@@ -219,8 +219,8 @@ class InitialState:
 class IntermediateState(InitialState):
     name = "waiting"
 
-    def __init__(self, time_period=0, tomato=None):
-        super().__init__(time_period=time_period, tomato=tomato)
+    def __init__(self, tomato):
+        super().__init__(tomato)
         self._task = Tasks.INTERMEDIATE
         self._status = TaskStatus.LIMBO
         self._next_factory = None
@@ -233,7 +233,7 @@ class IntermediateState(InitialState):
             self._last_alarm_time = cur_time()
 
     def start(self):
-        return self._next_factory(tomato=self._tomato)
+        return self._next_factory(self._tomato)
 
     @property
     def time_remaining(self):
@@ -246,7 +246,7 @@ class IntermediateState(InitialState):
 
     @staticmethod
     def transition_to(next_state_factory, tomato):
-        state = IntermediateState(tomato=tomato)
+        state = IntermediateState(tomato)
         state._next_factory = next_state_factory
         return state
 
@@ -254,8 +254,8 @@ class IntermediateState(InitialState):
 class WorkingState(InitialState):
     name = "work"
 
-    def __init__(self, tomato=None):
-        super().__init__(tomato=tomato)
+    def __init__(self, tomato):
+        super().__init__(tomato)
         self._remainder =
             int(self._tomato.configs.work_minutes)
         self._task = Tasks.WORK
@@ -276,8 +276,8 @@ class WorkingState(InitialState):
     def next_state(self):
         self._tomato.tomatoes += 1
         if self._tomato.tomatoes % self.tomatoes_per_set == 0:
-            return IntermediateState.transition_to(LongBreakState, tomato=self._tomato)
-        return IntermediateState.transition_to(SmallBreakState, tomato=self._tomato)
+            return IntermediateState.transition_to(LongBreakState, self._tomato)
+        return IntermediateState.transition_to(SmallBreakState, self._tomato)
 
     def pause(self):
         return WorkPausedState.return_to(self._tomato, self)
@@ -294,8 +294,8 @@ class WorkingState(InitialState):
 class WorkPausedState(InitialState):
     name = "work paused"
 
-    def __init__(self, tomato=None):
-        super().__init__(tomato=tomato)
+    def __init__(self, tomato):
+        super().__init__(tomato)
         self._prev = None
         self._task = Tasks.WORK
         self._status = TaskStatus.PAUSED
@@ -314,7 +314,7 @@ class WorkPausedState(InitialState):
 
     @staticmethod
     def return_to(tomato, state):
-        cur_state = WorkPausedState(tomato=tomato)
+        cur_state = WorkPausedState(tomato)
         cur_state._prev = state
         return cur_state
 
@@ -326,8 +326,8 @@ class WorkPausedState(InitialState):
 class SmallBreakState(InitialState):
     name = "small break"
 
-    def __init__(self, tomato=None):
-        super().__init__(tomato=tomato)
+    def __init__(self, tomato):
+        super().__init__(tomato)
         self._remainder =
             self._tomato.configs.small_break_minutes)
         self._task = Tasks.SMALL_BREAK
@@ -345,7 +345,7 @@ class SmallBreakState(InitialState):
 
     @property
     def next_state(self):
-        return IntermediateState.transition_to(WorkingState, tomato=self._tomato)
+        return IntermediateState.transition_to(WorkingState, self._tomato)
 
     def pause(self):
         return SmallBreakPausedState.return_to(self._tomato, self)
@@ -362,8 +362,8 @@ class SmallBreakState(InitialState):
 class SmallBreakPausedState(InitialState):
     name = "small break paused"
 
-    def __init__(self, time_period=0, tomato=None):
-        super().__init__(time_period=time_period, tomato=tomato)
+    def __init__(self, time_period=0, tomato):
+        super().__init__(time_period=time_period, tomato)
         self._task = Tasks.SMALL_BREAK
         self._status = TaskStatus.PAUSED
         self._prev = None
@@ -378,7 +378,7 @@ class SmallBreakPausedState(InitialState):
 
     @staticmethod
     def return_to(tomato, state):
-        cur_state = SmallBreakPausedState(tomato=tomato)
+        cur_state = SmallBreakPausedState(tomato)
         cur_state._prev = state
         return cur_state
 
@@ -394,8 +394,8 @@ class SmallBreakPausedState(InitialState):
 class LongBreakState(SmallBreakState):
     name = "long break"
 
-    def __init__(self,tomato=None):
-        super().__init__(tomato=tomato)
+    def __init__(self,tomato):
+        super().__init__(tomato)
         self._task = Tasks.LONG_BREAK
         self._status = TaskStatus.STARTED
 
@@ -406,14 +406,14 @@ class LongBreakState(SmallBreakState):
 class LongBreakPausedState(SmallBreakPausedState):
     name = "long break paused"
 
-    def __init__(self, time_period=0, tomato=None):
-        super().__init__(time_period=time_period, tomato=tomato)
+    def __init__(self, tomato):
+        super().__init__(tomato)
         self._task = Tasks.LONG_BREAK
         self._status = TaskStatus.PAUSED
 
     @staticmethod
     def return_to(tomato, state):
-        cur_state = LongBreakPausedState(tomato=tomato)
+        cur_state = LongBreakPausedState(tomato)
         cur_state._prev = state
         return cur_state
 
@@ -422,7 +422,7 @@ class Tomato:
     def __init__(self, configs=config.Configuration()):
         # Load configurations from command line and .ini file
         self.configs = configs
-        self._state = InitialState(tomato=self)
+        self._state = InitialState(self)
         self.tomatoes = 0
 
     def start(self):
@@ -435,7 +435,7 @@ class Tomato:
         self._state = self._state.reset()
 
     def reset_all(self):
-        self._state = InitialState(tomato=self)
+        self._state = InitialState(self)
         self.tomatoes = 0
 
     def update(self):
