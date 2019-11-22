@@ -6,7 +6,7 @@ chardet==3.0.4
 colorama==0.4.1
 docutils==0.15.2
 docutils-stubs==0.0.21
-future==0.17.1
+future==0.18.2
 idna==2.8
 macholib==1.11
 pefile==2019.4.18
