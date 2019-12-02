@@ -5,7 +5,7 @@ from timeit import default_timer
 
 from pydoro.pydoro_core import sound
 from pydoro.pydoro_core.util import in_app_path
-from pydoro.pydoro_core.configs import Configuration
+from pydoro.pydoro_core.config import Configuration
 
 SECONDS_PER_MIN = 60
 
@@ -156,7 +156,6 @@ class InitialState:
 
     def __init__(self, tomato):
         self._tomato = tomato
-        self._time_period = int(time_period) # TODO: use time period from tomato configs
         self._task = Tasks.NO_TASK
         self._status = TaskStatus.NONE
         self._started_at = 0
@@ -183,7 +182,7 @@ class InitialState:
 
     @property
     def time_period(self):
-        return self._time_period
+        return 0
 
     @property
     def time_remaining(self):
@@ -256,7 +255,7 @@ class WorkingState(InitialState):
 
     def __init__(self, tomato):
         super().__init__(tomato)
-        self._remainder =
+        self._remainder = \
             int(self._tomato.configs.work_minutes)
         self._task = Tasks.WORK
         self._status = TaskStatus.STARTED
@@ -328,8 +327,8 @@ class SmallBreakState(InitialState):
 
     def __init__(self, tomato):
         super().__init__(tomato)
-        self._remainder =
-            self._tomato.configs.small_break_minutes)
+        self._remainder = \
+            int(self._tomato.configs.small_break_minutes)
         self._task = Tasks.SMALL_BREAK
         self._status = TaskStatus.STARTED
         self._started_at = cur_time()
@@ -362,8 +361,8 @@ class SmallBreakState(InitialState):
 class SmallBreakPausedState(InitialState):
     name = "small break paused"
 
-    def __init__(self, time_period=0, tomato):
-        super().__init__(time_period=time_period, tomato)
+    def __init__(self, tomato):
+        super().__init__(tomato)
         self._task = Tasks.SMALL_BREAK
         self._status = TaskStatus.PAUSED
         self._prev = None
@@ -419,7 +418,7 @@ class LongBreakPausedState(SmallBreakPausedState):
 
 
 class Tomato:
-    def __init__(self, configs=config.Configuration()):
+    def __init__(self, configs=Configuration()):
         # Load configurations from command line and .ini file
         self.configs = configs
         self._state = InitialState(self)

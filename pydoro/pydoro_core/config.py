@@ -104,17 +104,17 @@ class Configuration():
             # Split string from config file back into list
             keys = keys.split(',')
             for key in keys:
-                self.kb.add(key.strip())(actions[action])
+                self.kb.add(key.strip())(action)
 
-        self.tomatoes_per_set =
-            int(self.conf['Time']['tomatoes_per_set'])
-        self.work_minutes =
+        self.tomatoes_per_set = \
+            int(self._conf['Time']['tomatoes_per_set'])
+        self.work_minutes = \
             int(self._conf['Time']['work_minutes'])
-        self.small_break_minutes =
+        self.small_break_minutes = \
             int(self._conf['Time']['small_break_minutes'])
-        self.long_break_minutes =
+        self.long_break_minutes = \
             int(self._conf['Time']['long_break_minutes'])
-        self.alarm_seconds =
+        self.alarm_seconds = \
             int(self._conf['Time']['alarm_seconds'])
 
     def _cliload(self):
@@ -131,6 +131,6 @@ class Configuration():
         self.no_sound = self.cliargs.no_sound or self.cliargs.focus
 
         # Check for emoji
-        self.emoji = cliargs.emoji
+        self.emoji = self.cliargs.emoji
 
 
