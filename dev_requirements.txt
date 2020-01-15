@@ -8,7 +8,7 @@ docutils==0.16
 docutils-stubs==0.0.21
 future==0.18.2
 idna==2.8
-macholib==1.13
+macholib==1.14
 pefile==2019.4.18
 pkginfo==1.5.0.1
 prompt-toolkit==3.0.2
