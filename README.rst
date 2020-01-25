@@ -46,7 +46,7 @@ Usage 📖
 .. _wiki: https://github.com/JaDogg/pydoro/wiki
 
 
-**Obs:** Use `--no-sound` to mute alarms, `--no-clock` to hide the clock or `--focus` for both clock hiding and sound muting
+**Options:** Use `--no-sound` to mute alarms, `--no-clock` to hide the clock or `--focus` for both clock hiding and sound muting
 
 Credits 🙇‍♂️
 ------------------
