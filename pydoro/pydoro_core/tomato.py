@@ -160,6 +160,7 @@ class InitialState:
         self._status = TaskStatus.NONE
         self._started_at = 0
         self._remainder = 0
+        self._time_period = 0
         self._progress = itertools.cycle(PROGRESS)
 
     def start(self):
@@ -182,7 +183,7 @@ class InitialState:
 
     @property
     def time_period(self):
-        return 0
+        return self._time_period
 
     @property
     def time_remaining(self):
@@ -255,7 +256,9 @@ class WorkingState(InitialState):
 
     def __init__(self, tomato):
         super().__init__(tomato)
-        self._remainder = int(self._tomato.configs.work_minutes * SECONDS_PER_MIN)
+        self._time_period = self._remainder = int(
+            self._tomato.configs.work_minutes * SECONDS_PER_MIN
+        )
         self._task = Tasks.WORK
         self._status = TaskStatus.STARTED
         self._started_at = cur_time()
@@ -326,7 +329,7 @@ class SmallBreakState(InitialState):
 
     def __init__(self, tomato):
         super().__init__(tomato)
-        self._remainder = int(
+        self._time_period = self._remainder = int(
             self._tomato.configs.small_break_minutes * SECONDS_PER_MIN
         )
         self._task = Tasks.SMALL_BREAK
@@ -395,7 +398,9 @@ class LongBreakState(SmallBreakState):
 
     def __init__(self, tomato):
         super().__init__(tomato)
-        self._remainder = int(self._tomato.configs.long_break_minutes * SECONDS_PER_MIN)
+        self._time_period = self._remainder = int(
+            self._tomato.configs.long_break_minutes * SECONDS_PER_MIN
+        )
         self._task = Tasks.LONG_BREAK
         self._status = TaskStatus.STARTED
 
