@@ -255,8 +255,7 @@ class WorkingState(InitialState):
 
     def __init__(self, tomato):
         super().__init__(tomato)
-        self._remainder = \
-            int(self._tomato.configs.work_minutes)
+        self._remainder = int(self._tomato.configs.work_minutes)
         self._task = Tasks.WORK
         self._status = TaskStatus.STARTED
         self._started_at = cur_time()
@@ -274,7 +273,7 @@ class WorkingState(InitialState):
     @property
     def next_state(self):
         self._tomato.tomatoes += 1
-        if self._tomato.tomatoes % self.tomatoes_per_set == 0:
+        if self._tomato.tomatoes % self._tomato.tomatoes_per_set == 0:
             return IntermediateState.transition_to(LongBreakState, self._tomato)
         return IntermediateState.transition_to(SmallBreakState, self._tomato)
 
@@ -327,8 +326,7 @@ class SmallBreakState(InitialState):
 
     def __init__(self, tomato):
         super().__init__(tomato)
-        self._remainder = \
-            int(self._tomato.configs.small_break_minutes)
+        self._remainder = int(self._tomato.configs.small_break_minutes)
         self._task = Tasks.SMALL_BREAK
         self._status = TaskStatus.STARTED
         self._started_at = cur_time()
@@ -393,7 +391,7 @@ class SmallBreakPausedState(InitialState):
 class LongBreakState(SmallBreakState):
     name = "long break"
 
-    def __init__(self,tomato):
+    def __init__(self, tomato):
         super().__init__(tomato)
         self._task = Tasks.LONG_BREAK
         self._status = TaskStatus.STARTED
@@ -418,11 +416,15 @@ class LongBreakPausedState(SmallBreakPausedState):
 
 
 class Tomato:
-    def __init__(self, configs=Configuration()):
-        # Load configurations from command line and .ini file
+    def __init__(self, configs: Configuration):
         self.configs = configs
-        self._state = InitialState(self)
+        self.no_sound = configs.no_sound
+        self.emoji = configs.emoji
+        self.tomatoes_per_set = configs.tomatoes_per_set
+        self.no_clock = configs.no_clock
         self.tomatoes = 0
+
+        self._state = InitialState(self)
 
     def start(self):
         self._state = self._state.start()
