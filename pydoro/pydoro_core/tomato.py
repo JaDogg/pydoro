@@ -255,7 +255,7 @@ class WorkingState(InitialState):
 
     def __init__(self, tomato):
         super().__init__(tomato)
-        self._remainder = int(self._tomato.configs.work_minutes)
+        self._remainder = int(self._tomato.configs.work_minutes * SECONDS_PER_MIN)
         self._task = Tasks.WORK
         self._status = TaskStatus.STARTED
         self._started_at = cur_time()
@@ -326,7 +326,9 @@ class SmallBreakState(InitialState):
 
     def __init__(self, tomato):
         super().__init__(tomato)
-        self._remainder = int(self._tomato.configs.small_break_minutes)
+        self._remainder = int(
+            self._tomato.configs.small_break_minutes * SECONDS_PER_MIN
+        )
         self._task = Tasks.SMALL_BREAK
         self._status = TaskStatus.STARTED
         self._started_at = cur_time()
@@ -393,6 +395,7 @@ class LongBreakState(SmallBreakState):
 
     def __init__(self, tomato):
         super().__init__(tomato)
+        self._remainder = int(self._tomato.configs.long_break_minutes * SECONDS_PER_MIN)
         self._task = Tasks.LONG_BREAK
         self._status = TaskStatus.STARTED
 

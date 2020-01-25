@@ -26,7 +26,7 @@ class UserInterface:
         btn_pause = Button("Pause", handler=self.tomato.pause)
         btn_reset = Button("Reset", handler=self.tomato.reset)
         btn_reset_all = Button("Reset All", handler=self.tomato.reset_all)
-        btn_exit = Button("Exit", handler=self.exit_clicked)
+        btn_exit = Button("Exit", handler=self._exit_clicked)
         # All the widgets for the UI.
         self.text_area = FormattedTextControl(focusable=False, show_cursor=False)
         text_window = Window(
@@ -83,7 +83,11 @@ class UserInterface:
         actions = {
             "focus_next": focus_next,
             "focus_previous": focus_previous,
-            "exit_clicked": self.exit_clicked,
+            "exit_clicked": self._exit_clicked,
+            "start": lambda _=None: self.tomato.start(),
+            "pause": lambda _=None: self.tomato.pause(),
+            "reset": lambda _=None: self.tomato.reset(),
+            "reset_all": lambda _=None: self.tomato.reset_all(),
         }
 
         for action, keys in self.config.key_bindings.items():
@@ -94,17 +98,17 @@ class UserInterface:
                     pass
 
     @staticmethod
-    def exit_clicked(_=None):
+    def _exit_clicked(_=None):
         get_app().exit()
 
-    def draw(self):
+    def _draw(self):
         self.tomato.update()
         self.text_area.text = self.tomato.as_formatted_text()
         self.application.invalidate()
 
     def run(self):
-        self.draw()
-        threading.Thread(target=lambda: every(0.4, self.draw), daemon=True).start()
+        self._draw()
+        threading.Thread(target=lambda: every(0.4, self._draw), daemon=True).start()
         self.application.run()
 
 

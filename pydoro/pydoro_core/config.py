@@ -73,6 +73,10 @@ class Configuration:
         self._conf["KeyBindings"]["focus_previous"] = "s-tab,left,h,j"
         self._conf["KeyBindings"]["focus_next"] = "tab,right,l,k"
         self._conf["KeyBindings"]["exit_clicked"] = "q"
+        self._conf["KeyBindings"]["start"] = "s"
+        self._conf["KeyBindings"]["pause"] = "p"
+        self._conf["KeyBindings"]["reset"] = "r"
+        self._conf["KeyBindings"]["reset_all"] = "a"
 
         filename = os.path.expanduser("~/.pydoro.ini")
         with open(filename, "w+") as configfile:
@@ -88,9 +92,9 @@ class Configuration:
         self.no_sound = self._conf["General"]["no_sound"] == "True"
         self.emoji = self._conf["General"]["emoji"] == "True"
         self.tomatoes_per_set = int(self._conf["Time"]["tomatoes_per_set"])
-        self.work_minutes = int(self._conf["Time"]["work_minutes"])
-        self.small_break_minutes = int(self._conf["Time"]["small_break_minutes"])
-        self.long_break_minutes = int(self._conf["Time"]["long_break_minutes"])
+        self.work_minutes = float(self._conf["Time"]["work_minutes"])
+        self.small_break_minutes = float(self._conf["Time"]["small_break_minutes"])
+        self.long_break_minutes = float(self._conf["Time"]["long_break_minutes"])
         self.alarm_seconds = int(self._conf["Time"]["alarm_seconds"])
         self.key_bindings = self._conf["KeyBindings"]
 
