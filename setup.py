@@ -11,7 +11,7 @@ with open(join(here, "README.rst"), encoding="utf-8") as f:
 
 setup(
     name="pydoro",
-    version="0.1.4",
+    version="0.2.0",
     # Get the description from second line & remove `*` character
     description=long_description.splitlines()[2][1:-1],
     long_description=long_description,
