@@ -5,15 +5,14 @@ import os
 
 class Configuration:
     def __init__(self):
-        self._cli_parse()  # Parse arguments from command line
-        self._ini_parse()  # Parse config (.ini) file
-        # Load parsed configs (cli overrides ini)
+        self._cli_parse()
+        self._ini_parse()
         self._ini_load()
         self._cli_load()
 
     def _cli_parse(self):
         """
-        Parse configurations from command line arguments
+        Parse command line arguments
         """
         parser = argparse.ArgumentParser(
             "pydoro", description="Terminal Pomodoro Timer"
@@ -36,6 +35,7 @@ class Configuration:
 
     def _ini_parse(self):
         """
+        Parse configuration file
         Look at PYDORO_CONFIG_FILE environment variable
         Defaults to ~/.pydoro.ini if PYDORO_CONFIG_FILE not set
         """
@@ -84,16 +84,9 @@ class Configuration:
 
         Command line arguments override file configurations.
         """
-
-        # Check for no-clock (or focus mode)
         self.no_clock = self._conf["General"]["no_clock"] == "True"
-
-        # Check for no-sound (or focus mode)
         self.no_sound = self._conf["General"]["no_sound"] == "True"
-
-        # Check for emoji
         self.emoji = self._conf["General"]["emoji"] == "True"
-
         self.tomatoes_per_set = int(self._conf["Time"]["tomatoes_per_set"])
         self.work_minutes = int(self._conf["Time"]["work_minutes"])
         self.small_break_minutes = int(self._conf["Time"]["small_break_minutes"])
@@ -107,12 +100,6 @@ class Configuration:
 
         Command line arguments override file configurations.
         """
-
-        # Check for no-clock (or focus mode)
-        self.no_clock = self.cli_args.no_clock or self.cli_args.focus
-
-        # Check for no-sound (or focus mode)
-        self.no_sound = self.cli_args.no_sound or self.cli_args.focus
-
-        # Check for emoji
-        self.emoji = self.cli_args.emoji
+        self.no_clock = self.cli_args.no_clock or self.cli_args.focus or self.no_clock
+        self.no_sound = self.cli_args.no_sound or self.cli_args.focus or self.no_sound
+        self.emoji = self.cli_args.emoji or self.emoji
