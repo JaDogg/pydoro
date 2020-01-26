@@ -15,6 +15,8 @@ pydoro 🍅
 .. image:: https://badges.gitter.im/pydoro/community.svg
     :alt: Chat
     :target: https://gitter.im/pydoro/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
 
 Installation 🎉
 -----------------
