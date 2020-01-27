@@ -112,5 +112,9 @@ class UserInterface:
         self.application.run()
 
 
-if __name__ == "__main__":
+def main():
     UserInterface(Configuration()).run()
+
+
+if __name__ == "__main__":
+    main()
