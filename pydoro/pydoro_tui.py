@@ -18,6 +18,7 @@ class UserInterface:
     def __init__(self, config: Configuration):
         self.config = config
         self.tomato = Tomato(self.config)
+        self.prev_hash = None
 
         self._create_ui()
 
@@ -103,8 +104,12 @@ class UserInterface:
 
     def _draw(self):
         self.tomato.update()
-        self.text_area.text = self.tomato.as_formatted_text()
-        self.application.invalidate()
+        text, hash_ = self.tomato.render()
+        # WHY: Avoid unnecessary updates
+        if hash_ != self.prev_hash:
+            self.text_area.text = text
+            self.application.invalidate()
+            self.prev_hash = hash_
 
     def run(self):
         self._draw()

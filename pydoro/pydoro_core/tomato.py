@@ -470,7 +470,7 @@ class Tomato:
                 return ascii_tomato
         return ascii_tomato
 
-    def as_formatted_text(self):
+    def render(self) -> (list, int):
         task = TEXT[self._state.task]
         task = task.splitlines()
         if not task:
@@ -498,4 +498,6 @@ class Tomato:
         ftext[LOCATIONS[PLACEHOLDER_COUNT]] = ("", count)
         ftext[LOCATIONS[PLACEHOLDER_SETS]] = ("", sets)
 
-        return ftext
+        hash_ = hash((status, time, count, sets) + tuple(task))
+
+        return ftext, hash_
