@@ -15,6 +15,8 @@ pydoro 🍅
 .. image:: https://badges.gitter.im/pydoro/community.svg
     :alt: Chat
     :target: https://gitter.im/pydoro/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
+.. image:: https://img.shields.io/badge/code%20style-black-000000.svg
+    :target: https://github.com/psf/black
 
 Installation 🎉
 -----------------
@@ -27,7 +29,7 @@ Install via pip:
 
 Done.
 
-You can also use :code:`pip install pydoro[audio]` to get audio dependencies for OSX and Linux.
+You can also use :code:`pip install "pydoro[audio]"` to get audio dependencies for OSX and Linux.
 
 On windows you may try the packaged .exe file. See the releases_ page.
 
