@@ -22,7 +22,7 @@ setup(
     python_requires=">=3.6",
     license="MIT",
     package_data={"": ["*.rst", "*.wav"]},
-    install_requires=["prompt-toolkit>=3.0.2"],
+    install_requires=["prompt-toolkit>=3.0.3"],
     extras_require={
         'audio:platform_system=="Darwin"': [
             "pyobjc-core>=5.2",
