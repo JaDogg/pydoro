@@ -29,7 +29,7 @@ Install via pip:
 
 Done.
 
-You can also use :code:`pip install pydoro[audio]` to get audio dependencies for OSX and Linux.
+You can also use :code:`pip install "pydoro[audio]"` to get audio dependencies for OSX and Linux.
 
 On windows you may try the packaged .exe file. See the releases_ page.
 
