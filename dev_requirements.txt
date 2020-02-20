@@ -1,6 +1,6 @@
 altgraph==0.17
 better-exceptions==0.2.2
-bleach==3.1.0
+bleach==3.1.1
 certifi==2019.11.28
 chardet==3.0.4
 colorama==0.4.3
