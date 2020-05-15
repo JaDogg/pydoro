@@ -75,6 +75,6 @@ Why ? 🤔
 
 Copyright ⚖
 ----------------
-This software is Copyright (c) 2019 Bhathiya Perera.
+This software is Copyright (c) 2020 Bhathiya Perera.
 
 See the LICENSE file for more information.
