@@ -10,7 +10,8 @@
 * Formatted with black
 * Fixed README
 * Updated README
-### Not OK
+* Update CONTRIBUTING.md
+### Not OK:
 * Push code.
 * I'm pushing code..
 * Gah! have some code.
