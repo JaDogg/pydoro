@@ -4,7 +4,7 @@ bleach==3.1.4
 certifi==2020.4.5.1
 chardet==3.0.4
 colorama==0.4.3
-docutils==0.16
+docutils==0.14
 docutils-stubs==0.0.21
 future==0.18.2
 idna==2.9
