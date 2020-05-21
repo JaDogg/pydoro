@@ -61,6 +61,27 @@ Credits 🙇‍♂️
 .. _Taylor: https://github.com/TaylorSMarks/playsound
 .. _Dana: https://freesound.org/s/377639/
 
+Contributors 🙏
+------------------
+* Gabriel Cruz - gmelodie_
+* Zach Nelson - requiem_
+* Kajpio - kajpio_
+* Manuel Gutierrez - xr09_
+* kiba - islander_
+* Beatriz Uezu - beatrizuezu_
+* Zlatan - zlatsic_
+* Karolis Mažukna - nikamura_
+* AKeerio - akeerio_
+
+.. _gmelodie: https://github.com/gmelodie
+.. _requiem: https://github.com/Requiem
+.. _kajpio: https://github.com/Kajpio
+.. _xr09: https://github.com/xr09
+.. _islander: https://github.com/islander
+.. _beatrizuezu: https://github.com/beatrizuezu
+.. _zlatsic: https://github.com/ZlatSic
+.. _nikamura: https://github.com/Nikamura
+.. _akeerio: https://github.com/AKeerio
 
 Why ? 🤔
 ------------
