@@ -54,7 +54,7 @@ Credits 🙇‍♂️
 ------------------
 * Pomodoro - Invented by Francesco Cirillo
 * playsound.py - For playing audio file, Copyright (c) 2016 Taylor_ Marks
-* prompt-tookit - For creating TUI
+* prompt-toolkit - Awesome TUI library 😎
 * b15.wav - Dana_ robinson designs, CC0 from freesound
 
 .. _releases: https://github.com/JaDogg/pydoro/releases
