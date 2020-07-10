@@ -39,3 +39,7 @@ jobs:
       run: |
         dist\pydoro.exe --help
         dist\pydoro.exe --version
+    - uses: actions/upload-artifact@v2
+      with:
+        name: Artifact pydoro.exe
+        path: dist\pydoro.exe
