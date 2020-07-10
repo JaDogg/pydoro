@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import sys
 import threading
 
 from prompt_toolkit.application import Application
@@ -11,7 +12,8 @@ from prompt_toolkit.widgets import Box, Button, Label
 
 from pydoro.pydoro_core.config import Configuration
 from pydoro.pydoro_core.tomato import Tomato
-from pydoro.pydoro_core.util import every
+from pydoro.pydoro_core.util import every, in_app_path
+import pydoro.pydoro_core.sound as sound
 
 
 class UserInterface:
@@ -118,7 +120,11 @@ class UserInterface:
 
 
 def main():
-    UserInterface(Configuration()).run()
+    config = Configuration()
+    if config.audio_check:
+        sound.play(in_app_path("b15.wav"), block=True)
+        sys.exit(0)
+    UserInterface(config).run()
 
 
 if __name__ == "__main__":
