@@ -36,7 +36,7 @@ jobs:
     - name: Make EXE
       run: |
         cmd /c make_exe.cmd
-        rename dist\pydoro_tui.exe pydoro.exe
+        Rename-Item -Path "dist\pydoro_tui.exe" -NewName "pydoro.exe"
     - name: Audio Check
       run: |
         dist\pydoro.exe --audio-check
