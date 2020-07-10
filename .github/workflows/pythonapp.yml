@@ -20,12 +20,14 @@ jobs:
       uses: actions/setup-python@v1
       with:
         python-version: 3.7
-    - name: Install dependencies
+    - name: Build
       run: |
         python -m venv .venv
         .venv\Scripts\activate
         pip install --upgrade pip
         pip install -r dev_requirements.txt
+        cmd /c make_exe.cmd
+        Rename-Item -Path "dist\pydoro_tui.exe" -NewName "pydoro.exe"
     - name: Lint with flake8
       run: |
         pip install flake8
@@ -33,10 +35,6 @@ jobs:
         flake8 pydoro --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 pydoro --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-    - name: Make EXE
-      run: |
-        cmd /c make_exe.cmd
-        Rename-Item -Path "dist\pydoro_tui.exe" -NewName "pydoro.exe"
     - name: Audio Check
       run: |
         dist\pydoro.exe --audio-check
