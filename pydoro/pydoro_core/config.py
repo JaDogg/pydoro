@@ -31,7 +31,12 @@ class Configuration:
         )
         parser.add_argument("--no-clock", help="hides clock", action="store_true")
         parser.add_argument("--no-sound", help="mutes all sounds", action="store_true")
-        parser.add_argument("--audio-check", help="play audio and exit", action="store_true")
+        parser.add_argument(
+            "--audio-check", help="play audio and exit", action="store_true"
+        )
+        parser.add_argument(
+            "--version", help="display version and exit", action="store_true"
+        )
         self.cli_args = parser.parse_args()
 
     def _ini_parse(self):
@@ -109,3 +114,4 @@ class Configuration:
         self.no_sound = self.cli_args.no_sound or self.cli_args.focus or self.no_sound
         self.emoji = self.cli_args.emoji or self.emoji
         self.audio_check = self.cli_args.audio_check
+        self.show_version = self.cli_args.version

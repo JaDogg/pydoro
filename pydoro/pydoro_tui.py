@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+
+__version__ = "0.2.1"
+
 import sys
 import threading
 
@@ -123,6 +126,9 @@ def main():
     config = Configuration()
     if config.audio_check:
         sound.play(in_app_path("b15.wav"), block=True)
+        sys.exit(0)
+    if config.show_version:
+        print("pydoro : version - {0}".format(__version__))
         sys.exit(0)
     UserInterface(config).run()
 
