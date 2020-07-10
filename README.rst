@@ -43,7 +43,7 @@ Usage 📖
 ---------
 * Run :code:`pydoro` to launch. More info in wiki_.
 
-.. image:: https://github.com/JaDogg/pydoro/raw/master/develop/animation.gif
+.. image:: https://github.com/JaDogg/pydoro/raw/develop/images/animation.gif
 
 .. _wiki: https://github.com/JaDogg/pydoro/wiki
 
