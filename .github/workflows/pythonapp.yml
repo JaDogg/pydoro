@@ -35,7 +35,7 @@ jobs:
         flake8 pydoro --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Make EXE
       run: |
-        make_exe
+        cmd /c make_exe.cmd
         rename dist\pydoro_tui.exe pydoro.exe
     - name: Audio Check
       run: |
