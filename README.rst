@@ -9,6 +9,9 @@ pydoro 🍅
 .. image:: https://badge.fury.io/py/pydoro.svg
     :alt: PyPI
     :target: https://badge.fury.io/py/pydoro
+.. image:: https://github.com/JaDogg/pydoro/workflows/Python%20application/badge.svg
+    :alt: CI
+    :target: https://github.com/JaDogg/pydoro/actions?query=workflow%3A%22Python+application%22
 .. image:: https://img.shields.io/badge/python-3.6+-blue.svg
     :alt: Python Support
     :target: https://pypi.org/project/pydoro/
