@@ -2,7 +2,7 @@ pydoro 🍅
 ============
 *Terminal Pomodoro Timer*
 
-.. image:: https://github.com/JaDogg/pydoro/raw/master/images/logo.png
+.. image:: https://github.com/JaDogg/pydoro/raw/develop/images/logo.png
 
 .. Repo Badges
 
@@ -43,7 +43,7 @@ Usage 📖
 ---------
 * Run :code:`pydoro` to launch. More info in wiki_.
 
-.. image:: https://github.com/JaDogg/pydoro/raw/master/images/animation.gif
+.. image:: https://github.com/JaDogg/pydoro/raw/master/develop/animation.gif
 
 .. _wiki: https://github.com/JaDogg/pydoro/wiki
 
