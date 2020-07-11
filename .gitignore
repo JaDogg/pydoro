@@ -199,3 +199,6 @@ $RECYCLE.BIN/
 
 .idea/
 venv/
+
+# CTags
+tags
