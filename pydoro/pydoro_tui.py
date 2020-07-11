@@ -125,6 +125,8 @@ class UserInterface:
 def main():
     config = Configuration()
     if config.audio_check:
+        # WHY twice: to catch more issues
+        sound.play(in_app_path("b15.wav"), block=True)
         sound.play(in_app_path("b15.wav"), block=True)
         sys.exit(0)
     if config.show_version:

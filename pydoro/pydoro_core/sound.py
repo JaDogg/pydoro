@@ -5,6 +5,7 @@ playsound.py - For playing audio file, Copyright (c) 2016 Taylor Marks
 MIT License
 ----
 I've added async play for linux using a thread, changed names to be more pythonic
+I've also added a thin wrapper around pygame as well
 """
 
 from platform import system
@@ -140,11 +141,43 @@ def _play_sound_nix(sound, block=True):
     thread.start()
 
 
+def _play_sound_pygame_blocking(sound):
+    from pygame import mixer
+    import time
+
+    mixer.init()
+    mixer.music.load(sound)
+    mixer.music.play()
+
+    while mixer.music.get_busy():
+        time.sleep(0.1)
+
+
+def _play_sound_pygame(sound, block=True):
+    if block:
+        _play_sound_pygame_blocking(sound)
+        return
+
+    from threading import Thread
+
+    thread = Thread(target=_play_sound_pygame_blocking, args=(sound,), daemon=True)
+    thread.start()
+
+
 if system == "Windows":
     play = _play_sound_win
 elif system == "Darwin":
     play = _play_sound_osx
 else:
-    play = _play_sound_nix
+    # For linux this will try following libraries
+    # 1) if pygame can be imported use it
+    # 2) if pygame cannot be imported use PyGObject
+    try:
+        import pygame as try_pygame
+
+        play = _play_sound_pygame
+        del try_pygame
+    except ImportError:
+        play = _play_sound_nix
 
 del system
