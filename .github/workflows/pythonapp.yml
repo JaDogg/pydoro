@@ -27,7 +27,6 @@ jobs:
         pip install --upgrade pip
         pip install -r dev_requirements.txt
         cmd /c make_exe.cmd
-        Rename-Item -Path "dist\pydoro_tui.exe" -NewName "pydoro.exe"
     - name: Lint with flake8
       run: |
         pip install flake8
