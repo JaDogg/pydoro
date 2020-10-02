@@ -23,8 +23,8 @@ jobs:
     - name: Build
       run: |
         pip install --user virtualenv
-        virtualenv test_env
-        test_env\Scripts\activate
+        virtualenv .venv
+        .venv\Scripts\activate
         pip install --upgrade pip
         pip install -r dev_requirements.txt
         cmd /c make_exe.cmd
