@@ -23,7 +23,7 @@ jobs:
     - name: Build
       run: |
         python -m venv test_env
-        .venv\Scripts\activate
+        test_env\Scripts\activate
         pip install --upgrade pip
         pip install -r dev_requirements.txt
         cmd /c make_exe.cmd
