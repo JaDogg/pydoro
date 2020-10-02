@@ -22,6 +22,7 @@ jobs:
         python-version: 3.7
     - name: Build
       run: |
+        pip install --user virtualenv
         python -m venv test_env
         test_env\Scripts\activate
         pip install --upgrade pip
