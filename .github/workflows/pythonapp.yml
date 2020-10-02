@@ -23,7 +23,7 @@ jobs:
     - name: Build
       run: |
         pip install --user virtualenv
-        python -m venv test_env
+        virtualenv test_env
         test_env\Scripts\activate
         pip install --upgrade pip
         pip install -r dev_requirements.txt
