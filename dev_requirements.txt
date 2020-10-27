@@ -10,7 +10,7 @@ future==0.18.2
 idna==2.10
 macholib==1.14
 pefile==2019.4.18
-pkginfo==1.5.0.1
+pkginfo==1.6.1
 prompt-toolkit==3.0.8
 Pygments==2.6.1
 PyInstaller>=3.6
