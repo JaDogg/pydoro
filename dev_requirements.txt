@@ -15,7 +15,7 @@ prompt-toolkit==3.0.8
 Pygments==2.7.2
 PyInstaller>=3.6
 pywin32-ctypes==0.2.0
-readme-renderer==26.0
+readme-renderer==28.0
 requests==2.24.0
 requests-toolbelt==0.9.1
 six==1.15.0
