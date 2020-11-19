@@ -36,7 +36,7 @@ You can also use :code:`pip install "pydoro[audio]"` to get audio dependencies f
 
 Also for Linux :code:`pygame` will be used if it's installed. (Try this if you cannot get :code:`PyGObject` to work)
 
-For some systems you may have to use :code:`pip3` instead. Only Python 3.6+ is supported.
+For some systems you may have to use :code:`pip3` instead. **Only Python 3.6+ is supported.**
 
 On windows you may try the packaged .exe file. See the releases_ page.
 
