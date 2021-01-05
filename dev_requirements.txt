@@ -7,7 +7,7 @@ colorama==0.4.4
 docutils==0.14
 docutils-stubs==0.0.21
 future==0.18.2
-idna==2.10
+idna==3.1
 macholib==1.14
 pefile==2019.4.18
 pkginfo==1.6.1
