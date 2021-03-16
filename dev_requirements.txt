@@ -20,7 +20,7 @@ requests==2.25.0
 requests-toolbelt==0.9.1
 six==1.15.0
 tqdm==4.54.0
-twine==3.2.0
+twine==3.4.0
 urllib3==1.26.2
 wcwidth==0.2.3
 webencodings==0.5.1
