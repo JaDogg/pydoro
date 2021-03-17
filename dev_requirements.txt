@@ -2,7 +2,7 @@ altgraph==0.17
 better-exceptions==0.3.3
 bleach==3.3.0
 certifi==2020.12.5
-chardet==3.0.4
+chardet==4.0.0
 colorama==0.4.4
 docutils==0.14
 docutils-stubs==0.0.21
