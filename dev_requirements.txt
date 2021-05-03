@@ -22,5 +22,5 @@ six==1.15.0
 tqdm==4.54.0
 twine==3.4.1
 urllib3==1.26.4
-wcwidth==0.2.3
+wcwidth==0.2.5
 webencodings==0.5.1
