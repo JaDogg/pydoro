@@ -2,6 +2,8 @@ import argparse
 import configparser
 import os
 
+from pydoro.pydoro_core.util import in_app_path
+
 
 class Configuration:
     def __init__(self):
@@ -37,6 +39,7 @@ class Configuration:
         parser.add_argument(
             "--version", help="display version and exit", action="store_true"
         )
+        parser.add_argument("--audio-file", metavar='path', help="custom audio file")
         self.cli_args = parser.parse_args()
 
     def _ini_parse(self):
@@ -115,3 +118,4 @@ class Configuration:
         self.emoji = self.cli_args.emoji or self.emoji
         self.audio_check = self.cli_args.audio_check
         self.show_version = self.cli_args.version
+        self.audio_file = self.cli_args.audio_file or in_app_path("b15.wav")
