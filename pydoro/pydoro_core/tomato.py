@@ -456,7 +456,7 @@ class Tomato:
             return
         # noinspection PyBroadException
         try:
-            sound.play(in_app_path("b15.wav"), block=False)
+            sound.play(self.configs.audio_file, block=False)
         except Exception:
             pass
 
