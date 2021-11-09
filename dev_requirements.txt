@@ -8,10 +8,10 @@ docutils==0.14
 docutils-stubs==0.0.21
 future==0.18.2
 idna==2.10
-macholib==1.14
+macholib==1.15.2
 pefile==2019.4.18
 pkginfo==1.6.1
-prompt-toolkit==3.0.17
+prompt-toolkit==3.0.22
 Pygments==2.8.1
 PyInstaller>=3.6
 pywin32-ctypes==0.2.0
@@ -19,8 +19,8 @@ readme-renderer==29.0
 requests==2.25.1
 requests-toolbelt==0.9.1
 six==1.15.0
-tqdm==4.54.0
+tqdm==4.62.3
 twine==3.4.1
-urllib3==1.26.4
+urllib3==1.26.7
 wcwidth==0.2.5
 webencodings==0.5.1
