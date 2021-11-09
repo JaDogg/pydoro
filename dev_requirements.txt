@@ -1,7 +1,7 @@
 altgraph==0.17
 better-exceptions==0.3.3
 bleach==3.3.0
-certifi==2020.12.5
+certifi==2021.10.8
 chardet==3.0.4
 colorama==0.4.4
 docutils==0.14
@@ -11,7 +11,7 @@ idna==2.10
 macholib==1.14
 pefile==2019.4.18
 pkginfo==1.6.1
-prompt-toolkit==3.0.17
+prompt-toolkit==3.0.22
 Pygments==2.8.1
 PyInstaller>=3.6
 pywin32-ctypes==0.2.0
@@ -19,8 +19,8 @@ readme-renderer==29.0
 requests==2.25.1
 requests-toolbelt==0.9.1
 six==1.15.0
-tqdm==4.54.0
+tqdm==4.62.3
 twine==3.4.1
-urllib3==1.26.4
+urllib3==1.26.7
 wcwidth==0.2.5
 webencodings==0.5.1
