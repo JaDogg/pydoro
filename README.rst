@@ -103,6 +103,6 @@ Why ? 🤔
 
 Copyright ⚖
 ----------------
-This software is Copyright (c) 2020 Bhathiya Perera.
+This software is Copyright (c) 2021 Bhathiya Perera.
 
 See the LICENSE file for more information.
