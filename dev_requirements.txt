@@ -11,7 +11,7 @@ idna==2.10
 macholib==1.15.2
 pefile==2021.9.3
 pkginfo==1.7.1
-prompt-toolkit==3.0.22
+prompt-toolkit==3.0.23
 Pygments==2.10.0
 PyInstaller>=3.6
 pywin32-ctypes==0.2.0
