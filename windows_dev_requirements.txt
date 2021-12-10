@@ -1,0 +1,3 @@
+prompt-toolkit==3.0.24
+pyinstaller==4.7
+twine==3.7.1
