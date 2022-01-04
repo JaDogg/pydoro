@@ -1,4 +1,5 @@
 import itertools
+import subprocess
 import sys
 from enum import IntEnum
 from timeit import default_timer
@@ -262,6 +263,8 @@ class WorkingState(InitialState):
         self._task = Tasks.WORK
         self._status = TaskStatus.STARTED
         self._started_at = cur_time()
+        if len(self._tomato.configs.work_state_cmd) > 0:
+            subprocess.run(self._tomato.configs.work_state_cmd)
 
     def start(self):
         return self
@@ -300,6 +303,8 @@ class WorkPausedState(InitialState):
         self._prev = None
         self._task = Tasks.WORK
         self._status = TaskStatus.PAUSED
+        if len(self._tomato.configs.work_paused_state_cmd) > 0:
+            subprocess.run(self._tomato.configs.work_paused_state_cmd)
 
     def start(self):
         self._prev._started_at = cur_time()
@@ -335,6 +340,8 @@ class SmallBreakState(InitialState):
         self._task = Tasks.SMALL_BREAK
         self._status = TaskStatus.STARTED
         self._started_at = cur_time()
+        if len(self._tomato.configs.small_break_state_cmd) > 0:
+            subprocess.run(self._tomato.configs.small_break_state_cmd)
 
     def start(self):
         return self
@@ -403,6 +410,8 @@ class LongBreakState(SmallBreakState):
         )
         self._task = Tasks.LONG_BREAK
         self._status = TaskStatus.STARTED
+        if len(self._tomato.configs.long_break_state_cmd) > 0:
+            subprocess.run(self._tomato.configs.long_break_state_cmd)
 
     def pause(self):
         return LongBreakPausedState.return_to(self._tomato, self)

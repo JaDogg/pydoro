@@ -1,6 +1,7 @@
 import argparse
 import configparser
 import os
+import ast
 
 from pydoro.pydoro_core.util import in_app_path
 
@@ -87,6 +88,12 @@ class Configuration:
         self._conf["KeyBindings"]["reset"] = "r"
         self._conf["KeyBindings"]["reset_all"] = "a"
 
+        self._conf["Trigger"] = {}
+        self._conf["Trigger"]["work_state_cmd"] = "[]"
+        self._conf["Trigger"]["work_paused_state_cmd"] = "[]"
+        self._conf["Trigger"]["long_break_state_cmd"] = "[]"
+        self._conf["Trigger"]["small_break_state_cmd"] = "[]"
+
         filename = os.path.expanduser("~/.pydoro.ini")
         with open(filename, "w+") as configfile:
             self._conf.write(configfile)
@@ -106,6 +113,14 @@ class Configuration:
         self.long_break_minutes = float(self._conf["Time"]["long_break_minutes"])
         self.alarm_seconds = int(self._conf["Time"]["alarm_seconds"])
         self.key_bindings = self._conf["KeyBindings"]
+        self.work_state_cmd = \
+            ast.literal_eval(self._conf["Trigger"]["work_state_cmd"])
+        self.work_paused_state_cmd = \
+            ast.literal_eval(self._conf["Trigger"]["work_paused_state_cmd"])
+        self.small_break_state_cmd = \
+            ast.literal_eval(self._conf["Trigger"]["small_break_state_cmd"])
+        self.long_break_state_cmd = \
+            ast.literal_eval(self._conf["Trigger"]["long_break_state_cmd"])
 
     def _cli_load(self):
         """
