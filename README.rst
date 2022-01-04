@@ -79,6 +79,7 @@ Contributors 🙏
 * Zlatan - zlatsic_
 * Karolis Mažukna - nikamura_
 * AKeerio - akeerio_
+* Rohn Chatterjee - liupold_
 
 .. _gmelodie: https://github.com/gmelodie
 .. _requiem: https://github.com/Requiem
@@ -89,6 +90,7 @@ Contributors 🙏
 .. _zlatsic: https://github.com/ZlatSic
 .. _nikamura: https://github.com/Nikamura
 .. _akeerio: https://github.com/AKeerio
+.. _liupold: https://github.com/liupold
 
 Why ? 🤔
 ------------
