@@ -76,6 +76,7 @@ class Configuration:
         self._conf["Trigger"] = {}
         self._conf["Trigger"]["work_state_cmd"] = "[]"
         self._conf["Trigger"]["work_paused_state_cmd"] = "[]"
+        self._conf["Trigger"]["work_resumed_state_cmd"] = "[]"
         self._conf["Trigger"]["long_break_state_cmd"] = "[]"
         self._conf["Trigger"]["small_break_state_cmd"] = "[]"
 
@@ -120,6 +121,8 @@ class Configuration:
             ast.literal_eval(self._conf["Trigger"]["small_break_state_cmd"])
         self.long_break_state_cmd = \
             ast.literal_eval(self._conf["Trigger"]["long_break_state_cmd"])
+        self.work_resumed_state_cmd = \
+            ast.literal_eval(self._conf["Trigger"]["work_resumed_state_cmd"])
 
     def _cli_load(self):
         """

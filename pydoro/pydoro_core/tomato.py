@@ -307,6 +307,8 @@ class WorkPausedState(InitialState):
             subprocess.run(self._tomato.configs.work_paused_state_cmd)
 
     def start(self):
+        if self._tomato.configs.work_resumed_state_cmd:
+            subprocess.run(self._tomato.configs.work_resumed_state_cmd)
         self._prev._started_at = cur_time()
         return self._prev
 
