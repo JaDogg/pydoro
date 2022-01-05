@@ -79,6 +79,7 @@ class Configuration:
         self._conf["Trigger"]["work_resumed_state_cmd"] = "[]"
         self._conf["Trigger"]["long_break_state_cmd"] = "[]"
         self._conf["Trigger"]["small_break_state_cmd"] = "[]"
+        self._conf["Trigger"]["exit_cmd"] = "[]"
 
         filename = os.environ.get(
             "PYDORO_CONFIG_FILE", os.path.expanduser("~/.pydoro.ini")
@@ -123,6 +124,8 @@ class Configuration:
             ast.literal_eval(self._conf["Trigger"]["long_break_state_cmd"])
         self.work_resumed_state_cmd = \
             ast.literal_eval(self._conf["Trigger"]["work_resumed_state_cmd"])
+        self.exit_cmd = \
+            ast.literal_eval(self._conf["Trigger"]["exit_cmd"])
 
     def _cli_load(self):
         """
