@@ -50,21 +50,6 @@ class Configuration:
         Defaults to ~/.pydoro.ini if PYDORO_CONFIG_FILE not set
         """
         self._conf = configparser.ConfigParser()
-
-        filename = os.environ.get(
-            "PYDORO_CONFIG_FILE", os.path.expanduser("~/.pydoro.ini")
-        )
-
-        if os.path.exists(filename):
-            self._conf.read(filename)
-        else:
-            self._create_default_ini()
-
-    def _create_default_ini(self):
-        """
-        Creates default ini configuration file
-        Saves it in '~/.pydoro.ini'
-        """
         self._conf["DEFAULT"] = {}
 
         self._conf["General"] = {}
@@ -94,6 +79,20 @@ class Configuration:
         self._conf["Trigger"]["long_break_state_cmd"] = "[]"
         self._conf["Trigger"]["small_break_state_cmd"] = "[]"
 
+        filename = os.environ.get(
+            "PYDORO_CONFIG_FILE", os.path.expanduser("~/.pydoro.ini")
+        )
+
+        if os.path.exists(filename):
+            self._conf.read(filename)
+        else:
+            self._create_default_ini()
+
+    def _create_default_ini(self):
+        """
+        Creates default ini configuration file
+        Saves it in '~/.pydoro.ini'
+        """
         filename = os.path.expanduser("~/.pydoro.ini")
         with open(filename, "w+") as configfile:
             self._conf.write(configfile)
