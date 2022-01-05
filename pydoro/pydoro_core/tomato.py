@@ -263,7 +263,7 @@ class WorkingState(InitialState):
         self._task = Tasks.WORK
         self._status = TaskStatus.STARTED
         self._started_at = cur_time()
-        if len(self._tomato.configs.work_state_cmd) > 0:
+        if self._tomato.configs.work_state_cmd:
             subprocess.run(self._tomato.configs.work_state_cmd)
 
     def start(self):
@@ -303,7 +303,7 @@ class WorkPausedState(InitialState):
         self._prev = None
         self._task = Tasks.WORK
         self._status = TaskStatus.PAUSED
-        if len(self._tomato.configs.work_paused_state_cmd) > 0:
+        if self._tomato.configs.work_paused_state_cmd:
             subprocess.run(self._tomato.configs.work_paused_state_cmd)
 
     def start(self):
@@ -340,7 +340,7 @@ class SmallBreakState(InitialState):
         self._task = Tasks.SMALL_BREAK
         self._status = TaskStatus.STARTED
         self._started_at = cur_time()
-        if len(self._tomato.configs.small_break_state_cmd) > 0:
+        if self._tomato.configs.small_break_state_cmd:
             subprocess.run(self._tomato.configs.small_break_state_cmd)
 
     def start(self):
@@ -410,7 +410,7 @@ class LongBreakState(SmallBreakState):
         )
         self._task = Tasks.LONG_BREAK
         self._status = TaskStatus.STARTED
-        if len(self._tomato.configs.long_break_state_cmd) > 0:
+        if self._tomato.configs.long_break_state_cmd:
             subprocess.run(self._tomato.configs.long_break_state_cmd)
 
     def pause(self):
