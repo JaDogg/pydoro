@@ -1,6 +1,7 @@
 import argparse
 import configparser
 import os
+import ast
 
 from pydoro.pydoro_core.util import in_app_path
 
@@ -49,21 +50,6 @@ class Configuration:
         Defaults to ~/.pydoro.ini if PYDORO_CONFIG_FILE not set
         """
         self._conf = configparser.ConfigParser()
-
-        filename = os.environ.get(
-            "PYDORO_CONFIG_FILE", os.path.expanduser("~/.pydoro.ini")
-        )
-
-        if os.path.exists(filename):
-            self._conf.read(filename)
-        else:
-            self._create_default_ini()
-
-    def _create_default_ini(self):
-        """
-        Creates default ini configuration file
-        Saves it in '~/.pydoro.ini'
-        """
         self._conf["DEFAULT"] = {}
 
         self._conf["General"] = {}
@@ -87,6 +73,28 @@ class Configuration:
         self._conf["KeyBindings"]["reset"] = "r"
         self._conf["KeyBindings"]["reset_all"] = "a"
 
+        self._conf["Trigger"] = {}
+        self._conf["Trigger"]["work_state_cmd"] = "[]"
+        self._conf["Trigger"]["work_paused_state_cmd"] = "[]"
+        self._conf["Trigger"]["work_resumed_state_cmd"] = "[]"
+        self._conf["Trigger"]["long_break_state_cmd"] = "[]"
+        self._conf["Trigger"]["small_break_state_cmd"] = "[]"
+        self._conf["Trigger"]["exit_cmd"] = "[]"
+
+        filename = os.environ.get(
+            "PYDORO_CONFIG_FILE", os.path.expanduser("~/.pydoro.ini")
+        )
+
+        if os.path.exists(filename):
+            self._conf.read(filename)
+        else:
+            self._create_default_ini()
+
+    def _create_default_ini(self):
+        """
+        Creates default ini configuration file
+        Saves it in '~/.pydoro.ini'
+        """
         filename = os.path.expanduser("~/.pydoro.ini")
         with open(filename, "w+") as configfile:
             self._conf.write(configfile)
@@ -106,6 +114,18 @@ class Configuration:
         self.long_break_minutes = float(self._conf["Time"]["long_break_minutes"])
         self.alarm_seconds = int(self._conf["Time"]["alarm_seconds"])
         self.key_bindings = self._conf["KeyBindings"]
+        self.work_state_cmd = \
+            ast.literal_eval(self._conf["Trigger"]["work_state_cmd"])
+        self.work_paused_state_cmd = \
+            ast.literal_eval(self._conf["Trigger"]["work_paused_state_cmd"])
+        self.small_break_state_cmd = \
+            ast.literal_eval(self._conf["Trigger"]["small_break_state_cmd"])
+        self.long_break_state_cmd = \
+            ast.literal_eval(self._conf["Trigger"]["long_break_state_cmd"])
+        self.work_resumed_state_cmd = \
+            ast.literal_eval(self._conf["Trigger"]["work_resumed_state_cmd"])
+        self.exit_cmd = \
+            ast.literal_eval(self._conf["Trigger"]["exit_cmd"])
 
     def _cli_load(self):
         """

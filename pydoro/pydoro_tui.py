@@ -4,6 +4,7 @@ __version__ = "0.2.2"
 
 import sys
 import threading
+import subprocess
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
@@ -133,6 +134,8 @@ def main():
         print("pydoro : version - {0}".format(__version__))
         sys.exit(0)
     UserInterface(config).run()
+    if config.exit_cmd:
+        subprocess.run(config.exit_cmd)
 
 
 if __name__ == "__main__":
