@@ -1,3 +1,3 @@
 prompt-toolkit==3.0.28
-pyinstaller==4.9
+pyinstaller==4.10
 twine==3.8.0
