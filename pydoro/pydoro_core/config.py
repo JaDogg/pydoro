@@ -56,6 +56,7 @@ class Configuration:
         self._conf["General"]["no_clock"] = "False"
         self._conf["General"]["no_sound"] = "False"
         self._conf["General"]["emoji"] = "False"
+        self._conf["General"]["audio_file"] = ""
 
         self._conf["Time"] = {}
         self._conf["Time"]["tomatoes_per_set"] = "4"
@@ -107,6 +108,7 @@ class Configuration:
         """
         self.no_clock = self._conf["General"]["no_clock"] == "True"
         self.no_sound = self._conf["General"]["no_sound"] == "True"
+        self.audio_file = self._conf["General"].get("audio_file", "")
         self.emoji = self._conf["General"]["emoji"] == "True"
         self.tomatoes_per_set = int(self._conf["Time"]["tomatoes_per_set"])
         self.work_minutes = float(self._conf["Time"]["work_minutes"])
@@ -138,4 +140,4 @@ class Configuration:
         self.emoji = self.cli_args.emoji or self.emoji
         self.audio_check = self.cli_args.audio_check
         self.show_version = self.cli_args.version
-        self.audio_file = self.cli_args.audio_file or in_app_path("b15.wav")
+        self.audio_file = self.cli_args.audio_file or self.audio_file or in_app_path("b15.wav")
