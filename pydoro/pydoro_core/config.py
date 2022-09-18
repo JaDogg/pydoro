@@ -89,14 +89,13 @@ class Configuration:
         if os.path.exists(filename):
             self._conf.read(filename)
         else:
-            self._create_default_ini()
+            self._create_default_ini(filename)
 
-    def _create_default_ini(self):
+    def _create_default_ini(self, filename):
         """
         Creates default ini configuration file
-        Saves it in '~/.pydoro.ini'
+        Saves it in '~/.pydoro.ini' or the location specified by PYDORO_CONFIG_FILE environment variable
         """
-        filename = os.path.expanduser("~/.pydoro.ini")
         with open(filename, "w+") as configfile:
             self._conf.write(configfile)
 
