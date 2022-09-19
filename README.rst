@@ -30,6 +30,11 @@ Install via pip:
     $ pip install pydoro
     $ pydoro
 
+Install via snap:
+.. code-block::
+    $ sudo snap install pydoro
+    $ pydoro
+
 Done.
 
 You can also use :code:`pip install "pydoro[audio]"` to get audio dependencies for OSX(:code:`pyobjc-core`) and Linux(:code:`PyGObject`).
