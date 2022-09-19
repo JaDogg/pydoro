@@ -30,10 +30,13 @@ Install via pip:
     $ pip install pydoro
     $ pydoro
 
-Install via snap:
+Install via snap (Linux):
+
 .. code-block::
+
     $ sudo snap install pydoro
     $ pydoro
+
 
 Done.
 
@@ -85,6 +88,7 @@ Contributors 🙏
 * Karolis Mažukna - nikamura_
 * AKeerio - akeerio_
 * Rohn Chatterjee - liupold_
+* James Tigert - kz6fittycent_
 
 .. _gmelodie: https://github.com/gmelodie
 .. _requiem: https://github.com/Requiem
@@ -96,6 +100,7 @@ Contributors 🙏
 .. _nikamura: https://github.com/Nikamura
 .. _akeerio: https://github.com/AKeerio
 .. _liupold: https://github.com/liupold
+.. _kz6fittycent: https://github.com/kz6fittycent
 
 Why ? 🤔
 ------------
