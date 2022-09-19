@@ -1,0 +1,49 @@
+name: pydoro
+adopt-info: pydoro
+summary: Terminal Pomodoro Timer
+description: |
+  Terminal Pomodoro Timer
+
+license: MIT
+
+base: core20
+grade: stable
+confinement: strict
+compression: lzo
+
+assumes:
+  - command-chain
+  
+apps:
+  pydoro:
+    command: bin/pydoro
+    command-chain: 
+      - bin/homeishome-launch      
+    environment:
+      LC_ALL: C.UTF-8
+    plugs:
+      - home
+      - audio-playback
+      
+parts:
+  pydoro:
+    source: https://github.com/JaDogg/pydoro
+    source-type: git
+    plugin: python
+    
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version "$(git describe --tags | sed 's/^v//' | cut -d "-" -f1)"
+
+    build-packages:
+      - python
+      - python-gobject
+    
+    stage-packages:
+      - python
+      - python-gobject
+
+  homeishome-launch:
+    plugin: nil
+    stage-snaps:
+      - homeishome-launch  
