@@ -38,7 +38,7 @@ Install via snap (Linux):
     $ pydoro
     
  
-* NOTE: Pop!_OS users will need to run pydoro without sound, using this command option: pydoro --no-sound
+* NOTE: Pop!_OS users will need to run pydoro without sound, using this command option: :code:`pydoro --no-sound`
 * Snap package is maintained by James Tigert ( kz6fittycent_ )
 
 Done.
