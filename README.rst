@@ -36,7 +36,8 @@ Install via snap (Linux):
 
     $ sudo snap install pydoro
     $ pydoro
-
+    
+    NOTE: Pop!_OS users will need to run pydoro without sound, using this command option: pydoro --no-sound
 
 Done.
 
