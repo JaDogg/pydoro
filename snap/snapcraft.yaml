@@ -1,0 +1,69 @@
+name: pydoro
+adopt-info: pydoro
+summary: Terminal Pomodoro Timer
+description: |
+  Terminal Pomodoro Timer
+
+license: MIT
+
+base: core20
+grade: stable
+confinement: strict
+compression: lzo
+
+assumes:
+  - command-chain
+
+layout:
+  /usr/share/alsa:
+    bind: $SNAP/usr/share/alsa
+  /etc/alsa:
+    bind: $SNAP/etc/alsa
+  /usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib:
+    bind: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/alsa-lib
+  
+apps:
+  pydoro:
+    command: bin/pydoro
+    command-chain: 
+      - bin/homeishome-launch      
+    environment:
+      LC_ALL: C.UTF-8
+      PYTHONPATH: $SNAP/usr/lib/python3/dist-packages
+      GI_TYPELIB_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/girepository-1.0
+      LD_LIBRARY_PATH: $SNAP/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/pulseaudio
+      
+    plugs:
+      - home
+      - audio-playback
+      - alsa
+      - pulseaudio
+      
+parts:
+  pydoro:
+    source: https://github.com/JaDogg/pydoro
+    source-type: git
+    plugin: python
+    
+    override-pull: |
+      snapcraftctl pull
+      snapcraftctl set-version "$(git describe --tags | sed 's/^v//' | cut -d "-" -f1)"
+
+    build-packages:
+      - python3
+      - python3-gi
+      - python3-pip
+      - python3-pygame    
+      
+    stage-packages:
+      - python3
+      - python3-gi
+      - python3-pygame
+      - python3-gst-1.0
+      - libpulse0
+      - libasound2-plugins
+                        
+  homeishome-launch:
+    plugin: nil
+    stage-snaps:
+      - homeishome-launch  
