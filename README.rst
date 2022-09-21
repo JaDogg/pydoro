@@ -56,6 +56,12 @@ If you have pipx:
 .. code-block::
 
     $ pipx install pydoro
+    
+You can also inject dependencies to pipx virtual environment using
+
+.. code-block::
+
+    $ pipx inject pydoro pygame
 
 Usage 📖
 ---------
