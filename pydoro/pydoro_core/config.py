@@ -73,6 +73,7 @@ class Configuration:
         self._conf["KeyBindings"]["pause"] = "p"
         self._conf["KeyBindings"]["reset"] = "r"
         self._conf["KeyBindings"]["reset_all"] = "a"
+        self._conf["KeyBindings"]["help"] = "?,f1"
 
         self._conf["Trigger"] = {}
         self._conf["Trigger"]["work_state_cmd"] = "[]"
