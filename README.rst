@@ -98,6 +98,7 @@ Contributors 🙏
 * AKeerio - akeerio_
 * Rohn Chatterjee - liupold_
 * James Tigert - kz6fittycent_
+* Kana - kana_
 
 .. _gmelodie: https://github.com/gmelodie
 .. _requiem: https://github.com/Requiem
@@ -110,6 +111,7 @@ Contributors 🙏
 .. _akeerio: https://github.com/AKeerio
 .. _liupold: https://github.com/liupold
 .. _kz6fittycent: https://github.com/kz6fittycent
+.. _kana: https://github.com/kana800
 
 Why ? 🤔
 ------------
