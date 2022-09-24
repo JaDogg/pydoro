@@ -112,13 +112,12 @@ class UserInterface:
             "pause": lambda _=None: self.tomato.pause(),
             "reset": lambda _=None: self.tomato.reset(),
             "reset_all": lambda _=None: self.tomato.reset_all(),
-            "help": lambda _=None: self.toggleHelpWindowState(),
+            "help": lambda _=None: self.toggle_help_window_state(),
         }
 
         for action, keys in self.config.key_bindings.items():
             for key in keys.split(","):
                 try:
-                    print(key.strip())
                     self.kb.add(key.strip())(actions[action])
                 except KeyError:
                     pass
@@ -127,8 +126,8 @@ class UserInterface:
     def _exit_clicked(_=None):
         get_app().exit()
 
-    def toggleHelpWindowState(self):
-        if self.helpwindow.isVisible():
+    def toggle_help_window_state(self):
+        if self.helpwindow.is_visible():
             self.helpwindow.hide()
         else:
             self.helpwindow.show()
@@ -174,7 +173,7 @@ class HelpContainer(ConditionalContainer):
 
         super().__init__(filter=is_visible, content=content)
 
-    def isVisible(self):
+    def is_visible(self):
         return self.visible
 
     def show(self):
