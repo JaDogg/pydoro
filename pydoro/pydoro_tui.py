@@ -2,15 +2,27 @@
 
 __version__ = "0.2.3"
 
+from email import message
+from lib2to3.pytree import LeafPattern
+from msilib.schema import EventMapping
 import sys
 import threading
 import subprocess
+from turtle import isvisible
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app
 from prompt_toolkit.key_binding import KeyBindings
 from prompt_toolkit.key_binding.bindings.focus import focus_next, focus_previous
-from prompt_toolkit.layout import HSplit, Layout, VSplit, FormattedTextControl, Window
+from prompt_toolkit.layout import (
+    HSplit,
+    Layout,
+    VSplit,
+    FormattedTextControl,
+    Window,
+    ConditionalContainer,
+)
+from prompt_toolkit.filters import Condition
 from prompt_toolkit.styles import Style
 from prompt_toolkit.widgets import Box, Button, Label
 
@@ -25,6 +37,8 @@ class UserInterface:
         self.config = config
         self.tomato = Tomato(self.config)
         self.prev_hash = None
+
+        self.helpwindow = HelpContainer(self.config._conf["KeyBindings"])
 
         self._create_ui()
 
@@ -62,9 +76,11 @@ class UserInterface:
                             text_window,
                         ]
                     ),
+                    self.helpwindow,
                 ]
             )
         )
+
         layout = Layout(container=root_container, focused_element=btn_start)
         self._set_key_bindings()
 
@@ -80,6 +96,7 @@ class UserInterface:
                 ("green", "#00ff00"),
             ]
         )
+
         self.application = Application(
             layout=layout, key_bindings=self.kb, style=style, full_screen=True
         )
@@ -95,11 +112,13 @@ class UserInterface:
             "pause": lambda _=None: self.tomato.pause(),
             "reset": lambda _=None: self.tomato.reset(),
             "reset_all": lambda _=None: self.tomato.reset_all(),
+            "help": lambda _=None: self.toggleHelpWindowState(),
         }
 
         for action, keys in self.config.key_bindings.items():
             for key in keys.split(","):
                 try:
+                    print(key.strip())
                     self.kb.add(key.strip())(actions[action])
                 except KeyError:
                     pass
@@ -107,6 +126,17 @@ class UserInterface:
     @staticmethod
     def _exit_clicked(_=None):
         get_app().exit()
+
+    def toggleHelpWindowState(self):
+        """
+        Toggles the helpWindowState;If the current
+        state is True then set it to False and
+        vice-versa
+        """
+        if self.helpwindow.isVisible():
+            self.helpwindow.hide()
+        else:
+            self.helpwindow.show()
 
     def _draw(self):
         self.tomato.update()
@@ -121,6 +151,42 @@ class UserInterface:
         self._draw()
         threading.Thread(target=lambda: every(0.4, self._draw), daemon=True).start()
         self.application.run()
+
+
+class HelpContainer(ConditionalContainer):
+    def __init__(self, keybindings={}):
+        self.visible = False
+
+        content = Box(
+            HSplit(
+                [
+                    Label(text=f"----------------Help------------------\n"),
+                    Label(text=f"start         | {keybindings['start']}"),
+                    Label(text=f"pause         | {keybindings['pause']}"),
+                    Label(text=f"reset         | {keybindings['reset']}"),
+                    Label(text=f"reset all     | {keybindings['reset_all']}"),
+                    Label(text=f"help          | {keybindings['help']}"),
+                    Label(text=f"focus prev    | {keybindings['focus_previous']}"),
+                    Label(text=f"focus next    | {keybindings['focus_next']}"),
+                    Label(text=f"exit          | {keybindings['exit_clicked']}"),
+                ]
+            )
+        )
+
+        @Condition
+        def is_visible():
+            return self.visible
+
+        super().__init__(filter=is_visible, content=content)
+
+    def isVisible(self):
+        return self.visible
+
+    def show(self):
+        self.visible = True
+
+    def hide(self):
+        self.visible = False
 
 
 def main():

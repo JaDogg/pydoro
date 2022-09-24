@@ -40,7 +40,7 @@ class Configuration:
         parser.add_argument(
             "--version", help="display version and exit", action="store_true"
         )
-        parser.add_argument("--audio-file", metavar='path', help="custom audio file")
+        parser.add_argument("--audio-file", metavar="path", help="custom audio file")
         self.cli_args = parser.parse_args()
 
     def _ini_parse(self):
@@ -116,18 +116,20 @@ class Configuration:
         self.long_break_minutes = float(self._conf["Time"]["long_break_minutes"])
         self.alarm_seconds = int(self._conf["Time"]["alarm_seconds"])
         self.key_bindings = self._conf["KeyBindings"]
-        self.work_state_cmd = \
-            ast.literal_eval(self._conf["Trigger"]["work_state_cmd"])
-        self.work_paused_state_cmd = \
-            ast.literal_eval(self._conf["Trigger"]["work_paused_state_cmd"])
-        self.small_break_state_cmd = \
-            ast.literal_eval(self._conf["Trigger"]["small_break_state_cmd"])
-        self.long_break_state_cmd = \
-            ast.literal_eval(self._conf["Trigger"]["long_break_state_cmd"])
-        self.work_resumed_state_cmd = \
-            ast.literal_eval(self._conf["Trigger"]["work_resumed_state_cmd"])
-        self.exit_cmd = \
-            ast.literal_eval(self._conf["Trigger"]["exit_cmd"])
+        self.work_state_cmd = ast.literal_eval(self._conf["Trigger"]["work_state_cmd"])
+        self.work_paused_state_cmd = ast.literal_eval(
+            self._conf["Trigger"]["work_paused_state_cmd"]
+        )
+        self.small_break_state_cmd = ast.literal_eval(
+            self._conf["Trigger"]["small_break_state_cmd"]
+        )
+        self.long_break_state_cmd = ast.literal_eval(
+            self._conf["Trigger"]["long_break_state_cmd"]
+        )
+        self.work_resumed_state_cmd = ast.literal_eval(
+            self._conf["Trigger"]["work_resumed_state_cmd"]
+        )
+        self.exit_cmd = ast.literal_eval(self._conf["Trigger"]["exit_cmd"])
 
     def _cli_load(self):
         """
@@ -140,4 +142,6 @@ class Configuration:
         self.emoji = self.cli_args.emoji or self.emoji
         self.audio_check = self.cli_args.audio_check
         self.show_version = self.cli_args.version
-        self.audio_file = self.cli_args.audio_file or self.audio_file or in_app_path("b15.wav")
+        self.audio_file = (
+            self.cli_args.audio_file or self.audio_file or in_app_path("b15.wav")
+        )
