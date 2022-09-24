@@ -128,11 +128,6 @@ class UserInterface:
         get_app().exit()
 
     def toggleHelpWindowState(self):
-        """
-        Toggles the helpWindowState;If the current
-        state is True then set it to False and
-        vice-versa
-        """
         if self.helpwindow.isVisible():
             self.helpwindow.hide()
         else:
