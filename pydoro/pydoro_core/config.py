@@ -84,7 +84,7 @@ class Configuration:
         self._conf["Trigger"]["exit_cmd"] = "[]"
 
         filename = os.environ.get(
-            "PYDORO_CONFIG_FILE", os.path.expanduser("~/.pydoro.ini")
+            "PYDORO_CONFIG_FILE", os.path.expanduser("~/.config/pydoro/pydoro.ini")
         )
 
         if os.path.exists(filename):
@@ -95,10 +95,16 @@ class Configuration:
     def _create_default_ini(self, filename):
         """
         Creates default ini configuration file
-        Saves it in '~/.pydoro.ini' or the location specified by PYDORO_CONFIG_FILE environment variable
+        Saves it in '~/.config/pydoro/pydoro.ini' or the location specified by PYDORO_CONFIG_FILE environment variable
         """
-        with open(filename, "w+") as configfile:
-            self._conf.write(configfile)
+        try:
+            with open(filename, "w+") as configfile:
+                self._conf.write(configfile)
+                
+        except FileNotFoundError:
+            config_dir = os.path.expanduser("~/.config/pydoro")
+            os.makedirs(config_dir, exist_ok=True)
+            os.chdir(config_dir)
 
     def _ini_load(self):
         """
