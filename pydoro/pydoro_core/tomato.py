@@ -5,7 +5,6 @@ from enum import IntEnum
 from timeit import default_timer
 
 from pydoro.pydoro_core import sound
-from pydoro.pydoro_core.util import in_app_path
 from pydoro.pydoro_core.config import Configuration
 
 SECONDS_PER_MIN = 60
