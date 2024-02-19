@@ -1,12 +1,15 @@
 import itertools
 import subprocess
 import sys
+import os
 from enum import IntEnum
 from timeit import default_timer
 
 from pydoro.pydoro_core import sound
-from pydoro.pydoro_core.util import in_app_path
+from pydoro.pydoro_core.util import in_app_path, open_file_in_default_editor
 from pydoro.pydoro_core.config import Configuration
+
+from prompt_toolkit.application.current import get_app
 
 SECONDS_PER_MIN = 60
 
@@ -442,6 +445,7 @@ class Tomato:
         self.tomatoes_per_set = configs.tomatoes_per_set
         self.no_clock = configs.no_clock
         self.tomatoes = 0
+        self.redraw = False
 
         self._state = InitialState(self)
 
@@ -457,6 +461,13 @@ class Tomato:
     def reset_all(self):
         self._state = InitialState(self)
         self.tomatoes = 0
+
+    def edit_config(self):
+        config_file_path = os.environ.get(
+            "PYDORO_CONFIG_FILE", os.path.expanduser("~/.config/pydoro/pydoro.ini")
+        )
+        open_file_in_default_editor(config_file_path)
+        self.redraw = True
 
     def update(self):
         if self._state.done:

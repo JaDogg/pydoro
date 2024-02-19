@@ -4,8 +4,9 @@ __version__ = "0.2.3"
 
 from email import message
 from lib2to3.pytree import LeafPattern
-from msilib.schema import EventMapping
+# from msilib.schema import EventMapping
 import sys
+import os
 import threading
 import subprocess
 from turtle import isvisible
@@ -47,6 +48,7 @@ class UserInterface:
         btn_pause = Button("Pause", handler=self.tomato.pause)
         btn_reset = Button("Reset", handler=self.tomato.reset)
         btn_reset_all = Button("Reset All", handler=self.tomato.reset_all)
+        btn_edit_config = Button("Configs", handler=self.tomato.edit_config)
         btn_exit = Button("Exit", handler=self._exit_clicked)
         # All the widgets for the UI.
         self.text_area = FormattedTextControl(focusable=False, show_cursor=False)
@@ -68,6 +70,7 @@ class UserInterface:
                                     btn_pause,
                                     btn_reset,
                                     btn_reset_all,
+                                    btn_edit_config,
                                     btn_exit,
                                 ],
                                 padding=1,
@@ -134,6 +137,13 @@ class UserInterface:
 
     def _draw(self):
         self.tomato.update()
+
+        if self.tomato.redraw:
+            get_app().invalidate()
+            self.tomato.redraw = False # reset redraw flag
+            # TODO: refresh changed configs
+            # self.configs._ini_parse()
+
         text, hash_ = self.tomato.render()
         # WHY: Avoid unnecessary updates
         if hash_ != self.prev_hash:
