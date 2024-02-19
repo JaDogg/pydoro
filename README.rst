@@ -36,8 +36,8 @@ Install via snap (Linux):
 
     $ sudo snap install pydoro
     $ pydoro
-    
- 
+
+
 * NOTE: Pop!_OS users will need to run pydoro without sound, using this command option: :code:`pydoro --no-sound`
 * Snap package is maintained by James Tigert ( kz6fittycent_ )
 
@@ -56,7 +56,7 @@ If you have pipx:
 .. code-block::
 
     $ pipx install pydoro
-    
+
 You can also inject dependencies to pipx virtual environment using
 
 .. code-block::
@@ -126,6 +126,6 @@ Why ? 🤔
 
 Copyright ⚖
 ----------------
-This software is Copyright (c) 2021 - 2023 Bhathiya Perera.
+This software is Copyright (c) 2021 - 2024 Bhathiya Perera.
 
 See the LICENSE file for more information.

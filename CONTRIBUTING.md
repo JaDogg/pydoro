@@ -3,15 +3,19 @@
 
 # Commits
 * Please put a meaningful commit message.
-* No need for emojis. ❌
-### OK:
-* Create CSV file with statistics funcionality.
+* No need for emojis in commit messages. ❌ (OK in Documentation)
+
+**OK:**
+
+* Create CSV file with statistics functionality.
 * Fixes issue #123 - Refactor Tomato class
 * Formatted with black
 * Fixed README
 * Updated README
 * Update CONTRIBUTING.md
-### Not OK:
+
+**Not OK:**
+
 * Push code.
 * I'm pushing code..
 * Gah! have some code.
