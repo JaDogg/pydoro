@@ -3,12 +3,20 @@ import configparser
 import os
 import ast
 
-from pydoro.pydoro_core.util import in_app_path
+from pydoro.pydoro_core.util import in_app_path, open_file_in_default_editor
 
 
 class Configuration:
     def __init__(self):
         self._cli_parse()
+
+        # Check if user wants to edit config before doing anything else
+        if self.cli_args.edit_config:
+            config_file_path = os.environ.get(
+                "PYDORO_CONFIG_FILE", os.path.expanduser("~/.config/pydoro/pydoro.ini")
+            )
+            open_file_in_default_editor(config_file_path)
+
         self._ini_parse()
         self._ini_load()
         self._cli_load()
@@ -41,6 +49,7 @@ class Configuration:
             "--version", help="display version and exit", action="store_true"
         )
         parser.add_argument("--audio-file", metavar="path", help="custom audio file")
+        parser.add_argument("--edit-config", help="open config file in editor", action="store_true")
         self.cli_args = parser.parse_args()
 
     def _ini_parse(self):
