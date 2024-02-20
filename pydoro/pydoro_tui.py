@@ -2,14 +2,10 @@
 
 __version__ = "0.2.3"
 
-from email import message
-from lib2to3.pytree import LeafPattern
-# from msilib.schema import EventMapping
 import sys
 import os
 import threading
 import subprocess
-from turtle import isvisible
 
 from prompt_toolkit.application import Application
 from prompt_toolkit.application.current import get_app

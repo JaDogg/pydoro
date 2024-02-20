@@ -6,7 +6,7 @@ from enum import IntEnum
 from timeit import default_timer
 
 from pydoro.pydoro_core import sound
-from pydoro.pydoro_core.util import in_app_path, open_file_in_default_editor
+from pydoro.pydoro_core.util import open_file_in_default_editor
 from pydoro.pydoro_core.config import Configuration
 
 from prompt_toolkit.application.current import get_app
