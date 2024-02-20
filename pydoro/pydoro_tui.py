@@ -3,6 +3,7 @@
 __version__ = "0.2.3"
 
 import sys
+import os
 import threading
 import subprocess
 
@@ -29,12 +30,12 @@ import pydoro.pydoro_core.sound as sound
 
 
 class UserInterface:
-    def __init__(self, config: Configuration):
-        self.config = config
-        self.tomato = Tomato(self.config)
+    def __init__(self, configs: Configuration):
+        self.configs = configs
+        self.tomato = Tomato(self.configs)
         self.prev_hash = None
 
-        self.helpwindow = HelpContainer(self.config._conf["KeyBindings"])
+        self.helpwindow = HelpContainer(self.configs._conf["KeyBindings"])
 
         self._create_ui()
 
@@ -43,6 +44,7 @@ class UserInterface:
         btn_pause = Button("Pause", handler=self.tomato.pause)
         btn_reset = Button("Reset", handler=self.tomato.reset)
         btn_reset_all = Button("Reset All", handler=self.tomato.reset_all)
+        btn_edit_configs = Button("Configs", handler=self.tomato.edit_configs)
         btn_exit = Button("Exit", handler=self._exit_clicked)
         # All the widgets for the UI.
         self.text_area = FormattedTextControl(focusable=False, show_cursor=False)
@@ -64,6 +66,7 @@ class UserInterface:
                                     btn_pause,
                                     btn_reset,
                                     btn_reset_all,
+                                    btn_edit_configs,
                                     btn_exit,
                                 ],
                                 padding=1,
@@ -111,7 +114,7 @@ class UserInterface:
             "help": lambda _=None: self.toggle_help_window_state(),
         }
 
-        for action, keys in self.config.key_bindings.items():
+        for action, keys in self.configs.key_bindings.items():
             for key in keys.split(","):
                 try:
                     self.kb.add(key.strip())(actions[action])
@@ -180,18 +183,18 @@ class HelpContainer(ConditionalContainer):
 
 
 def main():
-    config = Configuration()
-    if config.audio_check:
+    configs = Configuration()
+    if configs.audio_check:
         # WHY twice: to catch more issues
         sound.play(in_app_path("b15.wav"), block=True)
         sound.play(in_app_path("b15.wav"), block=True)
         sys.exit(0)
-    if config.show_version:
+    if configs.show_version:
         print("pydoro : version - {0}".format(__version__))
         sys.exit(0)
-    UserInterface(config).run()
-    if config.exit_cmd:
-        subprocess.run(config.exit_cmd)
+    UserInterface(configs).run()
+    if configs.exit_cmd:
+        subprocess.run(configs.exit_cmd)
 
 
 if __name__ == "__main__":

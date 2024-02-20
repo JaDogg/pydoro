@@ -1,11 +1,15 @@
 import itertools
 import subprocess
 import sys
+import os
 from enum import IntEnum
 from timeit import default_timer
 
 from pydoro.pydoro_core import sound
+from pydoro.pydoro_core.util import open_file_in_default_editor
 from pydoro.pydoro_core.config import Configuration
+
+from prompt_toolkit.application.current import get_app
 
 SECONDS_PER_MIN = 60
 
@@ -271,14 +275,14 @@ class WorkingState(InitialState):
     @property
     def time_remaining(self):
         self._calc_remainder()
-        if self._tomato.no_clock:
+        if self._tomato.configs.no_clock:
             return ""
         return self._format_time(self._remainder)
 
     @property
     def next_state(self):
         self._tomato.tomatoes += 1
-        if self._tomato.tomatoes % self._tomato.tomatoes_per_set == 0:
+        if self._tomato.tomatoes % self._tomato.configs.tomatoes_per_set == 0:
             return IntermediateState.transition_to(LongBreakState, self._tomato)
         return IntermediateState.transition_to(SmallBreakState, self._tomato)
 
@@ -436,12 +440,8 @@ class LongBreakPausedState(SmallBreakPausedState):
 class Tomato:
     def __init__(self, configs: Configuration):
         self.configs = configs
-        self.no_sound = configs.no_sound
-        self.emoji = configs.emoji
-        self.tomatoes_per_set = configs.tomatoes_per_set
-        self.no_clock = configs.no_clock
+        self.reload_configs = False
         self.tomatoes = 0
-
         self._state = InitialState(self)
 
     def start(self):
@@ -457,12 +457,23 @@ class Tomato:
         self._state = InitialState(self)
         self.tomatoes = 0
 
+    def edit_configs(self):
+        config_file_path = os.environ.get(
+            "PYDORO_CONFIG_FILE", os.path.expanduser("~/.config/pydoro/pydoro.ini")
+        )
+        open_file_in_default_editor(config_file_path)
+        # load config changes
+        self.configs = Configuration()
+        self._state = InitialState(self)
+        self.tomatoes = 0
+        get_app().reset()
+
     def update(self):
         if self._state.done:
             self._state = self._state.next_state
 
     def play_alarm(self):
-        if self.no_sound:
+        if self.configs.no_sound:
             return
         # noinspection PyBroadException
         try:
@@ -472,7 +483,7 @@ class Tomato:
 
     def tomato_symbol(self):
         ascii_tomato = "(`) "
-        if self.emoji:
+        if self.configs.emoji:
             try:
                 "🍅".encode(sys.stdout.encoding)
                 return "🍅 "
@@ -486,7 +497,7 @@ class Tomato:
         if not task:
             task = [""] * 4
 
-        sets = self.tomatoes // self.tomatoes_per_set
+        sets = self.tomatoes // self.configs.tomatoes_per_set
         if sets == 1:
             sets = "1 set completed"
         elif sets >= 2:
@@ -497,7 +508,7 @@ class Tomato:
         status = TEXT[self._state.status]
         time = self._state.time_remaining
         count = self.tomato_symbol() * (
-            self.tomatoes_per_set - self.tomatoes % self.tomatoes_per_set
+            self.configs.tomatoes_per_set - self.tomatoes % self.configs.tomatoes_per_set
         )
 
         ftext = TOMATO[:]
