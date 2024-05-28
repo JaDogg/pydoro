@@ -1,3 +1,3 @@
-prompt-toolkit==3.0.43
+prompt-toolkit==3.0.45
 pyinstaller==6.5.0
 twine==5.1.0
