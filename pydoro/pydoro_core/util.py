@@ -14,11 +14,13 @@ def every(delay, task):
 
 def in_app_path(path):
     try:
-        wd = sys._MEIPASS
+        if hasattr(sys, '_MEIPASS'):
+            wd = sys._MEIPASS
+        else:
+            wd = os.path.dirname(__file__)
         return os.path.abspath(os.path.join(wd, path))
     except AttributeError:
         return _from_resource(path)
-
 
 def _from_resource(path):
     from pkg_resources import resource_filename
