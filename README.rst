@@ -126,6 +126,6 @@ Why ? 🤔
 
 Copyright ⚖
 ----------------
-This software is Copyright (c) 2021 - 2024 Bhathiya Perera.
+This software is Copyright (c) 2021 - 2025 Bhathiya Perera.
 
 See the LICENSE file for more information.
