@@ -137,35 +137,31 @@ Pydoro has benefited from the contributions of various individuals and libraries
 
 Contributors 🙏
 ------------------
-The development of Pydoro would not have been possible without the contributions of the following individuals:
+* Gabriel Cruz - gmelodie_
+* Zach Nelson - requiem_
+* Kajpio - kajpio_
+* Manuel Gutierrez - xr09_
+* kiba - islander_
+* Beatriz Uezu - beatrizuezu_
+* Zlatan - zlatsic_
+* Karolis Mažukna - nikamura_
+* AKeerio - akeerio_
+* Rohn Chatterjee - liupold_
+* James Tigert - kz6fittycent_
+* Kana - kana_
 
-- **Gabriel Cruz** (gmelodie)
-- **Zach Nelson** (requiem)
-- **Kajpio** (kajpio)
-- **Manuel Gutierrez** (xr09)
-- **Kiba** (islander)
-- **Beatriz Uezu** (beatrizuezu)
-- **Zlatan** (zlatsic)
-- **Karolis Mažukna** (nikamura)
-- **AKeerio** (akeerio)
-- **Rohn Chatterjee** (liupold)
-- **James Tigert** (kz6fittycent)
-- **Kana** (kana)
-
-Check out their GitHub profiles for more information:
-
-- **[gmelodie](https://github.com/gmelodie)**
-- **[requiem](https://github.com/Requiem)**
-- **[kajpio](https://github.com/Kajpio)**
-- **[xr09](https://github.com/xr09)**
-- **[islander](https://github.com/islander)**
-- **[beatrizuezu](https://github.com/beatrizuezu)**
-- **[zlatsic](https://github.com/ZlatSic)**
-- **[nikamura](https://github.com/Nikamura)**
-- **[akeerio](https://github.com/AKeerio)**
-- **[liupold](https://github.com/liupold)**
-- **[kz6fittycent](https://github.com/kz6fittycent)**
-- **[kana](https://github.com/kana800)**
+.. _gmelodie: https://github.com/gmelodie
+.. _requiem: https://github.com/Requiem
+.. _kajpio: https://github.com/Kajpio
+.. _xr09: https://github.com/xr09
+.. _islander: https://github.com/islander
+.. _beatrizuezu: https://github.com/beatrizuezu
+.. _zlatsic: https://github.com/ZlatSic
+.. _nikamura: https://github.com/Nikamura
+.. _akeerio: https://github.com/AKeerio
+.. _liupold: https://github.com/liupold
+.. _kz6fittycent: https://github.com/kz6fittycent
+.. _kana: https://github.com/kana800
 
 Why? 🤔
 ---------
