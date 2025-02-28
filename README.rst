@@ -30,7 +30,7 @@ Pydoro is a lightweight, terminal-based Pomodoro timer written in Python. It all
 Installation
 ============
 
-### Install via pip:
+## Install via pip:
 ```sh
 pip install pydoro
 pydoro
