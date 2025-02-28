@@ -1,6 +1,4 @@
-pydoro 🍅
-============
-*Terminal Pomodoro Timer*
+# Pydoro Documentation
 
 .. image:: https://github.com/JaDogg/pydoro/raw/develop/images/logo.png
 
@@ -21,111 +19,106 @@ pydoro 🍅
 .. image:: https://img.shields.io/badge/code%20style-black-000000.svg
     :target: https://github.com/psf/black
 
-Installation 🎉
------------------
-Install via pip:
+## Introduction
+Pydoro is a lightweight, terminal-based Pomodoro timer written in Python. It allows users to implement the Pomodoro technique without relying on mobile or web applications. The tool is privacy-friendly, does not track or store user data, and is designed for efficiency within the terminal environment.
 
-.. code-block::
+---
 
-    $ pip install pydoro
-    $ pydoro
+## Installation
 
-Install via snap (Linux):
+### Install via pip:
+```sh
+pip install pydoro
+pydoro
+```
 
-.. code-block::
+### Install via snap (Linux):
+```sh
+sudo snap install pydoro
+pydoro
+```
+**Note:** Pop!_OS users need to disable sound using the following command:
+```sh
+pydoro --no-sound
+```
+*The Snap package is maintained by James Tigert ([kz6fittycent](https://github.com/kz6fittycent)).*
 
-    $ sudo snap install pydoro
-    $ pydoro
+### Installing with Audio Dependencies
+For audio support, use the following command:
+```sh
+pip install "pydoro[audio]"
+```
 
+- **MacOS**: Requires `pyobjc-core`.
+- **Linux**: Requires `PyGObject`.
+- **Alternative for Linux**: If `PyGObject` fails, try installing `pygame`.
 
-* NOTE: Pop!_OS users will need to run pydoro without sound, using this command option: :code:`pydoro --no-sound`
-* Snap package is maintained by James Tigert ( kz6fittycent_ )
+### Using pip3
+On some systems, `pip3` may be required instead of `pip`.
 
-Done.
+### Windows Users
+Windows users can try the packaged `.exe` file available on the [releases page](https://github.com/JaDogg/pydoro/releases).
 
-You can also use :code:`pip install "pydoro[audio]"` to get audio dependencies for OSX(:code:`pyobjc-core`) and Linux(:code:`PyGObject`).
+### Using pipx
+If you have `pipx` installed, run:
+```sh
+pipx install pydoro
+```
+To inject dependencies into the pipx virtual environment:
+```sh
+pipx inject pydoro pygame
+```
 
-Also for Linux :code:`pygame` will be used if it's installed. (Try this if you cannot get :code:`PyGObject` to work)
+---
 
-For some systems you may have to use :code:`pip3` instead. **Only Python 3.6+ is supported.**
+## Usage
+Run `pydoro` to start the Pomodoro timer.
 
-On windows you may try the packaged .exe file. See the releases_ page.
+### Available Options:
+- `--no-sound` : Mute alarms.
+- `--no-clock` : Hide the clock.
+- `--focus` : Disable both sound and clock.
 
-If you have pipx:
+More details are available in the [wiki](https://github.com/JaDogg/pydoro/wiki).
 
-.. code-block::
+![Pydoro Animation](https://github.com/JaDogg/pydoro/raw/develop/images/animation.gif)
 
-    $ pipx install pydoro
+---
 
-You can also inject dependencies to pipx virtual environment using
+## Credits
+- **Pomodoro Technique** - Invented by Francesco Cirillo.
+- **playsound.py** - Audio playback library by Taylor Marks.
+- **prompt-toolkit** - Provides terminal UI.
+- **b15.wav** - Sound by Dana Robinson (CC0 from freesound.org).
 
-.. code-block::
+---
 
-    $ pipx inject pydoro pygame
+## Contributors
+- [Gabriel Cruz (gmelodie)](https://github.com/gmelodie)
+- [Zach Nelson (requiem)](https://github.com/requiem)
+- [Kajpio](https://github.com/kajpio)
+- [Manuel Gutierrez (xr09)](https://github.com/xr09)
+- [kiba (islander)](https://github.com/islander)
+- [Beatriz Uezu (beatrizuezu)](https://github.com/beatrizuezu)
+- [Zlatan (zlatsic)](https://github.com/zlatsic)
+- [Karolis Mažukna (nikamura)](https://github.com/nikamura)
+- [AKeerio (akeerio)](https://github.com/akeerio)
+- [Rohn Chatterjee (liupold)](https://github.com/liupold)
+- [James Tigert (kz6fittycent)](https://github.com/kz6fittycent)
+- [Kana](https://github.com/kana)
 
-Usage 📖
----------
-* Run :code:`pydoro` to launch. More info in wiki_.
+---
 
-.. image:: https://github.com/JaDogg/pydoro/raw/develop/images/animation.gif
+## Why Pydoro?
+- Implements the **Pomodoro Technique**.
+- No need for mobile or web apps.
+- Respects privacy—**no data tracking**.
+- Optimized for **terminal users**.
+- Fully written in **Python**. 🐍
 
-.. _wiki: https://github.com/JaDogg/pydoro/wiki
+---
 
+## License
+This software is **Copyright (c) 2021 - 2025 Bhathiya Perera**.
+For more details, see the LICENSE file.
 
-**Options:** Use `--no-sound` to mute alarms, `--no-clock` to hide the clock or `--focus` for both clock hiding and sound muting
-
-Credits 🙇‍♂️
-------------------
-* Pomodoro - Invented by Francesco Cirillo
-* playsound.py - For playing audio file, Copyright (c) 2016 Taylor_ Marks
-* prompt-toolkit - Awesome TUI library 😎
-* b15.wav - Dana_ robinson designs, CC0 from freesound
-
-.. _releases: https://github.com/JaDogg/pydoro/releases
-.. _Taylor: https://github.com/TaylorSMarks/playsound
-.. _Dana: https://freesound.org/s/377639/
-
-Contributors 🙏
-------------------
-* Gabriel Cruz - gmelodie_
-* Zach Nelson - requiem_
-* Kajpio - kajpio_
-* Manuel Gutierrez - xr09_
-* kiba - islander_
-* Beatriz Uezu - beatrizuezu_
-* Zlatan - zlatsic_
-* Karolis Mažukna - nikamura_
-* AKeerio - akeerio_
-* Rohn Chatterjee - liupold_
-* James Tigert - kz6fittycent_
-* Kana - kana_
-
-.. _gmelodie: https://github.com/gmelodie
-.. _requiem: https://github.com/Requiem
-.. _kajpio: https://github.com/Kajpio
-.. _xr09: https://github.com/xr09
-.. _islander: https://github.com/islander
-.. _beatrizuezu: https://github.com/beatrizuezu
-.. _zlatsic: https://github.com/ZlatSic
-.. _nikamura: https://github.com/Nikamura
-.. _akeerio: https://github.com/AKeerio
-.. _liupold: https://github.com/liupold
-.. _kz6fittycent: https://github.com/kz6fittycent
-.. _kana: https://github.com/kana800
-
-Why ? 🤔
-------------
-* I wanted to follow `Pomodoro Technique`_.
-* I don't like to use mobile apps or web apps.
-* No user info is stored, tracked or shared.
-* I spend lot of time on my Terminal.
-* Written in Python 🐍.
-
-.. _Pomodoro Technique: https://en.wikipedia.org/wiki/Pomodoro_Technique
-
-
-Copyright ⚖
-----------------
-This software is Copyright (c) 2021 - 2025 Bhathiya Perera.
-
-See the LICENSE file for more information.
