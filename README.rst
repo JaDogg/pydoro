@@ -23,17 +23,18 @@ Pydoro Documentation
 Introduction
 ============
 
-Pydoro is a lightweight, terminal-based Pomodoro timer written in Python. It allows users to implement the Pomodoro technique without relying on mobile or web applications. The tool is privacy-friendly, does not track or store user data, and is designed for efficiency within the terminal environment.
+**Pydoro** is a lightweight, terminal-based Pomodoro timer written in Python. It allows users to implement the Pomodoro technique without relying on mobile or web applications. The tool is privacy-friendly, does not track or store user data, and is designed for efficiency within the terminal environment.
 
 ---
 
 Installation
 ============
 
-## Install via pip:
+### Install via pip:
 ```sh
 pip install pydoro
 pydoro
+
 Install via snap (Linux):
 sh
 Copy
