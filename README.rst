@@ -7,10 +7,6 @@ Pydoro is a terminal-based Pomodoro timer designed to help you improve focus and
     :alt: Pydoro Logo  
     :description: The logo for the Pydoro project, representing the Pomodoro timer tool in a terminal environment.
 
-Repo Badges
------------
-The following badges are displayed to give useful insights into the status of the Pydoro project:
-
 .. image:: https://badge.fury.io/py/pydoro.svg  
     :alt: PyPI  
     :target: https://badge.fury.io/py/pydoro  
@@ -105,7 +101,8 @@ Once installed, you can start using Pydoro directly from your terminal with the 
 
 This will launch the Pomodoro timer interface in your terminal.
 
-### Available Options:
+Available Options:
+-------------------
 
 - `--no-sound`: Disables the sound notifications, allowing for a quieter experience.
 - `--no-clock`: Hides the Pomodoro clock display during the timer countdown.
