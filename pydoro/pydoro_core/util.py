@@ -23,9 +23,15 @@ def in_app_path(path):
         return _from_resource(path)
 
 def _from_resource(path):
-    from pkg_resources import resource_filename
-
-    res_path = resource_filename(__name__, path)
+    try:
+        from importlib.resources import files
+        res_path = str(files(__package__).joinpath(path))
+    except (ImportError, TypeError):
+        try:
+            from pkg_resources import resource_filename
+            res_path = resource_filename(__name__, path)
+        except ImportError:
+            res_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
     if not os.path.exists(res_path):
         res_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), path)
     return res_path
