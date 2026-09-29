@@ -101,6 +101,21 @@ Once installed, you can start using Pydoro directly from your terminal with the 
 
 This will launch the Pomodoro timer interface in your terminal.
 
+Press ``n`` to skip the current work or break period, including while paused.
+Like a normally finished period, this waits for ``s`` (Start) before beginning
+the next period. Skipped work does not add a completed tomato or advance the
+set counter; it leads to a small break. Skipping before starting or while
+waiting for the next period does nothing.
+
+The shortcut can be customized in your configuration file:
+
+.. code-block:: ini
+
+    [KeyBindings]
+    skip = n
+
+Set ``skip =`` to leave the skip shortcut unbound.
+
 Available Options:
 -------------------
 
