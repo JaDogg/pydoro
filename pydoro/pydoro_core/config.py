@@ -49,7 +49,9 @@ class Configuration:
             "--version", help="display version and exit", action="store_true"
         )
         parser.add_argument("--audio-file", metavar="path", help="custom audio file")
-        parser.add_argument("--edit-config", help="open config file in editor", action="store_true")
+        parser.add_argument(
+            "--edit-config", help="open config file in editor", action="store_true"
+        )
         self.cli_args = parser.parse_args()
 
     def _ini_parse(self):
@@ -82,6 +84,7 @@ class Configuration:
         self._conf["KeyBindings"]["pause"] = "p"
         self._conf["KeyBindings"]["reset"] = "r"
         self._conf["KeyBindings"]["reset_all"] = "a"
+        self._conf["KeyBindings"]["skip"] = "n"
         self._conf["KeyBindings"]["help"] = "?,f1"
 
         self._conf["Trigger"] = {}

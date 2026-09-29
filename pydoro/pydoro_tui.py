@@ -111,11 +111,14 @@ class UserInterface:
             "pause": lambda _=None: self.tomato.pause(),
             "reset": lambda _=None: self.tomato.reset(),
             "reset_all": lambda _=None: self.tomato.reset_all(),
+            "skip": lambda _=None: self.tomato.skip(),
             "help": lambda _=None: self.toggle_help_window_state(),
         }
 
         for action, keys in self.configs.key_bindings.items():
             for key in keys.split(","):
+                if not key.strip():
+                    continue
                 try:
                     self.kb.add(key.strip())(actions[action])
                 except KeyError:
@@ -158,6 +161,7 @@ class HelpContainer(ConditionalContainer):
                     Label(text=f"pause         | {keybindings['pause']}"),
                     Label(text=f"reset         | {keybindings['reset']}"),
                     Label(text=f"reset all     | {keybindings['reset_all']}"),
+                    Label(text=f"skip period   | {keybindings.get('skip', 'n')}"),
                     Label(text=f"help          | {keybindings['help']}"),
                     Label(text=f"focus prev    | {keybindings['focus_previous']}"),
                     Label(text=f"focus next    | {keybindings['focus_next']}"),

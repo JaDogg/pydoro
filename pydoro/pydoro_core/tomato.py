@@ -3,6 +3,7 @@ import subprocess
 import sys
 import os
 from enum import IntEnum
+from threading import RLock
 from timeit import default_timer
 
 from pydoro.pydoro_core import sound
@@ -105,9 +106,7 @@ TEXT_LONG_BREAK = r"""
  | _ )_ _ ___ __ _| |__
  | _ | '_/ -_/ _` | / /
  |___|_| \___\__,_|_\_\
-""".strip(
-    "\r\n"
-)
+""".strip("\r\n")
 
 TEXT_SMALL_BREAK = TEXT_LONG_BREAK.replace("LONG", "SMALL")
 
@@ -116,9 +115,7 @@ TEXT_WORK = r"""
  \ \    / ___ _ _| |__
   \ \/\/ / _ | '_| / /
    \_/\_/\___|_| |_\_\
-""".strip(
-    "\r\n"
-)
+""".strip("\r\n")
 
 
 class Tasks(IntEnum):
@@ -175,6 +172,9 @@ class InitialState:
         return self
 
     def reset(self):
+        return self
+
+    def skip(self):
         return self
 
     @property
@@ -289,6 +289,10 @@ class WorkingState(InitialState):
     def pause(self):
         return WorkPausedState.return_to(self._tomato, self)
 
+    def skip(self):
+        # Skipped work is not a completed tomato or a completed set.
+        return IntermediateState.transition_to(SmallBreakState, self._tomato)
+
     def reset(self):
         self._remainder = self.time_period
         return self
@@ -318,6 +322,9 @@ class WorkPausedState(InitialState):
     def reset(self):
         self._prev._remainder = self._prev.time_period
         return self
+
+    def skip(self):
+        return self._prev.skip()
 
     @property
     def time_remaining(self):
@@ -364,6 +371,9 @@ class SmallBreakState(InitialState):
     def pause(self):
         return SmallBreakPausedState.return_to(self._tomato, self)
 
+    def skip(self):
+        return self.next_state
+
     def reset(self):
         self._remainder = self.time_period
         return self
@@ -399,6 +409,9 @@ class SmallBreakPausedState(InitialState):
     def reset(self):
         self._prev._remainder = self._prev.time_period
         return self
+
+    def skip(self):
+        return self._prev.skip()
 
     @property
     def done(self):
@@ -439,23 +452,33 @@ class LongBreakPausedState(SmallBreakPausedState):
 
 class Tomato:
     def __init__(self, configs: Configuration):
+        self._state_lock = RLock()
         self.configs = configs
         self.reload_configs = False
         self.tomatoes = 0
         self._state = InitialState(self)
 
     def start(self):
-        self._state = self._state.start()
+        with self._state_lock:
+            self._state = self._state.start()
 
     def pause(self):
-        self._state = self._state.pause()
+        with self._state_lock:
+            self._state = self._state.pause()
 
     def reset(self):
-        self._state = self._state.reset()
+        with self._state_lock:
+            self._state = self._state.reset()
 
     def reset_all(self):
-        self._state = InitialState(self)
-        self.tomatoes = 0
+        with self._state_lock:
+            self._state = InitialState(self)
+            self.tomatoes = 0
+
+    def skip(self):
+        """Skip an active or paused period without counting unfinished work."""
+        with self._state_lock:
+            self._state = self._state.skip()
 
     def edit_configs(self):
         config_file_path = os.environ.get(
@@ -463,14 +486,17 @@ class Tomato:
         )
         open_file_in_default_editor(config_file_path)
         # load config changes
-        self.configs = Configuration()
-        self._state = InitialState(self)
-        self.tomatoes = 0
+        configs = Configuration()
+        with self._state_lock:
+            self.configs = configs
+            self._state = InitialState(self)
+            self.tomatoes = 0
         get_app().reset()
 
     def update(self):
-        if self._state.done:
-            self._state = self._state.next_state
+        with self._state_lock:
+            if self._state.done:
+                self._state = self._state.next_state
 
     def play_alarm(self):
         if self.configs.no_sound:
@@ -492,6 +518,10 @@ class Tomato:
         return ascii_tomato
 
     def render(self) -> (list, int):
+        with self._state_lock:
+            return self._render()
+
+    def _render(self) -> (list, int):
         task = TEXT[self._state.task]
         task = task.splitlines()
         if not task:
@@ -508,7 +538,8 @@ class Tomato:
         status = TEXT[self._state.status]
         time = self._state.time_remaining
         count = self.tomato_symbol() * (
-            self.configs.tomatoes_per_set - self.tomatoes % self.configs.tomatoes_per_set
+            self.configs.tomatoes_per_set
+            - self.tomatoes % self.configs.tomatoes_per_set
         )
 
         ftext = TOMATO[:]
