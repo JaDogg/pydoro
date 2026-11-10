@@ -106,7 +106,7 @@ class Configuration:
         Creates default ini configuration file
         Saves it in '~/.config/pydoro/pydoro.ini' or the location specified by PYDORO_CONFIG_FILE environment variable
         """
-        config_dir = os.path.expanduser("~/.config/pydoro")
+        config_dir = os.path.dirname(os.path.abspath(filename))
         os.makedirs(config_dir, exist_ok=True)
         os.chdir(config_dir)
 
